@@ -5,6 +5,7 @@ from six.moves.urllib.request import urlopen
 import json
 import pandas as pd
 from datetime import datetime
+from pandas_datareader import data
 
 #Defining variables
 key = '8f3e44567b39a2b10e8b6f16f395cb1b1624f58a'
@@ -35,7 +36,7 @@ def timestamp_to_ISO(timestamp):
     Function to convert to hh:mm:ss format
     '''
     moment = datetime.fromtimestamp(timestamp/1000)
-    return moment.time.isoformat()
+    return moment.time
 
 def information(city):
     '''
@@ -44,7 +45,7 @@ def information(city):
     #Collect JSON Data
     data = stations_list(city)
     #converting to a dataframe
-    df = pd.io.json.DataFrame(data)
+    df = pd.DataFrame(data)
     #extracting embedded positions
     positions = df.position.apply(pd.Series)
     df['latitude'] = positions['lat']
