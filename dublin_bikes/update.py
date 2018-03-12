@@ -1,6 +1,9 @@
+'''
+This file grabs data every two mins from JCD and stores it in a CSV file.
+This will be changed to an Amazon RDS 
+'''
 import scrapper as scr
 import time
-from _operator import index
 
 city = 'Dublin'
 while True:
