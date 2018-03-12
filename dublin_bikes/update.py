@@ -11,4 +11,4 @@ while True:
     dataframe = scr.information(city)
     #temp storing data in csv file, will be stored in a database
     dataframe.to_csv('static/data/{0}.csv'.format(city), index=False)
-    time.sleep(10)
+    time.sleep(120)
