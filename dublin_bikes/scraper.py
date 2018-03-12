@@ -35,8 +35,10 @@ def timestamp_to_ISO(timestamp):
     '''
     Function to convert to hh:mm:ss format
     '''
-    moment = datetime.fromtimestamp(timestamp/1000)
-    return moment.time
+    moment = datetime.fromtimestamp(timestamp / 1000)
+    return moment.time().isoformat()
+
+
 
 def information(city):
     '''
