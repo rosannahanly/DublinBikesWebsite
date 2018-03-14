@@ -10,5 +10,6 @@ while True:
     #passing into scrapper functions
     dataframe = scr.information(city)
     #temp storing data in csv file, will be stored in a database
-    dataframe.to_csv('static/data/{0}.csv'.format(city), index=False)
+    with open('static/data/{0}.csv'.format(city), 'a') as f:
+        dataframe.to_csv(f, index=False, header = False)
     time.sleep(10)
