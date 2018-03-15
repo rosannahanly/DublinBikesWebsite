@@ -17,3 +17,4 @@ while True:
     result = pd.concat(frames)
     result.to_csv('static/data/{0}.csv'.format(city), index=False)
     time.sleep(120)
+    
