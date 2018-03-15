@@ -12,5 +12,5 @@ while True:
     #temp storing data in csv file, will be stored in a database
     with open('static/data/{0}.csv'.format(city), 'a') as f:
         dataframe.to_csv(f, index=False, header = False)
-    time.sleep(10)
+    time.sleep(210)
 
