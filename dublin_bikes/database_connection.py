@@ -11,6 +11,6 @@ def DatabaseConnection():
     conn = pymysql.connect(host, user=user,port=port,
                                passwd=password, db=dbname)
     
-    station_list = pd.read_sql('select StationInfocol from StationInfo;', con=conn) 
+    #station_list = pd.read_sql('select StationInfocol from StationInfo;', con=conn) 
 
-    return station_list, conn
+    return conn #station_list, conn
