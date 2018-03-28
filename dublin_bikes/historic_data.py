@@ -10,10 +10,10 @@ import pandas as pd
 city = 'Dublin'
 engine = create_engine("mysql+pymysql://Group8:COMP30670@dublinbikes-rse.c3hjycqhuxxq.eu-west-1.rds.amazonaws.com:3306/DublinBikes")
 conn = engine.connect()
-while True:
-    #passing into scrapper functions
-    dataframe = scr.information(city)
-    #Appends the real time info in the UserTends table in the Amazon RDS database every 5 mins
-    dataframe.to_sql(name='UserTrends',con=conn, if_exists='append', index=False)
-    time.sleep(5*60)
-con.close()
+
+#passing into scrapper functions
+dataframe = scr.information(city)
+#Appends the real time info in the UserTends table in the Amazon RDS database every 5 mins
+dataframe.to_sql(name='UserTrends',con=conn, if_exists='append', index=False)
+
+conn.close()
