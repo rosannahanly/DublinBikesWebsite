@@ -1,8 +1,8 @@
-<script>
-$(document).ready(function(){
-    $("[href]").click(function(){
-        <!--something will go here 
-        so that when you click the station name it will display the station info-->
-    });
-});
-</script>
+function stationMarkers() {
+	var map = new google.maps.Map(document.getElementById('map'), {
+		center: new google.maps.LatLng(53.3438, -6.2546),
+        mapTypeId: google.maps.MapTypeId.MAP
+	});
+	
+	
+}
