@@ -33,14 +33,10 @@ def stations_list(city):
 
 def timestamp_to_ISO(timestamp):
     '''
-    Function to convert to hh:mm:ss format
+    Function to convert to yyyy-mm-dd hh:mm:ss format
     '''
-    #def timestamp_to_str(timestamp):
-    return datetime.fromtimestamp(timestamp).strftime('%H:%M:%S %m/%d/%Y')
-    #moment = datetime.fromtimestamp(timestamp / 1000)
-    #return moment.time().isoformat()
-
-
+    moment = datetime.fromtimestamp(timestamp / 1000)
+    return moment
 
 def information(city):
     '''

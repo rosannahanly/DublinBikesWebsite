@@ -17,5 +17,6 @@ while True:
     dataframe = scr.information(city)
     #Replaces the real time info in the RealTime table in the Amazon RDS database every 2 mins
     dataframe.to_sql(name='RealTime',con=conn, if_exists='replace', index=False)
+    print('done')
     time.sleep(2*60)
 con.close()
