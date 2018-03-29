@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     
     <!-- Map -->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUvj_wJPqfrevYBGczVrqK4D1Rgmxr2PM"></script>
     
     <!-- Bootstrap -->
@@ -49,9 +48,25 @@
   </div>
   <div class = 'col-sm-6'>
   <div id="map" style="width:100%;height:500px;">
-	<p> This is where the map needs to go </p>
     </div>  
   </div>  
+ <script>
+  var map;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lat: 53.355122,
+                lng: -6.24922
+            },
+            zoom: 12
+        })
+        marker = new google.maps.Marker ({
+            map: map,
+            position: new google.maps.LatLng(53.3498053,-6.260309699999993)});
+    }
+
+ </script>   
+ <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcyz8h9qZSpDhYObypaZ3NF29BQWDrlUw&callback=initMap"> </script>
   
  
        

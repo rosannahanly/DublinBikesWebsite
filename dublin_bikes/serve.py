@@ -1,4 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
+import json
+import sqlite3
 import pandas as pd
 import pymysql
 from database_connection import DatabaseConnection
@@ -17,4 +19,16 @@ def index():
         return (str(e))
 
 if __name__ == '__main__':
-    app.run()
+    app.run('''debug = True''')
+
+    
+@app.route('/stations')
+def getStations():
+    conn = get_db()
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    stations = []
+    rows = cur.execute("SELECT * from stations;")
+    for row in rows:
+        stations.append(dict(row))
+    return jsonify(stations = stations)
