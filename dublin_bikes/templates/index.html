@@ -12,27 +12,61 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUvj_wJPqfrevYBGczVrqK4D1Rgmxr2PM"></script>
     
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     
-    <!-- Unsure -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  	 
-  	 <!-- JQuery -->
-    <script src="/static/js/jquery-3.3.1.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   	 
     <script src="/static/js/my_jquery_functions.js"></script> 
     
     <style>
             body { margin:0; padding:0; }
        
         </style>
-        
+  
+ <script>
+ var map;
+ function showStationMarkers(data) {
+		var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: new google.maps.LatLng(53.3438, -6.2546),
+    });
+ 		$.getJSON("http://dublinbikes-rse.c3hjycqhuxxq.eu-west-1.rds.amazonaws.com:3306/stations", null, function(data) {
+ 		if ('stations' in data) {
+ 			var stations = data.stations;
+ 			console.log('stations', stations);
+		 	_.forEach(stations, function(station) {
+ 				// console.log(station.name, station.number);
+				var marker = new google.maps.Marker({
+ 					position : {
+ 						lat : station.position_lat,
+ 						lng : station.position_lng
+ 					},
+ 					map : map,
+ 					title : station.name,
+ 					station_number : station.number
+ 				});
+ 				marker.addListener("click", function() {
+ 					//drawStationCharts(this);
+ 					drawStationChartsWeekly(this);
+				});
+ 			})
+ 		}
+ 	});
+ }
+ </script>       
   </head>
   <body>
   <header><h1 class = "display-4">Dublin Bikes</h1></header>
-  <div class="row">
+  <div class = row>
   <div class = 'col-sm-6'><p>This is where the station info will go</p> 
   <div class = "dropdown">
   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -44,31 +78,15 @@
       <a class="dropdown-item" href="#">Station 3</a>
     </div>
   </div>
-  
   </div>
+ 
   <div class = 'col-sm-6'>
   <div id="map" style="width:100%;height:500px;">
-    </div>  
+    </div>
+  <script src = "/static/js/my_jquery_functions.js"> </script>
+      
   </div>  
- <script>
-  var map;
-    function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: {
-                lat: 53.355122,
-                lng: -6.24922
-            },
-            zoom: 12
-        })
-        marker = new google.maps.Marker ({
-            map: map,
-            position: new google.maps.LatLng(53.3498053,-6.260309699999993)});
-    }
-
- </script>   
- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcyz8h9qZSpDhYObypaZ3NF29BQWDrlUw&callback=initMap"> </script>
   
- 
        
   </body>
 </html>
