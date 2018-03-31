@@ -33,7 +33,7 @@
         </style>
   
  <script>
- var map;
+ 
  function showStationMarkers(data) {
 		var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12,
@@ -56,7 +56,7 @@
  				});
  				marker.addListener("click", function() {
  					//drawStationCharts(this);
- 					drawStationChartsWeekly(this);
+ 					//drawStationChartsWeekly(this);
 				});
  			})
  		}

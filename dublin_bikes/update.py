@@ -1,6 +1,5 @@
 '''
-This file grabs data every two mins from JCD and stores it in a CSV file.
-This will be changed to an Amazon RDS 
+This file grabs data every two mins from JCD and stores it in an amazon RDS
 '''
 import scraper as scr
 import time
