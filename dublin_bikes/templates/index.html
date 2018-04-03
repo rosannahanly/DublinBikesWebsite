@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     
     <!-- Map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUvj_wJPqfrevYBGczVrqK4D1Rgmxr2PM"></script>
     
     <!-- Bootstrap -->
 <!-- Latest compiled and minified CSS -->
@@ -22,16 +23,47 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-     
+    
+   	 
+    <script src="/static/js/my_jquery_functions.js"></script> 
+    
     <style>
             body { margin:0; padding:0; }
        
         </style>
-        <script src="/static/js/my_jquery_functions.js"></script>  
-
-              
-  </head>
   
+ <script>
+ 
+ function showStationMarkers(data) {
+		var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: new google.maps.LatLng(53.3438, -6.2546),
+    });
+ 		$.getJSON("http://dublinbikes-rse.c3hjycqhuxxq.eu-west-1.rds.amazonaws.com:3306/stations", null, function(data) {
+ 		if ('stations' in data) {
+ 			var stations = data.stations;
+ 			console.log('stations', stations);
+		 	_.forEach(stations, function(station) {
+ 				// console.log(station.name, station.number);
+				var marker = new google.maps.Marker({
+ 					position : {
+ 						lat : station.position_lat,
+ 						lng : station.position_lng
+ 					},
+ 					map : map,
+ 					title : station.name,
+ 					station_number : station.number
+ 				});
+ 				marker.addListener("click", function() {
+ 					//drawStationCharts(this);
+ 					//drawStationChartsWeekly(this);
+				});
+ 			})
+ 		}
+ 	});
+ }
+ </script>       
+  </head>
   <body>
   <header><h1 class = "display-4">Dublin Bikes</h1></header>
   <div class = row>
@@ -48,10 +80,18 @@
   </div>
   </div>
  
+<<<<<<< HEAD
   <div class = 'col-sm-8'>   
   <div id="map", style="width:100%;height:500px;">
+=======
+  <div class = 'col-sm-6'>
+  <div id="map" style="width:100%;height:500px;">
+>>>>>>> branch 'master' of https://github.com/rosannahanly/Group8Project.git
     </div>
-      </div>  
-       <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1EwRxWN3fLygyJu8XtDGt3aQAGIEZhTs&callback=initMap"> </script> 
+  <script src = "/static/js/my_jquery_functions.js"> </script>
+      
+  </div>  
+  
+       
   </body>
 </html>
