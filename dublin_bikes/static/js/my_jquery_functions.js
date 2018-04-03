@@ -24,6 +24,8 @@
 	 					title : stations[station].StationIName,
 	 					station_number : stations[station].Station_ID
 	 				});
+	 				marker.addListener("click", function()){
+	 				});
 	 			})
 	 		//}
 	 	});
