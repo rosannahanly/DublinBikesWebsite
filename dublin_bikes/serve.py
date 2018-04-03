@@ -1,55 +1,52 @@
 from flask import Flask, render_template, jsonify, g
 import json
 import sqlite3
-import pandas as pd
-from database_connection import DatabaseConnection
-import pymysql
+from pandas.tests.computation.test_eval import engine
 from sqlalchemy import create_engine
 
+#Creating a flask app and giving path to static directory
+app = Flask(__name__, static_url_path='')
+#app.config.from_object('config')
+'''
+rds_host = "dublinbikes-rse.c3hjycqhuxxq.eu-west-1.rds.amazonaws.com"
+name = "Group8"
+password = "COMP30670"
+db_name = "DublinBikes"
+port = 3306
+'''
 
-
-app = Flask(__name__)
-
-@app.route('/')
-def index():
+def connect_to_database():
+    engine = create_engine("mysql+pymysql://Group8:COMP30670@dublinbikes-rse.c3hjycqhuxxq.eu-west-1.rds.amazonaws.com:3306/DublinBikes")
+    conn = engine.connect()
+    return conn
     
-    try:
-        station_list, conn = DatabaseConnection()  
-        station_list.head(1).to_html(classes='station_list')
-        return render_template('index.html', data=station_list ),
-
-    except Exception as e:
-        return (str(e))
-
-if __name__ == '__main__':
-    app.run('''debug = True''')
-
-
+'''
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
-        db.close() 
+      db.close() 
+'''
 
+#Simply serves "static/index.html"
+@app.route('/')
+def root():
+    return render_template('index.html')
 
 @app.route('/stations')
 def getStations():
-    conn = get_db() 
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
+    #Creating the connection with the database
+    conn = connect_to_database()
+    sql = "SELECT * FROM StationInfo;"
     stations = []
-    rows = cur.execute("SELECT * from StationInfo    ;")
+    rows = conn.execute(sql).fetchall()
     for row in rows:
         stations.append(dict(row))
-    return jsonify(stations = stations)
+    return jsonify(stations)
 
-@app.route("/available/<int:station_id>")
-def get_stations():
-    engine = create_engine("mysql+pymysql://Group8:COMP30670@dublinbikes-rse.c3hjycqhuxxq.eu-west-1.rds.amazonaws.com:3306/DublinBikes") 
-    data = DatabaseConnection
-    rows = engine.execute("SELECT available_bikes from stations where number = {};".format(station_id))
-    for row in rows:
-        data.append(dict(row))
+if __name__ == '__main__':
+    app.run(debug=True)
 
-    return jsonify(available=data)  
+
+
    
