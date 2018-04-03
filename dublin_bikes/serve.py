@@ -1,23 +1,19 @@
 from flask import Flask, render_template, jsonify, g
 import json
 import sqlite3
-import pandas as pd
+from pandas.tests.computation.test_eval import engine
 from database_connection import DatabaseConnection
 from sqlalchemy import create_engine
-import pysql 
+
+
 
 
 app = Flask(__name__)
 
 def connect_to_database():
     engine = create_engine("mysql+pymysql://Group8:COMP30670@dublinbikes-rse.c3hjycqhuxxq.eu-west-1.rds.amazonaws.com:3306/DublinBikes")
-    return engine
-
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = connect_to_database()
-    return db
+    conn = engine.connect()
+    return conn
 
 @app.teardown_appcontext
 def close_connection(exception):
@@ -27,18 +23,17 @@ def close_connection(exception):
 
 @app.route('/')
 def root():
-    return render_template('index.html', MAPS_APIKEY= app.config["MAPS_APIKEY"])
+    return render_template('index.html')
 
 @app.route('/stations')
 def getStations():
-    conn = get_db() 
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
+    conn = connect_to_database()
+    sql = "SELECT * FROM StationInfo;"
     stations = []
-    rows = cur.execute("SELECT * from StationInfo    ;")
+    rows = conn.execute(sql).fetchall()
     for row in rows:
-        stations.append(dict(row))
-    return jsonify(stations = stations)
+       stations.append(dict(row))
+    return jsonify(stations)
 
 '''
 @app.route("/available/<int:station_id>")
@@ -52,4 +47,4 @@ def get_stations():
     return jsonify(available=data)  
 '''   
 if __name__ == '__main__':
-    app.run('''debug = True''')
+    app.run(debug = True)

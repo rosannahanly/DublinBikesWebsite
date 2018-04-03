@@ -27,60 +27,14 @@
    	 
     <script src="/static/js/my_jquery_functions.js"></script> 
     
+    
     <style>
             body { margin:0; padding:0; }
        
         </style>
-
-<script>
-var map;
-    function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: {
-                lat: 53.355122,
-                lng: -6.24922
-            },
-            zoom: 12
-        })
-        marker = new google.maps.Marker ({
-            map: map,
-            position: new google.maps.LatLng(53.3498053,-6.260309699999993)});
-    }
-    
- </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcyz8h9qZSpDhYObypaZ3NF29BQWDrlUw&callback=initMap"></script>
-
- <script>
- 
- var map;
- 	function showStationMarkers(data) {
- 		$.getJSON("http://dublinbikes-rse.c3hjycqhuxxq.eu-west-1.rds.amazonaws.com:3306/stations", null, function(data) {
- 		if ('station' in data) {
- 			var stations = data.name;
- 			console.log('station', stations);
-		 	_.forEach(stations, function(station) {
- 				// console.log(station.name, station.number);
-				var marker = new google.maps.Marker({
- 					position : {
- 						lat : station.position_lat,
- 						lng : station.position_lng
- 					},
- 					map : map,
- 					title : station.name,
- 					station_number : station.number
- 				});
- 				marker.addListener("click", function() {
- 					//drawStationCharts(this);
- 					//drawStationChartsWeekly(this);
-				});
- 			})
- 		}
- 	});
- }
- </script> 
-
         
   </head>
+  
   <body>
   <header><h1 class = "display-4">Dublin Bikes</h1></header>
   <div class = row>
@@ -100,10 +54,11 @@ var map;
   <div class = 'col-sm-6'>
   <div id="map" style="width:100%;height:500px;">
     </div>
-  <script src = "/static/js/my_jquery_functions.js"> </script>
       
   </div>  
   
+  
+    <script src="/static/js/my_jquery_functions.js"> </script>
        
   </body>
 </html>
