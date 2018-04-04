@@ -1,3 +1,4 @@
+<<<<<<< HEAD
  var map;
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -42,7 +43,13 @@
             map: map,
             position: new google.maps.LatLng(53.3498053,-6.260309699999993)});
     }
+=======
+var map;
+ //$( document ).ready(showStationMarkers());
+ 	function showStationMarkers(data) {
+>>>>>>> branch 'master' of https://github.com/rosannahanly/Group8Project.git
 
+<<<<<<< HEAD
   
 function showStationMarkers(data) {
 		var map = new google.maps.Map(document.getElementById('map'), {
@@ -72,4 +79,29 @@ function showStationMarkers(data) {
  		}
  	});
  }
+>>>>>>> branch 'master' of https://github.com/rosannahanly/Group8Project.git
+=======
+		var map;
+      	
+			console.log("Ready");
+			map = google.maps.Map(document.getElementById('map'));
+	 		$.getJSON("stations", function(data) {
+	 		console.log(data);
+ 	 		//if ('StationIName' in data) {
+ 	 			var stations = data;
+ 	 			//console.log('stations', stations);
+
+			 	$.each(stations, function(station) {
+ 	 				// console.log(station.name, station.number);
+ 					var marker = new google.maps.Marker({
+ 	 					position : {
+	 						lat : parseFloat(station.Latitude),
+	 						lng : parseFloat(station.Longitude)
+ 	 					},
+ 	 					map : map,
+ 	 					title : station.StationIName,
+@@ -26,4 +25,4 @@
+ 	 	});
+ 	 }
+ 	 
 >>>>>>> branch 'master' of https://github.com/rosannahanly/Group8Project.git
