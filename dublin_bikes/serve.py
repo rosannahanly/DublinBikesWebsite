@@ -47,6 +47,14 @@ def getStations():
 if __name__ == '__main__':
     app.run(debug=True)
 
-
+@app.route('/station_details')
+def station_details():
+    conn = connect_to_database()
+    sql = "SELECT * FROM RealTime"
+    stations = []
+    rows = conn.execute(sql).fetchall()
+    for row in rows:
+        stations.append(dict(row))
+    return jsonify(stations)
 
    
