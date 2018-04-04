@@ -111,10 +111,13 @@ body { margin:5px; padding:5px; }
   </script>          
  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1EwRxWN3fLygyJu8XtDGt3aQAGIEZhTs&callback=initMap"> </script> 
 <script>
+
 var infoBox;
     function realtimeinfo(){
-        console.log("Grabbing information");
-        $.getJSON("stationDet", function(data){
+        document.getElementById("infoBox"),{
+            console.log("Grabbing information");
+        }
+        $.getJSON("stationDetails", function(data){
             console.log("connected to realtime database");
             var stationDet = data;
             $.each(stationDet), function(station){
