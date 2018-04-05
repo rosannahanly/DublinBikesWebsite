@@ -1,4 +1,9 @@
 body { margin:5px; padding:5px; }
+    
+footer { 
+    margin: 5px;
+    padding: 5px;
+    }
 
 .jumbotron {
     background-color: #2A6DFC;
@@ -9,7 +14,7 @@ body { margin:5px; padding:5px; }
     align-content: left;
 }
 
-.btn-primary hover{
+.btn-primary:hover{
     background-color: #4863A0;
 }
 
@@ -18,9 +23,14 @@ body { margin:5px; padding:5px; }
 }
 
 #map {
-    position: absolute;
-    float: right;
-    right: 5px;
     border: 5px solid #4863A0;
 }
 
+    a {
+        color: white;
+    }
+    
+    a:hover {
+        color: #3BB9FF;
+        text-decoration: none;
+    }
