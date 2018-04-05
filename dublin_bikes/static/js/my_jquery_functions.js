@@ -70,3 +70,20 @@ $.getJSON("forecast", null, function(data) {
  			})
  		}
 
+$(document).ready(function(){
+  load_json_data('StationIName')
+
+    function load_json_data(StationName){
+var html_code = '';
+$.getJSON("stationDetails", function(data) {
+    var stationList = data;
+    var option = document.getElementById('StationIName');
+    var j = 1;
+	for(var i=0; i<stationList.length; i++){
+	j++;
+	option[j] = new Option(stationList[i].name, stationList[i].Station_ID);
+}
+    });
+    
+};
+    });

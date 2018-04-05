@@ -32,27 +32,14 @@
       
       <div class="jumbotron">
           <header><h1 class = "display-4">Dublin Bikes</h1></header></div>
-          
-  <div class = row>
+            
+ <div class = row>
    <div class = 'col-sm-6'>
-  <div class = "dropdown">
-  <button type="button" class="btn btn-primary" data-toggle="dropdown">
-      Select a Station
-    </button>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">Station 1</a>
-      <a class="dropdown-item" href="#">Station 2</a>
-      <a class="dropdown-item" href="#">Station 3</a>
-    </div>
+  <div class = "dropdown"><select id="StationIName"><option value="">Select a Station</option></select></div>
+  <div id = "infoBox", style="width:100%;height:400px;"></div>
   </div>
-       <div id = "infoBox", style="width:100%;height:400px;"></div>
-  </div> 
-    <div class = 'col-sm-6'>
-        <div id="map", style="width:100%;height:400px;"></div>
-      
-      
-      </div>
-          </div> 
+  <div class = 'col-sm-6'><div id="map", style="width:100%;height:400px;"></div></div>
+ </div>
       
       <div class="row">
       <div class="col-sm-6">
