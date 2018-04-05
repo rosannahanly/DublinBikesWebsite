@@ -51,7 +51,8 @@ body { margin:5px; padding:5px; }
 
     
 </style>     
-      <script src="/static/js/my_jquery_functions.js"></script> 
+      
+<script src="/static/js/my_jquery_functions.js"></script> 
         
   </head>
   <body>
@@ -79,52 +80,53 @@ body { margin:5px; padding:5px; }
       
       </div>
           </div> 
-     <script>
+<script>
       var map;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 53.3498053, lng: -6.260309699999993},
           zoom: 13
         });
-        //console.log("Ready");
-			
- 		$.getJSON("stations", function(data) {
+        console.log("Ready");
+		var infoWindow = new google.maps.InfoWindow()	
+ 		$.getJSON("stationDetails", function(data) {
 	 		//console.log(data);
  		//if ('StationIName' in data) {
-	 			var stations = data;
-	 			//console.log('stations', stations);
-			 	$.each(stations, function(station) {
- 				 //console.log(station);
+	 			var stationDetails = data;
+	 			//console.log('stationDetails', stations);
+			 	$.each(stationDetails, function(station) {
+ 				 console.log("station");
 					var marker = new google.maps.Marker({
  					position : {
-	 						lat : parseFloat(stations[station].Latitude),
-	 						lng : parseFloat(stations[station].Longitude)
+	 						lat : parseFloat(stationDetails[station].latitude),
+	 						lng : parseFloat(stationDetails[station].longitude)
 	 					},
 	 					map : map,
-	 					title : stations[station].StationIName,
-	 					station_number : stations[station].Station_ID
+	 					title : stationDetails[station].name,
+	 					station_number : stationDetails[station].Station_ID
 	 				});
+                    console.log("Rosanna")
+                    
+                    marker.metadata = {type: "point", title: stationDetails[station].name};
+                    google.maps.event.addListener(marker, 'click', (function(marker, stationDetails){
+                        return function(){
+                            if(stations[station].available_bikes == 0){
+                               stations[station].available_bikes = "No" 
+                            }
+                            else{
+                                stationDetails[station].available_bikes = "Yes"
+                            }
+                            var content = "Station name: " + stationDetails[station].name + "Availability" + stationDetails[station].available_bikes
+                            infoWindow.setContent(content)
+                            infoWindow.open(map, marker);
+                        }
+                    })(marker, stationDetails));
  			})
 	 		//}
 	 	});
       }
   </script>          
  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1EwRxWN3fLygyJu8XtDGt3aQAGIEZhTs&callback=initMap"> </script> 
-<script>
 
-var infoBox;
-    function realtimeinfo(){
-        document.getElementById("infoBox"),{
-            console.log("Grabbing information");
-        }
-        $.getJSON("stationDetails", function(data){
-            console.log("connected to realtime database");
-            var stationDet = data;
-            $.each(stationDet), function(station){
-                
-            }
-        })
-    }
-          </script>
   </body>
 </html>
