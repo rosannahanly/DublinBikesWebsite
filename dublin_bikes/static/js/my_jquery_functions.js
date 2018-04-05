@@ -49,7 +49,7 @@
   
 	 
 function displayForecast(){
-$.getJSON("http://dublinbikes-rse.c3hjycqhuxxq.eu-west-1.rds.amazonaws.com:3306/forecast", null, function(data) {
+$.getJSON("forecast", null, function(data) {
         var deetdays = obj.list;
         var heading = "<p id=heading>Today's Forecast</p>"
         var detailedTable = "<table class='weatherTable'>";

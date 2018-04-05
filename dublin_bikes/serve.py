@@ -62,7 +62,7 @@ def getForecast():
     weather = []
     rows = conn.execute(sql).fetchall()
     for row in rows:
-        stations.append(dict(row))
+        weather.append(dict(row))
     return jsonify(weather)
 
 if __name__ == '__main__':
