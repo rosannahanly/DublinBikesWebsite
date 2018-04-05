@@ -54,5 +54,16 @@ def station_details():
         station_info.append(dict(row))
     return jsonify(station_info)
 
+@app.route('/forecast')
+def getForecast():
+    #Creating the connection with the database
+    conn = connect_to_database()
+    sql = "SELECT * FROM WeatherForecast;"
+    weather = []
+    rows = conn.execute(sql).fetchall()
+    for row in rows:
+        stations.append(dict(row))
+    return jsonify(weather)
+
 if __name__ == '__main__':
     app.run(debug=True) 
