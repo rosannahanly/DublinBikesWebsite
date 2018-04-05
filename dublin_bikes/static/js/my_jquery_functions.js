@@ -11,7 +11,15 @@
  		//if ('StationIName' in data) {
 	 			var stationDetails = data;
 			 	$.each(stationDetails, function(station) {
-			 		var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+			 		var iconBase = 'http://maps.google.com/mapfiles/kml/paddle/';
+			 		var v_icon = '';
+			 		if (stationDetails[station].available_bikes > 5){
+			 		v_icon = 'blu-circle-lv.png';
+			 		}
+			 		else{
+			 		v_icon = 'ylw-circle-lv.png'
+			 		}
+			 		
 					var marker = new google.maps.Marker({
  					position : {
 	 						lat : parseFloat(stationDetails[station].latitude),
@@ -20,7 +28,8 @@
 	 					map : map,
 	 					title : stationDetails[station].name,
 	 					station_number : stationDetails[station].Station_ID,
-       					icon: iconBase + 'parking_lot_maps.png'   
+       					icon: iconBase + v_icon,
+                        size: new google.maps.Size(10, 32)
 	 				});
                     marker.metadata = {type: "point", title: stationDetails[station].name};
                     google.maps.event.addListener(marker, 'click', (function(marker, stationDetails)                                               
