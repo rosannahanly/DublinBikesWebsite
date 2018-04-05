@@ -90,12 +90,9 @@ body { margin:5px; padding:5px; }
         console.log("Ready");
 		var infoWindow = new google.maps.InfoWindow()	
  		$.getJSON("stationDetails", function(data) {
-	 		//console.log(data);
  		//if ('StationIName' in data) {
 	 			var stationDetails = data;
-	 			//console.log('stationDetails', stations);
 			 	$.each(stationDetails, function(station) {
- 				 console.log("station");
 					var marker = new google.maps.Marker({
  					position : {
 	 						lat : parseFloat(stationDetails[station].latitude),
@@ -104,23 +101,16 @@ body { margin:5px; padding:5px; }
 	 					map : map,
 	 					title : stationDetails[station].name,
 	 					station_number : stationDetails[station].Station_ID
-	 				});
-                    console.log("Rosanna")
-                    
+	 				});     
                     marker.metadata = {type: "point", title: stationDetails[station].name};
-                    google.maps.event.addListener(marker, 'click', (function(marker, stationDetails){
+                    google.maps.event.addListener(marker, 'click', (function(marker, stationDetails)                                               
+                    {
                         return function(){
-                            if(stationDetails[station].available_bikes == 0){
-                               stationDetails[station].available_bikes = "No" 
-                            }
-                            else{
-                                stationDetails[station].available_bikes = "Yes"
-                            }
-                            var content = "Station name: " + stationDetails[station].name + "Availability" + stationDetails[station].available_bikes
+                            var content = "Station name: " + stationDetails[station].name + "<br>" + "Available Bikes: " + stationDetails[station].available_bikes
                             infoWindow.setContent(content)
                             infoWindow.open(map, marker);
                         }
-                    })(marker, stationDetails));
+                    }) (marker, stationDetails));
  			})
 	 		//}
 	 	});
