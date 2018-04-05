@@ -87,3 +87,9 @@ $.getJSON("stationDetails", function(data) {
     
 };
     });
+ $(document).ready(function(){ 
+ $("select").change(function(){
+        alert("Change Read");
+         //document.getElementById("demo").innerHTML = "Hello World";
+    }); 
+ }); 
