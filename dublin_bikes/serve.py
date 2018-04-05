@@ -47,7 +47,7 @@ def getStations():
 @app.route('/stationDetails')
 def station_details():
     conn = connect_to_database()
-    sql = "SELECT * FROM RealTime;"
+    sql = "SELECT * FROM RealTime, StationInfo WHERE RealTime.name = StationInfo.StationIName"
     station_info = []
     rows = conn.execute(sql).fetchall()
     for row in rows:
