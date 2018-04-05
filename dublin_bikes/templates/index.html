@@ -28,26 +28,40 @@
 <style>
 body { margin:5px; padding:5px; }
     
+footer { 
+    margin: 5px;
+    padding: 5px;
+    }
+
 .jumbotron {
     background-color: #2A6DFC;
     color: #ffffff;
 }
-    
-    .dropdown {
-        align-content: left;
+
+.dropdown {
+    align-content: left;
+}
+
+.btn-primary:hover{
+    background-color: #4863A0;
+}
+
+.btn-primary {
+    background-color: #2A6DFC;
+}
+
+#map {
+    border: 5px solid #4863A0;
+}
+
+    a {
+        color: white;
     }
     
-    .btn-primary {
-        background-color: #4863A0;
+    a:hover {
+        color: #3BB9FF;
+        text-decoration: none;
     }
-    
-    #map {
-        position: absolute;
-        float: right;
-        right: 5px;
-        border: 5px solid #4863A0;
-    }
-    
 
     
 </style>     
@@ -80,6 +94,20 @@ body { margin:5px; padding:5px; }
       
       </div>
           </div> 
+      
+      <div class="row">
+      <div class="col-sm-6">
+          <img src="images/JCD_Logo.jpg">
+          </div>
+          
+    <div class="col-sm-6">
+          <div class="twitter">
+        <h4>Keep up to date with the latest weather news from Met Eireann</h4>
+    <a class="twitter-timeline" data-height="415" data-width="500" href="https://twitter.com/MetEireann?ref_src=twsrc%5Etfw">Tweets by MetEireann</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+   </div>
+          </div>      
+      </div>
+      
 <script>
       var map;
       function initMap() {
@@ -121,4 +149,17 @@ body { margin:5px; padding:5px; }
  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1EwRxWN3fLygyJu8XtDGt3aQAGIEZhTs&callback=initMap"> </script> 
 
   </body>
+    
+    
+<footer class='jumbotron'>
+    <div class="col-sm-6">
+    <p>Created by Sophie Heseltine, Rosanna Hanly and Eimear Galligan</p>
+    </div>
+    <div class="col-sm-6">
+        <p>Useful Links</p>
+    <a href="http://www.dublinbikes.ie/">Dublin Bikes Official Website</a>
+    <a href=""></a>
+    </div>
+    
+    </footer>    
 </html>

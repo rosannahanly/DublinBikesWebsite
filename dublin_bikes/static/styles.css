@@ -1,18 +1,26 @@
-body {
-	font-size: 20px;
-	margin: 0;
-	padding 0;
+body { margin:5px; padding:5px; }
+
+.jumbotron {
+    background-color: #2A6DFC;
+    color: #ffffff;
+}
+
+.dropdown {
+    align-content: left;
+}
+
+.btn-primary hover{
+    background-color: #4863A0;
+}
+
+.btn-primary {
+    background-color: #2A6DFC;
 }
 
 #map {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	width: 100%;
+    position: absolute;
+    float: right;
+    right: 5px;
+    border: 5px solid #4863A0;
 }
 
-header {
-	font-size: 20px;
-	width: 100%;
-	background-color: #7F93A2;
-}
