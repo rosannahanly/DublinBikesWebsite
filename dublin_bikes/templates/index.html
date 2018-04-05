@@ -110,8 +110,8 @@ body { margin:5px; padding:5px; }
                     marker.metadata = {type: "point", title: stationDetails[station].name};
                     google.maps.event.addListener(marker, 'click', (function(marker, stationDetails){
                         return function(){
-                            if(stations[station].available_bikes == 0){
-                               stations[station].available_bikes = "No" 
+                            if(stationDetails[station].available_bikes == 0){
+                               stationDetails[station].available_bikes = "No" 
                             }
                             else{
                                 stationDetails[station].available_bikes = "Yes"
