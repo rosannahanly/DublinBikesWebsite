@@ -1,33 +1,41 @@
-var map;
-    function initMap() {
+
+      var map;
+      function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 53.3498053, lng: -6.260309699999993},
-          zoom: 13
+          zoom: 13,
         });
         console.log("Ready");
-			
-	 		$.getJSON("stations", function(data) {
-	 		//console.log(data);
-	 		//if ('StationIName' in data) {
-	 			var stations = data;
-	 			//console.log('stations', stations);
-			 	$.each(stations, function(station) {
-	 				 console.log(station);
+		var infoWindow = new google.maps.InfoWindow()	
+ 		$.getJSON("stationDetails", function(data) {
+ 		//if ('StationIName' in data) {
+	 			var stationDetails = data;
+			 	$.each(stationDetails, function(station) {
 					var marker = new google.maps.Marker({
-	 					position : {
-	 						lat : parseFloat(stations[station].Latitude),
-	 						lng : parseFloat(stations[station].Longitude)
+ 					position : {
+	 						lat : parseFloat(stationDetails[station].latitude),
+	 						lng : parseFloat(stationDetails[station].longitude)
 	 					},
 	 					map : map,
-	 					title : stations[station].StationIName,
-	 					station_number : stations[station].Station_ID
+	 					title : stationDetails[station].name,
+	 					station_number : stationDetails[station].Station_ID,
+                        size : new google.maps.Size(10, 20)
+                        
 	 				});
-	 				marker.addListener("click", function()){
-	 				});
-	 			})
+                    marker.metadata = {type: "point", title: stationDetails[station].name};
+                    google.maps.event.addListener(marker, 'click', (function(marker, stationDetails)                                               
+                    {
+                        return function(){
+                            var content = "Station name: " + stationDetails[station].name + "<br>" + "Available Bikes: " + stationDetails[station].available_bikes + "<br>" + "Available Stands: " + stationDetails[station].available_bike_stands;
+                            infoWindow.setContent(content)
+                            infoWindow.open(map, marker);
+                        }
+                    }) (marker, stationDetails));
+ 			})
 	 		//}
 	 	});
       }
+  
 	 
 function displayForecast(){
 $.getJSON("http://dublinbikes-rse.c3hjycqhuxxq.eu-west-1.rds.amazonaws.com:3306/forecast", null, function(data) {
