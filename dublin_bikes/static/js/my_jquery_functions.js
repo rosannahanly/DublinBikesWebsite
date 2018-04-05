@@ -11,6 +11,7 @@
  		//if ('StationIName' in data) {
 	 			var stationDetails = data;
 			 	$.each(stationDetails, function(station) {
+			 		var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 					var marker = new google.maps.Marker({
  					position : {
 	 						lat : parseFloat(stationDetails[station].latitude),
@@ -19,8 +20,7 @@
 	 					map : map,
 	 					title : stationDetails[station].name,
 	 					station_number : stationDetails[station].Station_ID,
-                        size : new google.maps.Size(10, 20)
-                        
+       					icon: iconBase + 'parking_lot_maps.png'   
 	 				});
                     marker.metadata = {type: "point", title: stationDetails[station].name};
                     google.maps.event.addListener(marker, 'click', (function(marker, stationDetails)                                               
