@@ -7,7 +7,7 @@ from pandas.io.json import json_normalize
 def get_data():
     """Get weather data from openweathermap"""
     #send a query to the API and decode the bytes it returns
-    query = urlopen("http://api.openweathermap.org/data/2.5/weather?id=7778677&APPID=6986e64d5d176d1782825a12f2677fe4").read().decode('utf-8')
+    query = urlopen("http://api.openweathermap.org/data/2.5/weather?id=7778677&units=metric&APPID=6986e64d5d176d1782825a12f2677fe4").read().decode('utf-8')
     #return the obtained string as a dictionary
     data = json.loads(query)
     df1 = pd.DataFrame(data['weather'])
@@ -16,6 +16,8 @@ def get_data():
     df = pd.DataFrame.from_dict(json_normalize(data), orient='columns')
     df = df.drop('weather', 1)
     df.rename(columns={'main.temp': 'temp'}, inplace=True)
+    temp = df['temp']
+    df['temp'] = temp.round()
     df.rename(columns={'main.temp_max': 'temp_max'}, inplace=True)
     df.rename(columns={'main.temp_min': 'temp_min'}, inplace=True)
     df.rename(columns={'wind.speed': 'wind_speed'}, inplace=True)
@@ -26,8 +28,8 @@ def get_data():
 def timestamp_to_ISO(timestamp):
     moment = datetime.fromtimestamp(timestamp / 1000)
     print(moment)
-    return moment
-'''
+    return moment'''
+
 def save_data_to_db(dataframe):
     #Assigning the engine variable values
     engine = create_engine("mysql+pymysql://Group8:COMP30670@dublinbikes-rse.c3hjycqhuxxq.eu-west-1.rds.amazonaws.com:3306/DublinBikes")

@@ -7,7 +7,7 @@ from pandas.io.json import json_normalize
 def get_data():
     """Get weather data from openweathermap"""
     #send a query to the API and decode the bytes it returns
-    query = urlopen("http://api.openweathermap.org/data/2.5/forecast?id=7778677&APPID=6986e64d5d176d1782825a12f2677fe4").read().decode('utf-8')
+    query = urlopen("http://api.openweathermap.org/data/2.5/forecast?id=7778677&units=metric&APPID=6986e64d5d176d1782825a12f2677fe4").read().decode('utf-8')
     #return the obtained string as a dictionary
     data = json.loads(query)
     df = pd.DataFrame.from_dict(json_normalize(data['list'][0]['weather']), orient='columns')
@@ -20,6 +20,8 @@ def get_data():
     #converting to a dataframe
     df2 = df2.drop('weather', 1)
     df2.rename(columns={'main.temp': 'temp'}, inplace=True)
+    temp = df2['temp']
+    df2['temp'] = temp.round()
     df2.rename(columns={'main.temp_max': 'temp_max'}, inplace=True)
     df2.rename(columns={'main.temp_min': 'temp_min'}, inplace=True)
     df2.rename(columns={'wind.speed': 'wind_speed'}, inplace=True)

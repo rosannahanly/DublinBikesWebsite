@@ -50,19 +50,21 @@
 	 
 function displayForecast(){
 $.getJSON("forecast", null, function(data) {
-        var deetdays = obj.list;
-        var heading = "<p id=heading>Today's Forecast</p>"
-        var detailedTable = "<table class='weatherTable'>";
-        detailedTable += "<tr><th>Day</th><th>Summary</th><th></th><th>Temp</th><th>Pressure</th><th>Humidity</th><th>Wind Speed</th></tr>";
-
+        var deetdays = data;
+        var heading = "<p id=heading>Forecast 24hrs</p>"
+        var detailedTable = "<table class='table'>";
+        detailedTable += "<tr><th>Day</th><th>Summary</th><th>Temp</th><th>Wind Speed</th></tr>";
+		var i=0;
         while (i < 8){   
-            var time = deetdays[i].dt_txt;
+        	var s = deetdays[i].dt_txt
+        	var split = s.split(" ")
+            var time = split[1]
             var descrip = deetdays[i].description;
             var icon2 = deetdays[i].icon;
             var temp = deetdays[i].temp;
             var windspeed = deetdays[i].wind_speed;
 
-        detailedTable += "<tr><td>" + time +"</td><td id='description'>" + descrip + "</td><td><img class='icons' src='http://openweathermap.org/img/w/" + icon2 + ".png'/></td><td>" + temp + "&#8451;</td><td>"+ windspeed + " meter/sec </td></tr>";
+        detailedTable += "<tr><td>" + time +"</td><td id='description'>" + descrip + "  <img class='icons' src='http://openweathermap.org/img/w/" + icon2 + ".png'/></td><td>" + temp + "&#8451;</td><td>"+ windspeed + " m/s </td></tr>";
             i++
         }
         detailedTable += "</table>";
@@ -78,7 +80,7 @@ var html_code = '';
 $.getJSON("stationDetails", function(data) {
     var stationList = data;
     var option = document.getElementById('StationIName');
-    var j = 1;
+    var j = 0;
 	for(var i=0; i<stationList.length; i++){
 	j++;
 	option[j] = new Option(stationList[i].name, stationList[i].Station_ID);
@@ -89,7 +91,7 @@ $.getJSON("stationDetails", function(data) {
     });
  $(document).ready(function(){ 
  $("select").change(function(){
-        alert("Change Read");
-         //document.getElementById("demo").innerHTML = "Hello World";
+        displayForecast();
+         //document.getElementById("demo").innerHTML = ;
     }); 
  }); 
