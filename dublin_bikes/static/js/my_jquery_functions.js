@@ -93,5 +93,32 @@ $.getJSON("stationDetails", function(data) {
  $("select").change(function(){
         displayForecast();
          //document.getElementById("demo").innerHTML = ;
-    }); 
+    });
+$("select").change(function(){
+    displayRealTimeInfo(this.option)
+})
  }); 
+
+    function displayRealTimeInfo(sel){
+        var stName = sel;
+        $.getJSON ("stationDetails", null, function(data){
+            var stationDetails = data;
+            var headingI = "<p id = heading> RealTime Info </p>"
+            var rTimeTable = "<table class = 'table'>";
+            rTimeTable += "<tr><th>Name</th><th>Bikes Available</th><th>Stands Available</th><th>last update</th></tr>";
+            $.each(stationDetails, function(station){
+                if (stName == stationDetails[station].name){
+                    var name = stationDetails[station].name;
+                    var availableBikes = stationDetails[station].available_bikes;
+                    var availableStands = stationDetails[station].available_bike_stands;
+                    var update = stationDetails[station].last_update;
+            
+            rTimeTable += "<tr><td>" + name +"</td><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";
+                }
+            
+            
+        })
+        rTimeTable += "</table>"    
+        document.getElementById("infoBox").innerHTML =  headingI + rTimeTable;
+                   })
+    }
