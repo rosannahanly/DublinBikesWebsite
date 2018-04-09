@@ -95,19 +95,23 @@ $.getJSON("stationDetails", function(data) {
          //document.getElementById("demo").innerHTML = ;
     });
 $("select").change(function(){
-    displayRealTimeInfo(this.option)
+    displayRealTimeInfo()
 })
  }); 
 
-    function displayRealTimeInfo(sel){
-        var stName = sel;
+    function displayRealTimeInfo(){
+        var x = document.getElementById("StationIName");
+        var i = x.selectedIndex;
+        var stName = x.options[i].text;
         $.getJSON ("stationDetails", null, function(data){
             var stationDetails = data;
             var headingI = "<p id = heading> RealTime Info </p>"
             var rTimeTable = "<table class = 'table'>";
             rTimeTable += "<tr><th>Name</th><th>Bikes Available</th><th>Stands Available</th><th>last update</th></tr>";
             $.each(stationDetails, function(station){
-                if (stName == stationDetails[station].name){
+                console.log("entering if statement")
+                if (stName == stationDetails[station].StationIName){
+                    console.log("If statement passed")
                     var name = stationDetails[station].name;
                     var availableBikes = stationDetails[station].available_bikes;
                     var availableStands = stationDetails[station].available_bike_stands;
