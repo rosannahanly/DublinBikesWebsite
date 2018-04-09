@@ -112,7 +112,7 @@ $("select").change(function(){
                 console.log("entering if statement")
                 if (stName == stationDetails[station].StationIName){
                     console.log("If statement passed")
-                    var name = stationDetails[station].name;
+                    var name = stationDetails[station].Address;
                     var availableBikes = stationDetails[station].available_bikes;
                     var availableStands = stationDetails[station].available_bike_stands;
                     var update = stationDetails[station].last_update;
