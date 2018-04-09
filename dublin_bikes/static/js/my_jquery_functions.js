@@ -1,4 +1,8 @@
 
+  $(window).on('load',function(){
+        $('#myModal').modal('show');
+    });
+    
       var map;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
