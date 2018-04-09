@@ -23,14 +23,55 @@ footer {
 }
 
 #map {
-    border: 5px solid #4863A0;
+    border: 5px solid #848482;
 }
 
-    a {
-        color: white;
-    }
+a:link, a:visited {
+    color: #151B54;
+}
     
-    a:hover {
-        color: #3BB9FF;
-        text-decoration: none;
-    }
+a:hover {
+    color: #3BB9FF;
+    text-decoration: none;
+}
+
+a:active {
+    color: #151B54;
+}
+
+.bikesimg {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: -1;
+}
+
+.heading-logo {
+        z-index: -1;
+}
+
+.box1 {
+    border: 3px solid #848482;
+    margin-left: 5px;
+    padding: 10px;
+}
+
+.box2 {
+    width
+}
+
+.banner {
+    margin: auto;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  padding: 5px;
+    grid-gap: 50px;
+}
+.grid-item {
+  background-color: #F3F2F2;
+  padding: 0;
+  text-align: center;
+}
