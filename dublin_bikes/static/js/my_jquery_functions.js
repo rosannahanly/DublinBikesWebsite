@@ -104,25 +104,25 @@ $("select").change(function(){
  }); 
 
     function displayRealTimeInfo(){
-    console.log("hello")
+    //console.log("hello")
         var x = document.getElementById("StationIName");
         var i = x.selectedIndex;
         var stName = x.options[i].text;
         $.getJSON ("stationDetails", null, function(data){
             var stationDetails = data;
-            var headingI = "<p id = heading> RealTime Info </p>"
+            var headingI = "<p id = heading> Showing Info for " + stName + "</p>"
             var rTimeTable = "<table class = 'table'>";
-            rTimeTable += "<tr><th>Name</th><th>Bikes Available</th><th>Stands Available</th><th>last update</th></tr>";
+            rTimeTable += "<tr><th>Bikes Available</th><th>Stands Available</th><th>last update</th></tr>";
             $.each(stationDetails, function(station){
                 console.log("entering if statement")
                 if (stName == stationDetails[station].StationIName){
                     console.log("If statement passed")
-                    var name = stationDetails[station].Address;
+                    //var name = stationDetails[station].Address;
                     var availableBikes = stationDetails[station].available_bikes;
                     var availableStands = stationDetails[station].available_bike_stands;
                     var update = stationDetails[station].last_update;
             
-            rTimeTable += "<tr><td>" + name +"</td><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";
+            rTimeTable += "<tr><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";
                 }
             
             
