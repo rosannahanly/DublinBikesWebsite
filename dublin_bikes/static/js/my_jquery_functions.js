@@ -1,5 +1,7 @@
 
-  $(window).on('load',function(){
+  //$(window).on('load',function(){
+  
+$(document).ready(function(){
         $('#myModal').modal('show');
     });
 
