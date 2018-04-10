@@ -112,6 +112,7 @@ $("select").change(function(){
         var stName = x.options[i].text;
         $.getJSON ("stationDetails", null, function(data){
             var stationDetails = data;
+            var id;
             var headingI = "<p id = heading> Showing Info for " + stName + "</p>"
             var rTimeTable = "<table class = 'table'>";
             rTimeTable += "<tr><th>Bikes Available</th><th>Stands Available</th><th>last update</th></tr>";
@@ -120,11 +121,13 @@ $("select").change(function(){
                 if (stName == stationDetails[station].StationIName){
                     console.log("If statement passed")
                     //var name = stationDetails[station].Address;
+                    var id = "Station ID: " +stationDetails[station].Station_ID
                     var availableBikes = stationDetails[station].available_bikes;
                     var availableStands = stationDetails[station].available_bike_stands;
                     var update = stationDetails[station].last_update;
             
             rTimeTable += "<tr><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";
+            headingI += "<p>" + id + "</p>"
                 }
             
             
