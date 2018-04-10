@@ -19,14 +19,14 @@
 			 		var v_icon = '';
                     var x = stationDetails[station].available_bikes;
                     var y = stationDetails[station].available_bike_stands;
-			 		if (x > y){
+			 		if (x > y + 5){
 			 		v_icon = '..//static/images/bike green.png';
 			 		}
-			 		else if ( x == y){
-			 		v_icon = '..//static/images/bike yellow.png';
-			 		}
-			 		else if (y > x){
+			 		else if (y > x +5){
 			 		v_icon = '..//static/images/bike red.png'
+			 		}
+                    else {
+			 		v_icon = '..//static/images/bike yellow.png';
 			 		}
 			 		
 					var marker = new google.maps.Marker({
