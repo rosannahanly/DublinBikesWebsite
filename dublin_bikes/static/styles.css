@@ -58,7 +58,7 @@ h1 {
 }
 
 #map {
-    border: 2px solid #848482;
+    border: 1px solid #848482;
 }
 
 a:link, a:visited {
@@ -111,3 +111,7 @@ a:active {
   text-align: center;
 }
 
+.table {
+    border: 1px solid #848482;
+    background-color: #F3F2F2;
+}
