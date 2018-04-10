@@ -16,6 +16,7 @@ $(document).ready(function () {
 $(document).ready(function(){
     displayWeather()
     displayMap()
+    document.getElementById("weather").style.textTransform = "capitalize";
 });
 
 
@@ -145,13 +146,12 @@ function displayMarkers() {
 
 function displayWeather() {
     $.getJSON("weather", null, function(data) {
-        console.log("sophie")
             var deetdays = data;
             var descrip = deetdays[0].description;
             var temp = deetdays[0].temp;
             var icon2 = deetdays[0].icon;
             
-            var weather = "Dublin " + descrip + "<img src='http://openweathermap.org/img/w/" + icon2 + ".png'/>" + temp + "&#8451</p>";
+            var weather = "Current Weather: " + descrip + "<img src='http://openweathermap.org/img/w/" + icon2 + ".png'/>" + temp + "&#8451</p>";
 
             document.getElementById("weather").innerHTML =  weather;
                 });
