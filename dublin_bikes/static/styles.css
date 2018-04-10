@@ -112,7 +112,7 @@ a:active {
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 300px);
+  grid-template-columns: repeat(auto-fit, 220px);
   padding: 5px;
     grid-gap: 5px;
 }
