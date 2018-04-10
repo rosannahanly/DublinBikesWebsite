@@ -20,6 +20,8 @@ header {
 
 #weather {
     text-align: right;
+    font-family: "HelveticaNeue-Thin";
+    font-size: 20px;
 }
 
 .bg { 
@@ -110,9 +112,9 @@ a:active {
 
 .grid-container {
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: repeat(auto-fit, 300px);
   padding: 5px;
-    grid-gap: 50px;
+    grid-gap: 5px;
 }
 .grid-item {
   background-color: #F3F2F2;
