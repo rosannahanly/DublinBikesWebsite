@@ -66,7 +66,7 @@ def getForecast():
     return jsonify(weather)
 
 @app.route('/weather')
-def getForecast():
+def getWeather():
     #Creating the connection with the database
     conn = connect_to_database()
     sql = "SELECT * FROM WeatherData;"
