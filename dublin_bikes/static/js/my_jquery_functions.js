@@ -56,6 +56,7 @@
 
 function displayWeather() {
     $.getJSON("weather", null, function(data) {
+        console.log("sophie")
             var deetdays = data;
             var descrip = deetdays[0].description;
             var temp = deetdays[0].temp;
@@ -111,11 +112,13 @@ $("select").change(function(){
                 if (stName == stationDetails[station].StationIName){
                     console.log("If statement passed")
                     //var name = stationDetails[station].Address;
+                    var id = "Station ID: " + stationDetails[station].Station_ID
                     var availableBikes = stationDetails[station].available_bikes;
                     var availableStands = stationDetails[station].available_bike_stands;
                     var update = stationDetails[station].last_update;
             
             rTimeTable += "<tr><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";
+            headingI += "<p>" + id + "</p>"; 
                 }
             
             
