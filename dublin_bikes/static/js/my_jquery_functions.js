@@ -134,7 +134,7 @@ function displayMarkers() {
          marker.metadata = {type: "point", title: stationDetails[station].name};
          google.maps.event.addListener(marker, 'click', (function(marker, stationDetails)                    {
              return function(){
-                 var content = "Station name: " + stationDetails[station].name + "<br>" + "Available Bikes: " + stationDetails[station].available_bikes + "<br>" + "Available Stands: " + stationDetails[station].available_bike_stands;
+                 var content = "Station name: " + stationDetails[station].name + "<br>" + "Available Stands: " + stationDetails[station].available_bike_stands + "<br>" + "Available Bikes: " + stationDetails[station].available_bikes;
                   infoWindow.setContent(content)
                     infoWindow.open(map, marker);
                         }
