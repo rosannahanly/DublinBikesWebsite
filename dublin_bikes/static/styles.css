@@ -5,6 +5,30 @@ footer {
     padding: 5px;
     }
 
+
+
+h1 {
+    color: white;
+    background-color: #2A6DFC;
+    padding: 10px;
+    padding-left: 20px;
+    border-radius: 25px;
+}
+
+.bg { 
+    /* The image used */
+    background-image: url(images/JustEat-new-dublinbikes-commercial-partner-1.jpg);
+
+    /* Half height */
+    height: 450px; 
+
+    /* Center and scale the image nicely */
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 25px;
+}
+
 .jumbotron {
     background-color: #2A6DFC;
     color: #ffffff;
@@ -75,3 +99,4 @@ a:active {
   padding: 0;
   text-align: center;
 }
+
