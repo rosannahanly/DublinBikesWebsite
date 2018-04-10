@@ -5,8 +5,6 @@ footer {
     padding: 5px;
     }
 
-
-
 h1 {
     color: white;
     background-color: #2A6DFC;
@@ -36,7 +34,20 @@ h1 {
 
 .dropdown {
     align-content: left;
+    color: #4863A0;
 }
+
+#StationIName {
+    background-color: #2A6DFC;
+    height: 50px;
+    text-align: center;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: 2px solid #4863A0;
+    cursor: pointer;
+}
+
 
 .btn-primary:hover{
     background-color: #4863A0;
@@ -47,7 +58,7 @@ h1 {
 }
 
 #map {
-    border: 5px solid #848482;
+    border: 2px solid #848482;
 }
 
 a:link, a:visited {
