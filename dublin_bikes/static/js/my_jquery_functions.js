@@ -104,6 +104,7 @@ $("select").change(function(){
  }); 
 
     function displayRealTimeInfo(){
+    console.log("hello")
         var x = document.getElementById("StationIName");
         var i = x.selectedIndex;
         var stName = x.options[i].text;
