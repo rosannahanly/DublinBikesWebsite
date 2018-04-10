@@ -19,14 +19,14 @@
 			 		var v_icon = '';
                     var x = stationDetails[station].available_bikes;
                     var y = stationDetails[station].available_bike_stands;
-			 		if (x > y + 5){
+			 		if (x > y){
 			 		v_icon = '..//static/images/bike green.png';
 			 		}
-			 		else if (y > x +5){
-			 		v_icon = '..//static/images/bike red.png'
-			 		}
-                    else {
+			 		else if ( x == y){
 			 		v_icon = '..//static/images/bike yellow.png';
+			 		}
+			 		else if (y > x){
+			 		v_icon = '..//static/images/bike red.png'
 			 		}
 			 		
 					var marker = new google.maps.Marker({
@@ -53,30 +53,24 @@
 	 	});
       }
   
-	 
-function displayForecast(){
-$.getJSON("forecast", null, function(data) {
-        var deetdays = data;
-        var heading = "<p id=heading>Forecast 24hrs</p>"
-        var detailedTable = "<table class='table'>";
-        detailedTable += "<tr><th>Day</th><th>Summary</th><th>Temp</th><th>Wind Speed</th></tr>";
-		var i=0;
-        while (i < 8){   
-        	var s = deetdays[i].dt_txt
-        	var split = s.split(" ")
-            var time = split[1]
-            var descrip = deetdays[i].description;
-            var icon2 = deetdays[i].icon;
-            var temp = deetdays[i].temp;
-            var windspeed = deetdays[i].wind_speed;
 
-        detailedTable += "<tr><td>" + time +"</td><td id='description'>" + descrip + "  <img class='icons' src='http://openweathermap.org/img/w/" + icon2 + ".png'/></td><td>" + temp + "&#8451;</td><td>"+ windspeed + " m/s </td></tr>";
-            i++
-        }
-        detailedTable += "</table>";
-        document.getElementById("detailedForecast").innerHTML =  heading + detailedTable;
- 			})
- 		}
+function displayWeather() {
+    $.getJSON("weather", null, function(data) {
+            var deetdays = data;
+            var descrip = deetdays[0].description;
+            var temp = deetdays[0].temp;
+            var icon2 = deetdays[0].icon;
+            
+            var weather = "Dublin " + descrip + "<img src='http://openweathermap.org/img/w/" + icon2 + ".png'/>" + temp + "&#8451</p>";
+
+            document.getElementById("weather").innerHTML =  weather;
+                });
+            };
+
+$(document).ready(function(){
+    displayWeather()
+});
+
 
 $(document).ready(function(){
   load_json_data('StationIName')
@@ -95,11 +89,8 @@ $.getJSON("stationDetails", function(data) {
     
 };
     });
+
  $(document).ready(function(){ 
- $("select").change(function(){
-        displayForecast();
-         //document.getElementById("demo").innerHTML = ;
-    });
 $("select").change(function(){
     displayRealTimeInfo()
 })
@@ -112,7 +103,6 @@ $("select").change(function(){
         var stName = x.options[i].text;
         $.getJSON ("stationDetails", null, function(data){
             var stationDetails = data;
-            var id;
             var headingI = "<p id = heading> Showing Info for " + stName + "</p>"
             var rTimeTable = "<table class = 'table'>";
             rTimeTable += "<tr><th>Bikes Available</th><th>Stands Available</th><th>last update</th></tr>";
@@ -121,13 +111,11 @@ $("select").change(function(){
                 if (stName == stationDetails[station].StationIName){
                     console.log("If statement passed")
                     //var name = stationDetails[station].Address;
-                    var id = "Station ID: " +stationDetails[station].Station_ID
                     var availableBikes = stationDetails[station].available_bikes;
                     var availableStands = stationDetails[station].available_bike_stands;
                     var update = stationDetails[station].last_update;
             
             rTimeTable += "<tr><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";
-            headingI += "<p>" + id + "</p>"
                 }
             
             

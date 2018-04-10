@@ -6,11 +6,20 @@ footer {
     }
 
 h1 {
+    
+    
+}
+
+header {
     color: white;
     background-color: #2A6DFC;
     padding: 10px;
     padding-left: 20px;
     border-radius: 25px;
+}
+
+#weather {
+    text-align: right;
 }
 
 .bg { 

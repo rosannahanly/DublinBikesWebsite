@@ -74,7 +74,7 @@ def getWeather():
     rows = conn.execute(sql).fetchall()
     for row in rows:
         weatherData.append(dict(row))
-    return jsonify(weather)
+    return jsonify(weatherData)
 
 if __name__ == '__main__':
     app.run(debug=True) 
