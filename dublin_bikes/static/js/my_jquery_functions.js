@@ -17,13 +17,15 @@
 			 	$.each(stationDetails, function(station) {
 			 		//var iconBase = 'http://maps.google.com/mapfiles/kml/paddle/';
 			 		var v_icon = '';
-			 		if (stationDetails[station].available_bikes > 20){
+                    var x = stationDetails[station].available_bikes;
+                    var y = stationDetails[station].available_bike_stands;
+			 		if (x > y){
 			 		v_icon = '..//static/images/bike green.png';
 			 		}
-			 		else if (stationDetails[station].available_bikes < 20 && stationDetails[station].available_bikes > 10){
+			 		else if ( x == y){
 			 		v_icon = '..//static/images/bike yellow.png';
 			 		}
-			 		else{
+			 		else if (y > x){
 			 		v_icon = '..//static/images/bike red.png'
 			 		}
 			 		
