@@ -14,12 +14,12 @@ password = "COMP30670"
 db_name = "DublinBikes"
 port = 3306
 '''
-'''
+
 def connect_to_database():
     engine = create_engine("mysql+pymysql://Group8:COMP30670@dublinbikes-rse.c3hjycqhuxxq.eu-west-1.rds.amazonaws.com:3306/DublinBikes")
     conn = engine.connect()
     return conn
- '''   
+   
 
 @app.teardown_appcontext
 def close_connection(exception):

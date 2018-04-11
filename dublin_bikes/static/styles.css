@@ -126,3 +126,10 @@ a:active {
     border: 1px solid #848482;
     background-color: #F3F2F2;
 }
+#direction-panel{
+    overflow: scroll;
+}
+#elevationChartName{
+    text-align: center;
+    text-decoration-style: solid;
+}
