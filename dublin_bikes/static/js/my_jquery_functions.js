@@ -184,9 +184,10 @@ function displayWeather() {
             };
 
 function displayRealTimeInfo(){
+    //document.open("text/html","replace");
     //this function displays the realtime info for a station when selected
-  var x = document.getElementById("StationIName");
-  var i = x.selectedIndex;
+    var x = document.getElementById("StationIName");
+    var i = x.selectedIndex;
     var stName = x.options[i].text;
     $.getJSON ("stationDetails", null, function(data){
         var stationDetails = data;
@@ -214,8 +215,6 @@ function displayRealTimeInfo(){
         rTimeTable += "</table>"    
         document.getElementById("infoBox").innerHTML =  headingI + rTimeTable;
         document.getElementById("map").innerHTML
-        
-        
         map.setCenter({lat:lat, lng: lng});
         map.setZoom(16);
 
