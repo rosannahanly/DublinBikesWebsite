@@ -76,13 +76,13 @@ function displayMarkers() {
         var x = stationDetails[station].available_bikes;
         var y = stationDetails[station].available_bike_stands;
  		if (x > y + 5){
-			 v_icon = '..//static/images/bike green.png';
+			 v_icon = '..//static/images/iconGreen.png';
 			 }
         else if (y > x + 5){
-			 v_icon = '..//static/images/bike red.png'
+			 v_icon = '..//static/images/iconRed.png'
 			 }
         else {
-			 v_icon = '..//static/images/bike yellow.png';
+			 v_icon = '..//static/images/iconOrange.png';
 			 }
         var marker = new google.maps.Marker({
  			position : {
