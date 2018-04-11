@@ -374,3 +374,4 @@ function showElevation(origin, destination) {
           legend: 'none'
         });
       }
+

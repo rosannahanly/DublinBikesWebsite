@@ -92,7 +92,64 @@ google.charts.load('visualization', '1', {packages: ['columnchart']});</script>
                                     <!--Row containing Twitter Feed  -->  
 <div class = row>
     <div class='col-sm-6'>
+        <canvas id="myChart"></canvas>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+        
+      <script>  
+          var jsonfile = {
+   "jsonarray": [{
+      "day": "Monday",
+      "average_avail": 5
+   }, {
+      "day": "Tuesday",
+      "average_avail": 14
+   }, {
+       "day": "Wednesday",
+      "average_avail": 10
+   }, {
+       "day": "Thursday",
+      "average_avail": 30
+   }, {
+       "day": "Friday",
+      "average_avail": 8
+   }, {
+       "day": "Saturday",
+      "average_avail": 0
+   }, {
+       "day": "Sunday",
+      "average_avail": 0
+   }]
+};
+
+var labels = jsonfile.jsonarray.map(function(e) {
+   return e.day;
+});
+var data = jsonfile.jsonarray.map(function(e) {
+   return e.average_avail;
+});;
+          
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: 'rgba(42, 109, 252, 0.2)',
+            borderColor: 'rgb(3, 70, 214)',
+            data: data
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+        </script>
     </div>
+    
 
     <div class="col-sm-6">
         <div class="twitter">
@@ -145,6 +202,9 @@ google.charts.load('visualization', '1', {packages: ['columnchart']});</script>
   </div>
           
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1EwRxWN3fLygyJu8XtDGt3aQAGIEZhTs&libraries=places"> </script>
+      
+      
+
       
                                     <!-- Footer -->
 <footer class='jumbotron'>
