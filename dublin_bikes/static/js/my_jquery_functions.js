@@ -46,6 +46,7 @@ $("select").change(function(){
 });
      
 $("select").change(function(){
+    
     //recentreMap();
 });
  }); 
@@ -107,6 +108,8 @@ function displayMarkers() {
             map.setZoom(15);
             map.setCenter(marker.getPosition());
         });
+        
+
  			})
 	 	});
       }
@@ -182,6 +185,8 @@ function displayRealTimeInfo(){
         var headingI = "<p id = heading> Showing Info for " + stName + "</p>"
         var rTimeTable = "<table class = 'table'>";
         rTimeTable += "<tr><th>Bikes Available</th><th>Stands Available</th><th>last update</th></tr>";
+        var lat;
+        var lng;
         $.each(stationDetails, function(station){
             console.log("entering if statement")
             if (stName == stationDetails[station].StationIName){
@@ -190,40 +195,21 @@ function displayRealTimeInfo(){
                 var availableBikes = stationDetails[station].available_bikes;
                 var availableStands = stationDetails[station].available_bike_stands;
                 var update = stationDetails[station].last_update;
-            
-            rTimeTable += "<tr><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";
-            headingI += "<p>" + id + "</p>"; 
-                }  
+                lat = parseFloat(stationDetails[station].latitude);
+                lng = parseFloat(stationDetails[station].longitude);
+
+                rTimeTable += "<tr><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";
+                headingI += "<p>" + id + "</p>"; 
+
+            }  
         })
         rTimeTable += "</table>"    
         document.getElementById("infoBox").innerHTML =  headingI + rTimeTable;
-                   })
-    }
-
-//function recentreMap(){
-    //this function zooms into map when station is selected
-  // var x = document.getElementById("StationIName");
-//   var i = x.selectedIndex;
-  // var stName = x.options[i].text;
-//   $.getJSON ("stationDetails", null, function(data){
-  //   var stationDetails = data;
-    // $.each(stationDetails, function(station){
-         //console.log("Recenter map entering")
-      //  if (stName == stationDetails[station].StationIName) {
-        //    //console.log("Recenter map, passed")
-          //  var lat = stationDetails.[station].Latitude;
-        //    var long = stationDetails.[station].Longitude;
-   //     }
+        document.getElementById("map").innerHTML
         
-         //function initMap(lat, long){
-            //  var map = new google.maps.Map(document.getElementById('map'),{
-            //      zoom:8;
-             //     center:{lat, long}
-                  
-           //   });
-    //   }
- //   return lat;
-   // return long;
- //  }) 
- // })
-//}
+        
+        map.setCenter({lat:lat, lng: lng});
+        map.setZoom(20);
+
+    })
+}
