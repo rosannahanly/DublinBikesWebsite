@@ -23,7 +23,8 @@ $(document).ready(function(){
 $(document).ready(function(){
   load_json_data('StationIName')
 
-    function load_json_data(StationName){
+function load_json_data(StationName){
+        //this function populates a dropdown menu with the station names
         var html_code = '';
 $.getJSON("stationDetails", function(data) {
     var stationList = data;
@@ -38,14 +39,20 @@ $.getJSON("stationDetails", function(data) {
 };
     });
 
- $(document).ready(function(){ 
+ $(document).ready(function(){
+     //when item is slected the following functions are called
 $("select").change(function(){
-    displayRealTimeInfo()
+    displayRealTimeInfo();
+});
+     
+$("select").change(function(){
+    //recentreMap();
 });
  }); 
 
 
 function displayMap() {
+    //this function displays a simple map of dublin with no markers
     map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 53.3498053, lng: -6.260309699999993},
     zoom: 13,
@@ -54,6 +61,7 @@ function displayMap() {
     
 var map;
 function displayMarkers() {
+    //this function displays markers on the map focusing on available bikes
     map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 53.3498053, lng: -6.260309699999993},
     zoom: 13,
@@ -94,11 +102,17 @@ function displayMarkers() {
                     infoWindow.open(map, marker);
                         }
                     }) (marker, stationDetails));
+        
+        marker.addListener('click', function(){
+            map.setZoom(15);
+            map.setCenter(marker.getPosition());
+        });
  			})
 	 	});
       }
       
  function changeMarkers() {
+     //this function displays markers on the map focusing on available stands
     map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 53.3498053, lng: -6.260309699999993},
     zoom: 13,
@@ -145,6 +159,7 @@ function displayMarkers() {
   
 
 function displayWeather() {
+    //this function displays the current weather
     $.getJSON("weather", null, function(data) {
             var deetdays = data;
             var descrip = deetdays[0].description;
@@ -158,6 +173,7 @@ function displayWeather() {
             };
 
 function displayRealTimeInfo(){
+    //this function displays the realtime info for a station when selected
   var x = document.getElementById("StationIName");
   var i = x.selectedIndex;
     var stName = x.options[i].text;
@@ -183,3 +199,31 @@ function displayRealTimeInfo(){
         document.getElementById("infoBox").innerHTML =  headingI + rTimeTable;
                    })
     }
+
+//function recentreMap(){
+    //this function zooms into map when station is selected
+  // var x = document.getElementById("StationIName");
+//   var i = x.selectedIndex;
+  // var stName = x.options[i].text;
+//   $.getJSON ("stationDetails", null, function(data){
+  //   var stationDetails = data;
+    // $.each(stationDetails, function(station){
+         //console.log("Recenter map entering")
+      //  if (stName == stationDetails[station].StationIName) {
+        //    //console.log("Recenter map, passed")
+          //  var lat = stationDetails.[station].Latitude;
+        //    var long = stationDetails.[station].Longitude;
+   //     }
+        
+         //function initMap(lat, long){
+            //  var map = new google.maps.Map(document.getElementById('map'),{
+            //      zoom:8;
+             //     center:{lat, long}
+                  
+           //   });
+    //   }
+ //   return lat;
+   // return long;
+ //  }) 
+ // })
+//}
