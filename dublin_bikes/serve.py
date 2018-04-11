@@ -14,24 +14,28 @@ password = "COMP30670"
 db_name = "DublinBikes"
 port = 3306
 '''
-
+'''
 def connect_to_database():
     engine = create_engine("mysql+pymysql://Group8:COMP30670@dublinbikes-rse.c3hjycqhuxxq.eu-west-1.rds.amazonaws.com:3306/DublinBikes")
     conn = engine.connect()
     return conn
-    
-'''
+ '''   
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
       db.close() 
-'''
+
 
 #Simply serves "static/index.html"
 @app.route('/')
 def root():
     return render_template('index.html')
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
 
 @app.route('/stations')
 def getStations():
@@ -43,6 +47,7 @@ def getStations():
     for row in rows:
         stations.append(dict(row))
     return jsonify(stations)
+
 
 @app.route('/stationDetails')
 def station_details():
