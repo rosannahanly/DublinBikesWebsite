@@ -105,7 +105,7 @@ function displayMarkers() {
                     }) (marker, stationDetails));
         
         marker.addListener('click', function(){
-            map.setZoom(15);
+            map.setZoom(16);
             map.setCenter(marker.getPosition());
         });
         
@@ -156,7 +156,15 @@ function displayMarkers() {
                     infoWindow.open(map, marker);
                         }
                     }) (marker, stationDetails));
+        
+                marker.addListener('click', function(){
+                    map.setZoom(16);
+                    map.setCenter(marker.getPosition());
+            
  			})
+        
+        });
+        
 	 	});
       }     
   
@@ -209,7 +217,7 @@ function displayRealTimeInfo(){
         
         
         map.setCenter({lat:lat, lng: lng});
-        map.setZoom(20);
+        map.setZoom(16);
 
     })
 }
