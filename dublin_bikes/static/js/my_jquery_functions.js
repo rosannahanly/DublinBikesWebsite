@@ -313,23 +313,27 @@ function findNearbyStations(position) {
     console.log('here')
     var list = [];
     var radius = 1;
-    var userLocation = {lat: position.coords.latitude, lng:position.coords.longitude};
+    var userCord = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     $.getJSON ("stationDetails", null, function(data){
         var stationLocation = data;
+        var rTimeTable = "<table class ='StationTable'>";
+        rTimeTable += "<tr><th>Station</th><th>Bikes Available</th><th>Stands Available</th><th>Last Update</th></tr>";
         $.each(stationLocation, function(findStation){
             var name = stationLocation[findStation].StationIName;
             var lat = parseFloat(stationLocation[findStation].latitude);
             var lng = parseFloat(stationLocation[findStation].longitude);
-            var stationLatLng = {lat: lat, lng: lng};
-            console.log(userLocation)
-            console.log(stationLatLng)
-            if (google.maps.geometry.spherical.computeDistanceBetween(userLocation, stationLatLng) < radius){
-                console.log(name)
-                list+= name;
+             var id = "<b>Station ID: </b>" + stationLocation[findStation].Station_ID
+            var availableBikes = stationLocation[findStation].available_bikes;
+            var availableStands = stationLocation[findStation].available_bike_stands;
+            var update = stationLocation[findStation].last_update;
+            var stationCord = new google.maps.LatLng(lat, lng);
+            if (google.maps.geometry.spherical.computeDistanceBetween(stationCord, userCord)/1000 <= radius){
+                 rTimeTable += "<tr><td>" + name + "</td><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";   
             }
-            x.innerHTML= list;
     
     });
+        rTimeTable += "</table>"    
+        document.getElementById("nearbyStations").innerHTML= rTimeTable;
     });
 }
 

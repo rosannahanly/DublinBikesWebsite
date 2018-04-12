@@ -149,14 +149,14 @@ a:active {
     width: 100%;
     overflow-x: scroll;
 }
-.weatherTable tr{
+/*.weatherTable tr{
     display: inline-block;
     float: left;
 }
 .weatherTable th, td{
     display: block;
     text-align: center;
-}
+}*/
 #findStationsNearby{
     height: 55px;
 }
