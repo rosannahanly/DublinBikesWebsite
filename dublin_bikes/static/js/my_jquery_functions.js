@@ -1,30 +1,33 @@
+//Displays a modal when user first visits page 
 $(document).ready(function () {
         $('#myModal').modal('show');
     });
 
+//Display bike information based on returning a bike
  $(document).on("click", "#stands", function(){
  	$('#myModal').modal('hide');
     changeMarkers();
 });
 
+//Display bike information based on renting a bike
  $(document).on("click", "#bikes", function(){
  	$('#myModal').modal('hide');
     displayMarkers();
 });
 
-
+//Display weather and map when page loads
 $(document).ready(function(){
     displayWeather()
     displayMap()
     document.getElementById("weather").style.textTransform = "capitalize";
 });
 
-
+//Loading station details from database
 $(document).ready(function(){
   load_json_data('StationIName')
 
+//Populates a dropdown menu with the station names
 function load_json_data(StationName){
-        //this function populates a dropdown menu with the station names
         var html_code = '';
 $.getJSON("stationDetails", function(data) {
     var stationList = data;
@@ -39,21 +42,15 @@ $.getJSON("stationDetails", function(data) {
 };
     });
 
+//When station is selected from dropdown list, map is recentred and information specific to that station is displayed. 
  $(document).ready(function(){
-     //when item is slected the following functions are called
 $("select").change(function(){
     displayRealTimeInfo();
 });
-     
-$("select").change(function(){
-    
-    //recentreMap();
-});
- }); 
 
 
+//Displays a simple map of dublin with no markers
 function displayMap() {
-    //this function displays a simple map of dublin with no markers
     map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 53.3498053, lng: -6.260309699999993},
     zoom: 13,
@@ -61,8 +58,9 @@ function displayMap() {
 };
     
 var map;
+
+ //Displays markers on the map focusing on available bikes
 function displayMarkers() {
-    //this function displays markers on the map focusing on available bikes
     map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 53.3498053, lng: -6.260309699999993},
     zoom: 13,
@@ -113,9 +111,9 @@ function displayMarkers() {
  			})
 	 	});
       }
-      
+ 
+ //Displays markers on the map focusing on available stands
  function changeMarkers() {
-     //this function displays markers on the map focusing on available stands
     map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 53.3498053, lng: -6.260309699999993},
     zoom: 13,
@@ -168,9 +166,8 @@ function displayMarkers() {
 	 	});
       }     
   
-
+//Display Current weather
 function displayWeather() {
-    //this function displays the current weather
     $.getJSON("weather", null, function(data) {
             var deetdays = data;
             var descrip = deetdays[0].description;
@@ -183,9 +180,8 @@ function displayWeather() {
                 });
             };
 
+//Display station markers and real time information for occupancy
 function displayRealTimeInfo(){
-    //document.open("text/html","replace");
-    //this function displays the realtime info for a station when selected
     var x = document.getElementById("StationIName");
     var i = x.selectedIndex;
     var stName = x.options[i].text;
@@ -197,9 +193,7 @@ function displayRealTimeInfo(){
         var lat;
         var lng;
         $.each(stationDetails, function(station){
-            console.log("entering if statement")
             if (stName == stationDetails[station].StationIName){
-                console.log("If statement passed")
                 var id = "Station ID: " + stationDetails[station].Station_ID
                 var availableBikes = stationDetails[station].available_bikes;
                 var availableStands = stationDetails[station].available_bike_stands;
@@ -221,7 +215,8 @@ function displayRealTimeInfo(){
     })
 }
 
-   $(document).ready(function(){
+//Populate the start dropdown list
+$(document).ready(function(){
   load_json_data('start')
     function load_json_data(StationAddress){
         var html_code = '';
@@ -240,7 +235,8 @@ function displayRealTimeInfo(){
     
 };
     });
-        
+
+//Populate the end dropdown list
 $(document).ready(function(){
   load_json_data('end')
     function load_json_data(StationAddress){
@@ -259,6 +255,7 @@ $(document).ready(function(){
 };
     });
 
+//Get directions from one station to another using dropdown list
 $(document).ready(function(){
 $("#directionDropdown").change(function(){
     var start = document.getElementById('start').value,
@@ -275,18 +272,21 @@ $("#directionDropdown").change(function(){
 });
 });
 
+//Getting geolocation of user
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
-}      
+}
+//Showing user position
 function showPosition(position) {
     var latlon = [position.coords.latitude, position.coords.longitude];
     return latlon;
 }
 
+//Show directions from start to finish
 function showDirectionsMap(startLat, startLong, endLat, endLong) {
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -312,7 +312,6 @@ function showDirectionsMap(startLat, startLong, endLat, endLong) {
         };
         
       }
-    
     function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, destination) {
         directionsService.route({
           origin: {lat: parseFloat(origin[0]), lng: parseFloat(origin[1])},
@@ -324,28 +323,20 @@ function showDirectionsMap(startLat, startLong, endLat, endLong) {
         });
         }
 
-
+//Show elevation of the path selected by user. 
 function showElevation(origin, destination) {
-        // The following path marks a path from Mt. Whitney, the highest point in the
-        // continental United States to Badwater, Death Valley, the lowest point.
         var path = [
            {lat: parseFloat(origin[0]), lng: parseFloat(origin[1])}, 
            {lat: parseFloat(destination[0]), lng: parseFloat(destination[1])}];
 
-        // Create an ElevationService.
         var elevator = new google.maps.ElevationService;
-
-        // Create a PathElevationRequest object using this array.
-        // Ask for 100 samples along that path.
-        // Initiate the path request.
+    
         elevator.getElevationAlongPath({
           'path': path,
           'samples': 300
         }, plotElevation);
       }
 
-      // Takes an array of ElevationResult objects, draws the path on the map
-      // and plots the elevation profile on a Visualization API ColumnChart.
       function plotElevation(elevations, status) {
         var chartDiv = document.getElementById('elevation_chart');
         if (status !== 'OK') {
@@ -354,13 +345,8 @@ function showElevation(origin, destination) {
               status;
           return;
         }
-        // Create a new chart in the elevation_chart DIV.
         var chart = new google.visualization.ColumnChart(chartDiv);
 
-        // Extract the data from which to populate the chart.
-        // Because the samples are equidistant, the 'Sample'
-        // column here does double duty as distance along the
-        // X axis.
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Sample');
         data.addColumn('number', 'Elevation');
@@ -368,7 +354,6 @@ function showElevation(origin, destination) {
           data.addRow(['', elevations[i].elevation]);
         }
 
-        // Draw the chart using the data within its DIV.
         chart.draw(data, {
           height: 200,
           legend: 'none'
