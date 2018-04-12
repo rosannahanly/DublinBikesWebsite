@@ -1,33 +1,30 @@
-//Displays a modal when user first visits page 
 $(document).ready(function () {
         $('#myModal').modal('show');
     });
 
-//Display bike information based on returning a bike
  $(document).on("click", "#stands", function(){
  	$('#myModal').modal('hide');
     changeMarkers();
 });
 
-//Display bike information based on renting a bike
  $(document).on("click", "#bikes", function(){
  	$('#myModal').modal('hide');
     displayMarkers();
 });
 
-//Display weather and map when page loads
+
 $(document).ready(function(){
     displayWeather()
     displayMap()
     document.getElementById("weather").style.textTransform = "capitalize";
 });
 
-//Loading station details from database
+
 $(document).ready(function(){
   load_json_data('StationIName')
 
-//Populates a dropdown menu with the station names
 function load_json_data(StationName){
+        //this function populates a dropdown menu with the station names
         var html_code = '';
 $.getJSON("stationDetails", function(data) {
     var stationList = data;
@@ -41,12 +38,12 @@ $.getJSON("stationDetails", function(data) {
     
 };
     });
-
-//When station is selected from dropdown list, map is recentred and information specific to that station is displayed. 
+//when item is slected the following functions are called
  $(document).ready(function(){
 $("select").change(function(){
     displayRealTimeInfo();
 });
+ }); 
 
 
 //Displays a simple map of dublin with no markers
