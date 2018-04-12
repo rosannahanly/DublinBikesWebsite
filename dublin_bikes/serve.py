@@ -81,5 +81,15 @@ def getWeather():
         weatherData.append(dict(row))
     return jsonify(weatherData)
 
+@app.route('/historical')
+def getHistorical():
+    conn = connect_to_database()
+    sql = "SELECT * FROM UserTrends;"
+    historicalData = []
+    rows = conn.execute(sql).fetchall()
+    for row in rows:
+        historicalData.append(dict(row))
+    return jsonify(historicalData)
+
 if __name__ == '__main__':
     app.run(debug=True) 
