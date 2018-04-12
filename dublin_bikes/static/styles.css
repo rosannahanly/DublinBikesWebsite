@@ -54,6 +54,15 @@ header {
     color: #4863A0;
 }
 
+#infoBox {
+    font-family: "HelveticaNeue-Thin";
+    font-size: 18px;
+}
+
+th {
+    font-family: "HelveticaNeue";
+}
+
 #StationIName {
     background-color: #2A6DFC;
     height: 50px;

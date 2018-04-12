@@ -190,7 +190,7 @@ function displayRealTimeInfo(){
         var stationDetails = data;
         var headingI = "<p id = heading> Showing Info for " + stName + "</p>"
         var rTimeTable = "<table class = 'table'>";
-        rTimeTable += "<tr><th>Bikes Available</th><th>Stands Available</th><th>last update</th></tr>";
+        rTimeTable += "<tr><th>Bikes Available</th><th>Stands Available</th><th>Last Update</th></tr>";
         var lat;
         var lng;
         $.each(stationDetails, function(station){
