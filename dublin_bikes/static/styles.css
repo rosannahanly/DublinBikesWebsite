@@ -5,9 +5,15 @@ footer {
     padding: 5px;
     }
 
-h1 {
+h4 {
+    font-family: "HelveticaNeue-Thin";
+    font-size: 20px; 
     
-    
+}
+
+h3 {
+    font-family: "HelveticaNeue-Thin";
+    font-size: 15px;
 }
 
 header {
