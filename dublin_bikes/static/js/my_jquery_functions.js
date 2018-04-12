@@ -1,30 +1,33 @@
+//Display modal when user first visits the page
 $(document).ready(function () {
         $('#myModal').modal('show');
     });
 
+//Displays occupancy on stands available
  $(document).on("click", "#stands", function(){
  	$('#myModal').modal('hide');
     changeMarkers();
 });
 
+//Displays occupancy based on bikes available
  $(document).on("click", "#bikes", function(){
  	$('#myModal').modal('hide');
     displayMarkers();
 });
 
-
+//Displays weather, map when page is loaded
 $(document).ready(function(){
     displayWeather()
     displayMap()
     document.getElementById("weather").style.textTransform = "capitalize";
 });
 
-
+//Loads station details data from database
 $(document).ready(function(){
   load_json_data('StationIName')
 
+//Populates a dropdown menu with the station names
 function load_json_data(StationName){
-        //this function populates a dropdown menu with the station names
         var html_code = '';
 $.getJSON("stationDetails", function(data) {
     var stationList = data;
@@ -38,7 +41,8 @@ $.getJSON("stationDetails", function(data) {
     
 };
     });
-//when item is slected the following functions are called
+
+//When item is slected the following functions are called
  $(document).ready(function(){
 $("select").change(function(){
     displayRealTimeInfo();
