@@ -18,7 +18,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-
                     <!--Links to our javascript functions and CSS styleshtet-->
 
 <link rel="stylesheet" type="text/css" href="..//static/styles.css">
@@ -42,14 +41,15 @@
                         <!--Row contains dropdown, info box and map -->  
       
  <div class = row>
-   <div class = 'col-sm-6'>
-        <div class = "dropdown"><select id="StationIName"><option value="">Select a Station</option></select></div>
+   <div class = 'col-sm-3'>
+        <div class = "dropdown"><select id="StationIName"><option value="">Select a Station</option></select></div>       
+         <div id = "infoBox", style="width:100%;height:400px;"><div id="stationInfo", style="width:100%;height:200px;"> <marquee><h3>WELCOME TO DUBLIN BIKES</h3><p>Did you know?? It is 20 times cheaper to maintain a bicycle than a car! </p></marquee></div>
+             <div class="table-responsive" id="weatherInfo", style="width:100%;height:200px;"><img src="..//static/images/cycling.gif" style="width:90%;height:200px;"></div></div>
+     </div>
        
-        <div id = "infoBox", style="width:100%;height:200px;"><p> It is 20 times cheaper to maintain a bicycle than a car</p></div>
-       
-    </div>
   
-     <!--<div class='col-sm-6'><button id="findSataionsNearby">Find stations near me</button></div> -->
+     <div class='col-sm-3'><button class="btn btn-primary btn-block" id="findStationsNearby">Find stations near me</button>
+     <div id="nearbyStations"></div></div>
      <div class = 'col-sm-6'>
         <div><button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">
         Switch Map View
@@ -154,14 +154,14 @@ google.charts.load('visualization', '1', {packages: ['columnchart']});</script>
       
       
       
-      
-      
-                                    <!--Row containing Twitter Feed  -->  
+       <!--Row containing Twitter Feed  -->  
+    
+<!--                                    
 <div class = row>
     <div class='col-sm-6'>
         <h4>Take a break. Enjoy this Dublin cycling story!</h4>
         <div class = "embed-responsive embed-responsive-16by9">
-            
+          
         <iframe width="560" height="315" src="https://www.youtube.com/embed/ujbiR8LwwLM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             </div>
     </div>
@@ -173,7 +173,7 @@ google.charts.load('visualization', '1', {packages: ['columnchart']});</script>
             <a class="twitter-timeline" data-height="415" data-width="500" href="https://twitter.com/MetEireann?ref_src=twsrc%5Etfw">Tweets by MetEireann</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </div>
     </div>      
-</div>
+</div> -->
       
                             <!-- Row cotaining links to websites -->    
 <div class=row>
@@ -217,8 +217,7 @@ google.charts.load('visualization', '1', {packages: ['columnchart']});</script>
     </div>
   </div>
           
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1EwRxWN3fLygyJu8XtDGt3aQAGIEZhTs&libraries=places"> </script>
-      
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1EwRxWN3fLygyJu8XtDGt3aQAGIEZhTs&libraries=geometry,places"> </script>
       
 
       

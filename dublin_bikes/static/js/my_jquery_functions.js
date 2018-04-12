@@ -46,6 +46,7 @@ $.getJSON("stationDetails", function(data) {
  $(document).ready(function(){
 $("select").change(function(){
     displayRealTimeInfo();
+    displayForecast();
 });
  }); 
 
@@ -188,14 +189,14 @@ function displayRealTimeInfo(){
     var stName = x.options[i].text;
     $.getJSON ("stationDetails", null, function(data){
         var stationDetails = data;
-        var headingI = "<p id = heading> Showing Info for " + stName + "</p>"
-        var rTimeTable = "<table class = 'table'>";
+        var headingI = "<p id = heading><b> Station Name: </b>" + stName+ "<br>";
+        var rTimeTable = "<table class ='StationTable'>";
         rTimeTable += "<tr><th>Bikes Available</th><th>Stands Available</th><th>Last Update</th></tr>";
         var lat;
         var lng;
         $.each(stationDetails, function(station){
             if (stName == stationDetails[station].StationIName){
-                var id = "Station ID: " + stationDetails[station].Station_ID
+                var id = "<b>Station ID: </b>" + stationDetails[station].Station_ID
                 var availableBikes = stationDetails[station].available_bikes;
                 var availableStands = stationDetails[station].available_bike_stands;
                 var update = stationDetails[station].last_update;
@@ -203,18 +204,41 @@ function displayRealTimeInfo(){
                 lng = parseFloat(stationDetails[station].longitude);
 
                 rTimeTable += "<tr><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";
-                headingI += "<p>" + id + "</p>"; 
+                headingI += id + "</p>"; 
 
             }  
         })
         rTimeTable += "</table>"    
-        document.getElementById("infoBox").innerHTML =  headingI + rTimeTable;
+        document.getElementById("stationInfo").innerHTML =  headingI + rTimeTable;
         document.getElementById("map").innerHTML
         map.setCenter({lat:lat, lng: lng});
         map.setZoom(16);
 
     })
 }
+
+//Display weather Forecast
+function displayForecast() {
+    $.getJSON("forecast", null, function(data) {
+            var weather = data;
+            var heading = "<p id=heading><b>Forecast 24hrs<b></p>"
+            var detailedTable = "<table class='weatherTable'>";
+            var i=0;
+            while (i < 8){   
+                var initTime = weather[i].dt_txt;
+                var split = initTime.split(" ")
+                var time = split[1].slice(0, 5);
+                var descrip = weather[i].description;
+                var icon = weather[i].icon;
+                var temp = weather[i].temp;
+            detailedTable += "<tr><td><b>" + time +"</b></td><td>" + descrip + "  <img class='icons' src='http://openweathermap.org/img/w/" + icon + ".png'/></td><td>" + temp + "&#8451;</td><tr>";
+             i++
+         }
+         detailedTable += "</table>";
+            document.getElementById("weatherInfo").innerHTML =  detailedTable;
+                });
+            };
+
 
 //Populate the start dropdown list
 $(document).ready(function(){
@@ -225,8 +249,6 @@ $(document).ready(function(){
         var stationList = data;
         var option = document.getElementById('start');
         var j = 1;
-            var myLocation = navigator.geolocation.getCurrentPosition(showPosition)
-            option[j] = new Option('CURRENT LOCATION', myLocation);
 	   for(var i=0; i<stationList.length; i++){
 	   j++;
             var coord = [stationList[i].latitude, stationList[i].longitude]
@@ -273,18 +295,42 @@ $("#directionDropdown").change(function(){
 });
 });
 
-//Getting geolocation of user
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
+
+//Find stations nearby
+ $(document).on("click", "#findStationsNearby", function(){
+     var x = document.getElementById("nearbyStations");
+     getLocation();
+    //Getting geolocation of user
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(findNearbyStations);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
     }
-}
-//Showing user position
-function showPosition(position) {
-    var latlon = [position.coords.latitude, position.coords.longitude];
-    return latlon;
+      });
+function findNearbyStations(position) {
+    console.log('here')
+    var list = [];
+    var radius = 1;
+    var userLocation = {lat: position.coords.latitude, lng:position.coords.longitude};
+    $.getJSON ("stationDetails", null, function(data){
+        var stationLocation = data;
+        $.each(stationLocation, function(findStation){
+            var name = stationLocation[findStation].StationIName;
+            var lat = parseFloat(stationLocation[findStation].latitude);
+            var lng = parseFloat(stationLocation[findStation].longitude);
+            var stationLatLng = {lat: lat, lng: lng};
+            console.log(userLocation)
+            console.log(stationLatLng)
+            if (google.maps.geometry.spherical.computeDistanceBetween(userLocation, stationLatLng) < radius){
+                console.log(name)
+                list+= name;
+            }
+            x.innerHTML= list;
+    
+    });
+    });
 }
 
 //Show directions from start to finish

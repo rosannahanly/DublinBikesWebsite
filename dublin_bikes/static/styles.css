@@ -57,6 +57,7 @@ header {
 #infoBox {
     font-family: "HelveticaNeue-Thin";
     font-size: 18px;
+    margin-top: 3%;
 }
 
 th {
@@ -68,7 +69,7 @@ th {
     height: 50px;
     text-align: center;
     color: white;
-    padding: 16px;
+    padding: 5px;
     font-size: 16px;
     border: 2px solid #4863A0;
     cursor: pointer;
@@ -137,14 +138,25 @@ a:active {
   text-align: center;
 }
 
-.table {
-    border: 1px solid #848482;
-    background-color: #F3F2F2;
-}
 #direction-panel{
     overflow: scroll;
 }
 #elevationChartName{
     text-align: center;
     text-decoration-style: solid;
+}
+.weatherTable{
+    width: 100%;
+    overflow-x: scroll;
+}
+.weatherTable tr{
+    display: inline-block;
+    float: left;
+}
+.weatherTable th, td{
+    display: block;
+    text-align: center;
+}
+#findStationsNearby{
+    height: 55px;
 }
