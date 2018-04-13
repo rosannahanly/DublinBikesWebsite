@@ -67,7 +67,6 @@ function displayMarkers() {
     center: {lat: 53.3498053, lng: -6.260309699999993},
     zoom: 13,
     });
-    console.log("Ready");
     var infoWindow = new google.maps.InfoWindow()	
     $.getJSON("stationDetails", function(data) {
     var stationDetails = data;
@@ -98,7 +97,7 @@ function displayMarkers() {
          marker.metadata = {type: "point", title: stationDetails[station].name};
          google.maps.event.addListener(marker, 'click', (function(marker, stationDetails)                    {
              return function(){
-                 var content = "Station name: " + stationDetails[station].name + "<br>" + "Available Bikes: " + stationDetails[station].available_bikes + "<br>" + "Available Stands: " + stationDetails[station].available_bike_stands;
+                var content = "<b>" + stationDetails[station].name + "</b>: "+ stationDetails[station].last_update.slice(5,22)+ "<br>&emsp;&emsp;&emsp;<b>Bikes:</b> " + stationDetails[station].available_bike_stands + "&emsp; &emsp; &emsp;<b>Stands: </b>" + stationDetails[station].available_bikes;
                   infoWindow.setContent(content)
                     infoWindow.open(map, marker);
                         }
@@ -151,7 +150,7 @@ function displayMarkers() {
          marker.metadata = {type: "point", title: stationDetails[station].name};
          google.maps.event.addListener(marker, 'click', (function(marker, stationDetails)                    {
              return function(){
-                 var content = "Station name: " + stationDetails[station].name + "<br>" + "Available Stands: " + stationDetails[station].available_bike_stands + "<br>" + "Available Bikes: " + stationDetails[station].available_bikes;
+                 var content = "<b>" + stationDetails[station].name + "</b>: "+ stationDetails[station].last_update.slice(5,22)+"<br>&emsp; &emsp; &emsp;<b>Stands: </b>" + stationDetails[station].available_bikes+ "&emsp;&emsp;&emsp;<b>Bikes:</b> " + stationDetails[station].available_bike_stands;
                   infoWindow.setContent(content)
                     infoWindow.open(map, marker);
                         }
@@ -205,7 +204,7 @@ function displayRealTimeInfo(){
 
                 rTimeTable += "<tr><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";
                 headingI += id + "</p>"; 
-
+                
             }  
         })
         rTimeTable += "</table>"    
@@ -248,7 +247,7 @@ $(document).ready(function(){
         $.getJSON("stationDetails", function(data) {
         var stationList = data;
         var option = document.getElementById('start');
-        var j = 1;
+        var j = 0;
 	   for(var i=0; i<stationList.length; i++){
 	   j++;
             var coord = [stationList[i].latitude, stationList[i].longitude]
@@ -299,6 +298,8 @@ $("#directionDropdown").change(function(){
 //Find stations nearby
  $(document).on("click", "#findStationsNearby", function(){
      var x = document.getElementById("nearbyStations");
+     var Userlat;
+     var UserLng;
      getLocation();
     //Getting geolocation of user
     function getLocation() {
@@ -312,30 +313,64 @@ $("#directionDropdown").change(function(){
 function findNearbyStations(position) {
     console.log('here')
     var list = [];
-    var radius = 1;
+    var stationList = [];
+    var Userlat = position.coords.latitude;
+    var UserLng = position.coords.longitude;
     var userCord = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     $.getJSON ("stationDetails", null, function(data){
         var stationLocation = data;
-        var rTimeTable = "<table class ='StationTable'>";
-        rTimeTable += "<tr><th>Station</th><th>Bikes Available</th><th>Stands Available</th><th>Last Update</th></tr>";
-        $.each(stationLocation, function(findStation){
+          $.each(stationLocation, function(findStation){
             var name = stationLocation[findStation].StationIName;
             var lat = parseFloat(stationLocation[findStation].latitude);
             var lng = parseFloat(stationLocation[findStation].longitude);
-             var id = "<b>Station ID: </b>" + stationLocation[findStation].Station_ID
             var availableBikes = stationLocation[findStation].available_bikes;
             var availableStands = stationLocation[findStation].available_bike_stands;
             var update = stationLocation[findStation].last_update;
             var stationCord = new google.maps.LatLng(lat, lng);
-            if (google.maps.geometry.spherical.computeDistanceBetween(stationCord, userCord)/1000 <= radius){
-                 rTimeTable += "<tr><td>" + name + "</td><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";   
-            }
+            var dist = (google.maps.geometry.spherical.computeDistanceBetween(stationCord, userCord)/1000);
+            list.push({Dist:dist,Name:name, AvailableBike:availableBikes, AvailableStand:availableStands, LastUpdate:update.slice(5,22), Lat:lat, Lng:lng});
+        });
+        list.sort(function(a, b){return a['Dist'] - b['Dist']});
+        stationList = list.slice(0,5);
+        var NearbyTable = "<table class ='NearbyStationTable'><tr><th>Station</th><th>Bikes Available</th><th>Stands Available</th><th>Last Update</th></tr>";
+            map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: position.coords.latitude, lng: position.coords.longitude},
+            zoom: 12,
+    });
+        var marker = new google.maps.Marker({
+ 			position : {
+                lat: position.coords.latitude,
+                lng:position.coords.longitude
+            },
+	 		map : map,
+       		icon: '..//static/images/bike green.png'
+	 				});
+       for (i = 0; i < 5; i++){
+            NearbyTable += "<tr><td>" + stationList[i]['Name'] + "</td><td>" + stationList[i]['AvailableBike'] + "</td><td>" + stationList[i]['AvailableStand'] +"</td><td>"+ stationList[i]['LastUpdate'] + "</td></tr>";
+        
+        var marker = new google.maps.Marker({
+ 			position : {
+	 			lat : stationList[i]['Lat'],
+	 			lng :stationList[i]['Lng']
+	 					},
+	 		map : map,
+	 		title : stationList[i]['Name'],
+       		icon: '..//static/images/bike yellow.png'
+	 				});
+        
+         marker.metadata = {type: "point", title: stationList[i]['Name']};
+           
+                    marker.addListener('click', function(){
+                    map.setZoom(16);
+                    map.setCenter(marker.getPosition());
+                 } );     
+        };
+        NearbyTable += "</table>" 
+        document.getElementById("nearbyStations").innerHTML= NearbyTable;
+            
+ 			})
     
-    });
-        rTimeTable += "</table>"    
-        document.getElementById("nearbyStations").innerHTML= rTimeTable;
-    });
-}
+    }
 
 //Show directions from start to finish
 function showDirectionsMap(startLat, startLong, endLat, endLong) {
