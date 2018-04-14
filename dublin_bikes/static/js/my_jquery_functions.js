@@ -67,12 +67,14 @@ function displayMarkers() {
     zoom: 13,
     });
     var infoWindow = new google.maps.InfoWindow()	
-    $.getJSON("stationDetails", function(data) {
-    var stationDetails = data;
+    $.getJSON("stations", function(StationData) {
+        $.getJSON("stationDetails", function(stationData) {
+    var DynamicDetails = stationData;
+    var stationDetails = StationData;
     $.each(stationDetails, function(station) {
         var v_icon = '';
-        var x = stationDetails[station].available_bikes;
-        var y = stationDetails[station].available_bike_stands;
+        var x = DynamicDetails[station].available_bikes;
+        var y = DynamicDetails[station].available_bike_stands;
  		if (x > y + 5){
 			 v_icon = '..//static/images/marker_green.png';
 			 }
@@ -84,31 +86,35 @@ function displayMarkers() {
 			 }
         var marker = new google.maps.Marker({
  			position : {
-	 			lat : parseFloat(stationDetails[station].latitude),
-	 			lng : parseFloat(stationDetails[station].longitude)
+	 			lat : parseFloat(stationDetails[station].Latitude),
+	 			lng : parseFloat(stationDetails[station].Longitude)
 	 					},
 	 		map : map,
-	 		title : stationDetails[station].name,
+	 		title : stationDetails[station].StationIName,
 	 		station_number : stationDetails[station].Station_ID,
        		icon: v_icon
-	 				});
-        
-         marker.metadata = {type: "point", title: stationDetails[station].name};
+	 				}); 
+         marker.metadata = {type: "point", title: stationDetails[station].StationIName};
          google.maps.event.addListener(marker, 'click', (function(marker, stationDetails)                    {
              return function(){
-                var content = "<b>" + stationDetails[station].name + "</b>: "+ stationDetails[station].last_update.slice(5,22)+ "<br>&emsp;&emsp;&emsp;<b>Bikes:</b> " + stationDetails[station].available_bike_stands + "&emsp; &emsp; &emsp;<b>Stands: </b>" + stationDetails[station].available_bikes;
+                var content = "<b>" + DynamicDetails[station].name + "</b>: "+ DynamicDetails[station].last_update.slice(5,22)+ "<br>&emsp;&emsp;&emsp;<b>Bikes:</b> " + DynamicDetails[station].available_bike_stands + "&emsp; &emsp; &emsp;<b>Stands: </b>" + DynamicDetails[station].available_bikes;
                   infoWindow.setContent(content)
                     infoWindow.open(map, marker);
-                        }
-                    }) (marker, stationDetails));
+                    }
+         }) (marker, stationDetails));
         
         marker.addListener('click', function(){
             map.setZoom(16);
             map.setCenter(marker.getPosition());
         });
         
+        marker.addListener('dblclick', function(){
+            map.setZoom(13);
+            map.setCenter({lat: 53.3498053, lng: -6.260309699999993});
+        });
 
  			})
+    });
 	 	});
       }
  
@@ -119,12 +125,14 @@ function displayMarkers() {
     zoom: 13,
     });
     var infoWindow = new google.maps.InfoWindow()	
-    $.getJSON("stationDetails", function(data) {
-    var stationDetails = data;
+    $.getJSON("stations", function(StationData) {
+    $.getJSON("stationDetails", function(stationData) {
+    var DynamicDetails = stationData;
+    var stationDetails = StationData;
     $.each(stationDetails, function(station) {
         var v_icon = '';
-        var y = stationDetails[station].available_bikes;
-        var x = stationDetails[station].available_bike_stands;
+        var y = DynamicDetails[station].available_bikes;
+        var x = DynamicDetails[station].available_bike_stands;
  		if (x > y + 5){
 			 v_icon = '..//static/images/marker_green.png';
 			 }
@@ -136,19 +144,19 @@ function displayMarkers() {
 			 }
         var marker = new google.maps.Marker({
  			position : {
-	 			lat : parseFloat(stationDetails[station].latitude),
-	 			lng : parseFloat(stationDetails[station].longitude)
+	 			lat : parseFloat(stationDetails[station].Latitude),
+	 			lng : parseFloat(stationDetails[station].Longitude)
 	 					},
 	 		map : map,
-	 		title : stationDetails[station].name,
+	 		title : stationDetails[station].StationIName,
 	 		station_number : stationDetails[station].Station_ID,
        		icon: v_icon
 	 				});
         
-         marker.metadata = {type: "point", title: stationDetails[station].name};
-         google.maps.event.addListener(marker, 'click', (function(marker, stationDetails)                    {
+         marker.metadata = {type: "point", title: stationDetails[station].StationIName};
+         google.maps.event.addListener(marker, 'click', (function(marker, DynamicDetails)                    {
              return function(){
-                 var content = "<b>" + stationDetails[station].name + "</b>: "+ stationDetails[station].last_update.slice(5,22)+"<br>&emsp; &emsp; &emsp;<b>Stands: </b>" + stationDetails[station].available_bikes+ "&emsp;&emsp;&emsp;<b>Bikes:</b> " + stationDetails[station].available_bike_stands;
+                 var content = "<b>" + DynamicDetails[station].name + "</b>: "+ DynamicDetails[station].last_update.slice(5,22)+"<br>&emsp; &emsp; &emsp;<b>Stands: </b>" + DynamicDetails[station].available_bikes+ "&emsp;&emsp;&emsp;<b>Bikes:</b> " + DynamicDetails[station].available_bike_stands;
                   infoWindow.setContent(content)
                     infoWindow.open(map, marker);
                         }
@@ -158,13 +166,13 @@ function displayMarkers() {
                     map.setZoom(15);
                     map.setCenter(marker.getPosition());
             
+     });
+
  			})
-        
-        });
-        
+    });
 	 	});
-      }     
-  
+      }
+ 
 //Display Current weather
 function displayWeather() {
     $.getJSON("weather", null, function(data) {
@@ -263,13 +271,13 @@ $(document).ready(function(){
   load_json_data('start')
     function load_json_data(StationAddress){
         var html_code = '';
-        $.getJSON("stationDetails", function(data) {
-        var stationList = data;
+        $.getJSON("stations", function(StationListNames) {
+        var stationList = StationListNames;
         var option = document.getElementById('start');
         var j = 0;
 	   for(var i=0; i<stationList.length; i++){
 	   j++;
-            var coord = [stationList[i].latitude, stationList[i].longitude]
+            var coord = [stationList[i].Latitude, stationList[i].Longitude]
 	   option[j] = new Option(stationList[i].StationIName, coord);
        }
     });
@@ -282,13 +290,13 @@ $(document).ready(function(){
   load_json_data('end')
     function load_json_data(StationAddress){
         var html_code = '';
-        $.getJSON("stationDetails", function(data) {
-        var stationList = data;
+        $.getJSON("stations", function(StationListName) {
+        var stationList = StationListName;
         var option = document.getElementById('end');
         var j = 0;
 	   for(var i=0; i<stationList.length; i++){
 	   j++;
-           var coord = [stationList[i].latitude, stationList[i].longitude]
+           var coord = [stationList[i].Latitude, stationList[i].Longitude]
 	   option[j] = new Option(stationList[i].StationIName, coord);
        }
     });
@@ -334,15 +342,17 @@ function findNearbyStations(position) {
     var UserLng = position.coords.longitude;
     var userCord = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     var infoWindow = new google.maps.InfoWindow()
-    $.getJSON ("stationDetails", null, function(data){
+    $.getJSON ("stations", null, function(data){
+        $.getJSON('stationDetails', null, function(stationData){
         var stationLocation = data;
+            var stationRealTime = stationData;
           $.each(stationLocation, function(findStation){
             var name = stationLocation[findStation].StationIName;
-            var lat = parseFloat(stationLocation[findStation].latitude);
-            var lng = parseFloat(stationLocation[findStation].longitude);
-            var availableBikes = stationLocation[findStation].available_bikes;
-            var availableStands = stationLocation[findStation].available_bike_stands;
-            var update = stationLocation[findStation].last_update;
+            var lat = parseFloat(stationLocation[findStation].Latitude);
+            var lng = parseFloat(stationLocation[findStation].Longitude);
+            var availableBikes = stationRealTime[findStation].available_bikes;
+            var availableStands = stationRealTime[findStation].available_bike_stands;
+            var update = stationRealTime[findStation].last_update;
             var stationCord = new google.maps.LatLng(lat, lng);
             var dist = (google.maps.geometry.spherical.computeDistanceBetween(stationCord, userCord)/1000);
             list.push({Dist:dist,Name:name, AvailableBike:availableBikes, AvailableStand:availableStands, LastUpdate:update.slice(5,22), Lat:lat, Lng:lng});
@@ -400,6 +410,7 @@ function findNearbyStations(position) {
         document.getElementById("nearbyStations").innerHTML= NearbyTable;
             
  			})
+        })
     
     }
 

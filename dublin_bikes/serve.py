@@ -3,7 +3,8 @@ import json
 import sqlite3
 from pandas.tests.computation.test_eval import engine
 from sqlalchemy import create_engine
-import _functools
+from functools import lru_cache
+import functools
 
 
 #Creating a flask app and giving path to static directory
@@ -40,6 +41,7 @@ def page_not_found(error):
     return render_template('404.html'), 404
 
 @app.route('/stations')
+@functools.lru_cache(maxsize=128, typed=False)
 def getStations():
     #Creating the connection with the database
     conn = connect_to_database()
@@ -49,7 +51,6 @@ def getStations():
     for row in rows:
         stations.append(dict(row))
     return jsonify(stations)
-#@_functools._lru_cache_wrapper(getStations,maxsize=128,typed=False,_CacheInfo)
 
 
 @app.route('/stationDetails')
@@ -85,6 +86,7 @@ def getWeather():
     return jsonify(weatherData)
 
 @app.route('/historical')
+@functools.lru_cache(maxsize=128, typed=False)
 def getHistorical():
     conn = connect_to_database()
     sql = "SELECT * FROM UserTrends;"
