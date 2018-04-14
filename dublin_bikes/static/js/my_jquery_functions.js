@@ -250,7 +250,8 @@ function displayRealTimeInfo(){
         })
         RealTimeTable += "</table>"    
         document.getElementById("stationInfo").innerHTML =  heading + RealTimeTable;
-        document.getElementById("map").innerHTML
+        document.getElementById("map").innerHTML;
+        showChart();
     });
 }
 
@@ -461,3 +462,52 @@ function plotElevation(elevations, status) {
         });
       }
 
+    function showChart() {
+        var d = new Date();
+        var n = d.getDay();
+        var dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var dropdown = document.getElementById("StationIName");
+        var index = dropdown.selectedIndex;
+        var stationName = dropdown.options[index].text;
+        var stationList = [];
+        
+        $.getJSON("json", function(data) {
+
+            for (i=0; i<data.length; i++) {
+                if (stationName == data[i][0] && dayList[n] == data[i][1]){
+                    stationList.push(data[i])
+   }};
+   var data = stationList.map(function(e) {
+      return e[4];
+   });
+                
+                var labels = stationList.map(function(e) {
+                    return e[2];
+                })
+
+            
+          
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Bike Availability",
+            backgroundColor: 'rgba(42, 109, 252, 0.2)',
+            borderColor: 'rgb(3, 70, 214)',
+            data: data
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+          });
+    }
+            
+            
+                  ;

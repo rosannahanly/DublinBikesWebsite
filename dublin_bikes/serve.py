@@ -97,5 +97,15 @@ def getHistorical():
     return jsonify(historicalData)
 
 
+@app.route('/json')
+def getJson():
+    csvfile = open('/Users/sophieheseltine/Documents/Group8Project/dublin_bikes/Analysis/dfGroupedFinal.csv')
+    jsonlist = []
+    reader = csv.reader(csvfile)
+    for row in reader:
+        jsonlist.append(row)
+    return jsonify(jsonlist)
+
+
 if __name__ == '__main__':
     app.run(debug=True) 
