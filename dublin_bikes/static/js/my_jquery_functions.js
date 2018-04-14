@@ -50,7 +50,6 @@ $("select").change(function(){
 });
  }); 
 
-
 //Displays a simple map of dublin with no markers
 function displayMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -75,13 +74,13 @@ function displayMarkers() {
         var x = stationDetails[station].available_bikes;
         var y = stationDetails[station].available_bike_stands;
  		if (x > y + 5){
-			 v_icon = '..//static/images/iconGreen.png';
+			 v_icon = '..//static/images/marker_green.png';
 			 }
         else if (y > x + 5){
-			 v_icon = '..//static/images/iconRed.png'
+			 v_icon = '..//static/images/marker_red.png'
 			 }
         else {
-			 v_icon = '..//static/images/iconOrange.png';
+			 v_icon = '..//static/images/marker_orange.png';
 			 }
         var marker = new google.maps.Marker({
  			position : {
@@ -119,7 +118,6 @@ function displayMarkers() {
     center: {lat: 53.3498053, lng: -6.260309699999993},
     zoom: 13,
     });
-    console.log("Ready");
     var infoWindow = new google.maps.InfoWindow()	
     $.getJSON("stationDetails", function(data) {
     var stationDetails = data;
@@ -128,13 +126,13 @@ function displayMarkers() {
         var y = stationDetails[station].available_bikes;
         var x = stationDetails[station].available_bike_stands;
  		if (x > y + 5){
-			 v_icon = '..//static/images/bike green.png';
+			 v_icon = '..//static/images/marker_green.png';
 			 }
         else if (y > x + 5){
-			 v_icon = '..//static/images/bike red.png'
+			 v_icon = '..//static/images/marker_red.png'
 			 }
         else {
-			 v_icon = '..//static/images/bike yellow.png';
+			 v_icon = '..//static/images/marker_orange.png';
 			 }
         var marker = new google.maps.Marker({
  			position : {
@@ -157,7 +155,7 @@ function displayMarkers() {
                     }) (marker, stationDetails));
         
                 marker.addListener('click', function(){
-                    map.setZoom(16);
+                    map.setZoom(15);
                     map.setCenter(marker.getPosition());
             
  			})
@@ -183,37 +181,59 @@ function displayWeather() {
 
 //Display station markers and real time information for occupancy
 function displayRealTimeInfo(){
-    var x = document.getElementById("StationIName");
-    var i = x.selectedIndex;
-    var stName = x.options[i].text;
+    map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 53.3498053, lng: -6.260309699999993},
+    zoom: 13,
+    });
+    var dropdown = document.getElementById("StationIName");
+    var index = dropdown.selectedIndex;
+    var stationName = dropdown.options[index].text;
     $.getJSON ("stationDetails", null, function(data){
         var stationDetails = data;
-        var headingI = "<p id = heading><b> Station Name: </b>" + stName+ "<br>";
-        var rTimeTable = "<table class ='StationTable'>";
-        rTimeTable += "<tr><th>Bikes Available</th><th>Stands Available</th><th>Last Update</th></tr>";
-        var lat;
-        var lng;
+        var heading = "<p id = heading><b> Station Name: </b>" + stationName+ "<br>";
+        var RealTimeTable = "<table class ='StationTable'>";
+        RealTimeTable += "<tr><th>Bikes Available</th><th>Stands Available</th><th>Last Update</th></tr>";
+        var latitude;
+        var longitude;
+        var icon;
         $.each(stationDetails, function(station){
-            if (stName == stationDetails[station].StationIName){
+            if (stationName == stationDetails[station].StationIName){
                 var id = "<b>Station ID: </b>" + stationDetails[station].Station_ID
                 var availableBikes = stationDetails[station].available_bikes;
                 var availableStands = stationDetails[station].available_bike_stands;
                 var update = stationDetails[station].last_update;
-                lat = parseFloat(stationDetails[station].latitude);
-                lng = parseFloat(stationDetails[station].longitude);
+                latitude = parseFloat(stationDetails[station].latitude);
+                longitude = parseFloat(stationDetails[station].longitude);
 
-                rTimeTable += "<tr><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";
-                headingI += id + "</p>"; 
+                RealTimeTable += "<tr><td>" + availableBikes + "</td><td>" + availableStands +"</td><td>"+ update + "</td></tr>";
+                heading += id + "</p>";
+                if (availableBikes > availableStands + 5){
+                    icon = '..//static/images/marker_green.png';
+                }
+                else if (availableStands > availableBikes + 5){
+                    icon = '..//static/images/marker_red.png'
+                }
+                else {
+                    icon = '..//static/images/marker_orange.png';
+                } 
                 
-            }  
+                var marker = new google.maps.Marker({
+            position : {
+                lat:latitude,
+                lng:longitude
+            },
+            map : map,
+            icon: icon
+        });
+                map.setZoom(16);
+                map.setCenter({lat:latitude, lng:longitude});
+            } 
+            
         })
-        rTimeTable += "</table>"    
-        document.getElementById("stationInfo").innerHTML =  headingI + rTimeTable;
+        RealTimeTable += "</table>"    
+        document.getElementById("stationInfo").innerHTML =  heading + RealTimeTable;
         document.getElementById("map").innerHTML
-        map.setCenter({lat:lat, lng: lng});
-        map.setZoom(16);
-
-    })
+    });
 }
 
 //Display weather Forecast
@@ -237,7 +257,6 @@ function displayForecast() {
             document.getElementById("weatherInfo").innerHTML =  detailedTable;
                 });
             };
-
 
 //Populate the start dropdown list
 $(document).ready(function(){
@@ -279,44 +298,42 @@ $(document).ready(function(){
 
 //Get directions from one station to another using dropdown list
 $(document).ready(function(){
-$("#directionDropdown").change(function(){
-    var start = document.getElementById('start').value,
-     end = document.getElementById('end').value,
-    startList = start.split(","),
-    endList = end.split(","),
-    startLat = startList[0],
-     startLong = startList[1],
-     endLat = endList[0],
-     endLong = endList[1];
-    
-  showDirectionsMap(startLat, startLong, endLat, endLong)
-    document.getElementById('elevationChartName').innerHTML = "Elevation along this Route (m)"
+    $("#directionDropdown").change(function(){
+        var start = document.getElementById('start').value,
+            end = document.getElementById('end').value,
+            startList = start.split(","),
+            endList = end.split(","),
+            startLat = startList[0],
+            startLong = startList[1],
+            endLat = endList[0],
+            endLong = endList[1];
+        showDirectionsMap(startLat, startLong, endLat, endLong)
+        document.getElementById('elevationChartName').innerHTML = "Elevation along this Route (m)"
+    });
 });
-});
-
 
 //Find stations nearby
- $(document).on("click", "#findStationsNearby", function(){
-     var x = document.getElementById("nearbyStations");
-     var Userlat;
-     var UserLng;
-     getLocation();
+$(document).on("click", "#findStationsNearby", function(){
+    var StationDiv = document.getElementById("nearbyStations");
+    var Userlat;
+    var UserLng;
+    getLocation();
     //Getting geolocation of user
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(findNearbyStations);
         } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
+            StationDiv.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
       });
 function findNearbyStations(position) {
-    console.log('here')
     var list = [];
     var stationList = [];
     var Userlat = position.coords.latitude;
     var UserLng = position.coords.longitude;
     var userCord = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    var infoWindow = new google.maps.InfoWindow()
     $.getJSON ("stationDetails", null, function(data){
         var stationLocation = data;
           $.each(stationLocation, function(findStation){
@@ -335,16 +352,24 @@ function findNearbyStations(position) {
         var NearbyTable = "<table class ='NearbyStationTable'><tr><th>Station</th><th>Bikes Available</th><th>Stands Available</th><th>Last Update</th></tr>";
             map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: position.coords.latitude, lng: position.coords.longitude},
-            zoom: 12,
+            zoom: 13,
     });
-        var marker = new google.maps.Marker({
+        var UserLocation = new google.maps.Marker({
  			position : {
-                lat: position.coords.latitude,
+                lat:position.coords.latitude,
                 lng:position.coords.longitude
             },
 	 		map : map,
-       		icon: '..//static/images/bike green.png'
+       		icon: '..//static/images/marker_blue.png'
 	 				});
+           google.maps.event.addListener(UserLocation, 'click', (function(UserLocation, stationList){
+             return function(){
+                        var content = "<b> Current Location</b>";
+                        infoWindow.setContent(content)
+                        infoWindow.open(map, UserLocation);
+                     }
+                 }) (UserLocation, stationList));
+  
        for (i = 0; i < 5; i++){
             NearbyTable += "<tr><td>" + stationList[i]['Name'] + "</td><td>" + stationList[i]['AvailableBike'] + "</td><td>" + stationList[i]['AvailableStand'] +"</td><td>"+ stationList[i]['LastUpdate'] + "</td></tr>";
         
@@ -355,15 +380,21 @@ function findNearbyStations(position) {
 	 					},
 	 		map : map,
 	 		title : stationList[i]['Name'],
-       		icon: '..//static/images/bike yellow.png'
+       		icon: '..//static/images/marker_green.png'
 	 				});
         
          marker.metadata = {type: "point", title: stationList[i]['Name']};
-           
-                    marker.addListener('click', function(){
-                    map.setZoom(16);
-                    map.setCenter(marker.getPosition());
-                 } );     
+           google.maps.event.addListener(marker, 'click', (function(marker, stationList){
+             return function(){
+                 for (i = 0; i<5; i++){
+                     if (stationList[i]['Name'] == marker.metadata.title){
+                         var content = "<b>" + stationList[i]['Name'] + "</b>: "+ stationList[i]['LastUpdate']+"<br><b>Stands: </b>" + stationList[i]['AvailableBike']+ "<br><b>Bikes:</b> " + stationList[i]['AvailableStand'] +"<br><b>Distance: </b>"+stationList[i]['Dist'].toFixed(2)+"km";
+                        infoWindow.setContent(content)
+                    infoWindow.open(map, marker);
+                     }
+                 }
+                        }
+                    }) (marker, stationList));  
         };
         NearbyTable += "</table>" 
         document.getElementById("nearbyStations").innerHTML= NearbyTable;
@@ -373,6 +404,7 @@ function findNearbyStations(position) {
     }
 
 //Show directions from start to finish
+
 function showDirectionsMap(startLat, startLong, endLat, endLong) {
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -383,7 +415,7 @@ function showDirectionsMap(startLat, startLong, endLat, endLong) {
     var lat = [startLat, endLat];
     var long = [startLong, endLong];
     for(var i=0; i<2; i++){
-        var marker = new google.maps.Marker({
+        var journeyMarker = new google.maps.Marker({
  			position : {
 	 			lat : parseFloat(lat[i]),
 	 			lng : parseFloat(long[i])
@@ -398,12 +430,13 @@ function showDirectionsMap(startLat, startLong, endLat, endLong) {
         };
         
       }
-    function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, destination) {
+function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, destination) {
         directionsService.route({
           origin: {lat: parseFloat(origin[0]), lng: parseFloat(origin[1])},
           destination: {lat: parseFloat(destination[0]), lng: parseFloat(destination[1])},
           travelMode: 'BICYCLING'
         }, function(response, status) {
+            document.getElementById('direction-panel').innerHTML = "";
             directionsDisplay.setDirections(response);
             directionsDisplay.setPanel(document.getElementById('direction-panel'));
         });
@@ -422,11 +455,10 @@ function showElevation(origin, destination) {
           'samples': 300
         }, plotElevation);
       }
-
-      function plotElevation(elevations, status) {
+function plotElevation(elevations, status) {
         var chartDiv = document.getElementById('elevation_chart');
         if (status !== 'OK') {
-          // Show the error code inside the chartDiv.
+
           chartDiv.innerHTML = 'Cannot show elevation: request failed because ' +
               status;
           return;

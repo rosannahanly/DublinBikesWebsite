@@ -3,6 +3,8 @@ import json
 import sqlite3
 from pandas.tests.computation.test_eval import engine
 from sqlalchemy import create_engine
+import _functools
+
 
 #Creating a flask app and giving path to static directory
 app = Flask(__name__, static_url_path='')
@@ -47,6 +49,7 @@ def getStations():
     for row in rows:
         stations.append(dict(row))
     return jsonify(stations)
+#@_functools._lru_cache_wrapper(getStations,maxsize=128,typed=False,_CacheInfo)
 
 
 @app.route('/stationDetails')
@@ -90,6 +93,7 @@ def getHistorical():
     for row in rows:
         historicalData.append(dict(row))
     return jsonify(historicalData)
+
 
 if __name__ == '__main__':
     app.run(debug=True) 
