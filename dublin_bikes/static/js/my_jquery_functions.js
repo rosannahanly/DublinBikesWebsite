@@ -1,7 +1,13 @@
-//Display modal when user first visits the page
-$(document).ready(function () {
-        $('#myModal').modal('show');
-    });
+//Displays modal, weather, map, station details when page is loaded
+$(document).ready(function(){
+    $('#myModal').modal('show');
+    displayWeather()
+    displayMap()
+    populateFindStationDropdown('StationIName')
+    populateJourneyPlannerDropdown('start')
+    populateJourneyPlannerDropdown('end')
+    document.getElementById("weather").style.textTransform = "capitalize";   
+});
 
 //Displays occupancy on stands available
  $(document).on("click", "#stands", function(){
@@ -15,41 +21,45 @@ $(document).ready(function () {
     displayMarkers();
 });
 
-//Displays weather, map when page is loaded
-$(document).ready(function(){
-    displayWeather()
-    displayMap()
-    document.getElementById("weather").style.textTransform = "capitalize";
-});
-
-//Loads station details data from database
-$(document).ready(function(){
-  load_json_data('StationIName')
-
-//Populates a dropdown menu with the station names
-function load_json_data(StationName){
+//Populates the dropdown list to Search stations using ID value
+function populateFindStationDropdown(StationName){
         var html_code = '';
-$.getJSON("stationDetails", function(data) {
-    var stationList = data;
+$.getJSON("stations", function(StationListName) {
+    var stationList = StationListName;
     var option = document.getElementById('StationIName');
     var j = 0;
 	for(var i=0; i<stationList.length; i++){
 	j++;
-	option[j] = new Option(stationList[i].name, stationList[i].Station_ID);
+	option[j] = new Option(stationList[i].StationIName, stationList[i].Station_ID);
 }
     });
     
 };
-    });
 
-//When item is slected the following functions are called
+//Populate the dropdown list to Plan a Journey using coordinate value
+function populateJourneyPlannerDropdown(StationAddress){
+        var html_code = '';
+        $.getJSON("stations", function(StationListName) {
+        var stationList = StationListName;
+        var option = document.getElementById(StationAddress);
+        var j = 0;
+	   for(var i=0; i<stationList.length; i++){
+	   j++;
+           var coord = [stationList[i].Latitude, stationList[i].Longitude]
+	   option[j] = new Option(stationList[i].StationIName, coord);
+       }
+    });
+    
+};
+
+//When Station in 'Select a Station' dropdown is selected the displayRealTimeInfo and displayforecast functions are called
  $(document).ready(function(){
 $("select").change(function(){
     displayRealTimeInfo();
     displayForecast();
 });
  }); 
-
+     
 //Displays a simple map of dublin with no markers
 function displayMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -266,59 +276,22 @@ function displayForecast() {
                 });
             };
 
-//Populate the start dropdown list
-$(document).ready(function(){
-  load_json_data('start')
-    function load_json_data(StationAddress){
-        var html_code = '';
-        $.getJSON("stations", function(StationListNames) {
-        var stationList = StationListNames;
-        var option = document.getElementById('start');
-        var j = 0;
-	   for(var i=0; i<stationList.length; i++){
-	   j++;
-            var coord = [stationList[i].Latitude, stationList[i].Longitude]
-	   option[j] = new Option(stationList[i].StationIName, coord);
-       }
-    });
-    
-};
-    });
-
-//Populate the end dropdown list
-$(document).ready(function(){
-  load_json_data('end')
-    function load_json_data(StationAddress){
-        var html_code = '';
-        $.getJSON("stations", function(StationListName) {
-        var stationList = StationListName;
-        var option = document.getElementById('end');
-        var j = 0;
-	   for(var i=0; i<stationList.length; i++){
-	   j++;
-           var coord = [stationList[i].Latitude, stationList[i].Longitude]
-	   option[j] = new Option(stationList[i].StationIName, coord);
-       }
-    });
-    
-};
-    });
-
 //Get directions from one station to another using dropdown list
+
 $(document).ready(function(){
-    $("#directionDropdown").change(function(){
-        var start = document.getElementById('start').value,
-            end = document.getElementById('end').value,
-            startList = start.split(","),
-            endList = end.split(","),
-            startLat = startList[0],
-            startLong = startList[1],
-            endLat = endList[0],
-            endLong = endList[1];
-        showDirectionsMap(startLat, startLong, endLat, endLong)
-        document.getElementById('elevationChartName').innerHTML = "Elevation along this Route (m)"
-    });
+$("#directionDropdown").change(function(){
+    var start = document.getElementById('start').value,
+        end = document.getElementById('end').value,
+        startList = start.split(","),
+        endList = end.split(","),
+        startLat = startList[0],
+        startLong = startList[1],
+        endLat = endList[0],
+        endLong = endList[1];
+    showDirectionsMap(startLat, startLong, endLat, endLong)
+    document.getElementById('elevationChartName').innerHTML = "Elevation along this Route (m)"
 });
+          });  
 
 //Find stations nearby
 $(document).on("click", "#findStationsNearby", function(){
@@ -415,7 +388,6 @@ function findNearbyStations(position) {
     }
 
 //Show directions from start to finish
-
 function showDirectionsMap(startLat, startLong, endLat, endLong) {
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
