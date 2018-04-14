@@ -60,8 +60,8 @@ header {
     margin-top: 3%;
 }
 
-th {
-    font-family: "HelveticaNeue";
+th, marquee {
+    font-family: "HelveticaNeue-Thin";
 }
 
 #StationIName {
@@ -71,12 +71,17 @@ th {
     color: white;
     padding: 5px;
     font-size: 16px;
-    border: 2px solid #4863A0;
     cursor: pointer;
+    border: none;
+    width: 100%;
 }
 
+table, th, td {
+    background-color: #F3F2F2;
+    border: 1px solid #B3B3B3;
+}
 
-.btn-primary:hover{
+.btn-primary:hover, #StationIName:hover {
     background-color: #4863A0;
 }
 
@@ -128,7 +133,7 @@ a:active {
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 220px);
+  grid-template-columns: repeat(auto-fit, 200px);
   padding: 5px;
     grid-gap: 5px;
 }
@@ -157,6 +162,7 @@ a:active {
     display: block;
     text-align: center;
 }*/
-#findStationsNearby{
-    height: 55px;
+#findStationsNearby, #switchMapButton {
+    height: 50px;
+    width: 100%;
 }
