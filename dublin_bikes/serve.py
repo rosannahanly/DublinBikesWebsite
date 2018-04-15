@@ -100,7 +100,7 @@ def getHistorical():
 
 @app.route('/json')
 def getJson():
-    csvfile = open('/Users/sophieheseltine/Documents/Group8Project/dublin_bikes/Analysis/dfGroupedFinal.csv')
+    csvfile = open('../dublin_bikes/Analysis/dfGroupedFinal.csv')
     jsonlist = []
     reader = csv.reader(csvfile)
     for row in reader:
