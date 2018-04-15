@@ -7,7 +7,6 @@ from functools import lru_cache
 import functools
 import csv
 
-
 #Creating a flask app and giving path to static directory
 app = Flask(__name__, static_url_path='')
 #app.config.from_object('config')
