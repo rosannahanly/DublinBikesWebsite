@@ -536,7 +536,16 @@ function showChart() {
 				}]
 			},
 			// Configuration options go here
-			options: {}
+			options : {
+                scales: {
+                yAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Average Available Bikes'
+                  }
+                }]
+              }
+            }
 		});
 	});
 };

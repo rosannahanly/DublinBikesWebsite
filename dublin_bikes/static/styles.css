@@ -64,7 +64,7 @@ th, marquee {
     font-family: "HelveticaNeue-Thin";
 }
 
-#StationIName {
+#StationIName, #daySelect {
     background-color: #2A6DFC;
     height: 50px;
     text-align: center;
