@@ -273,8 +273,9 @@ function displayRealTimeInfo() {
 function displayForecast() {
 	$.getJSON("forecast", null, function(data) {
 		var weather = data;
-		var heading = "<p id=heading><b>Forecast 24hrs<b></p>"
+		var heading = "<p id=heading><b>Forecast 24hrs<b></p>";
 		var detailedTable = "<table class='weatherTable'>";
+        var list = "<ul>"
 		var i = 0;
 		while (i < 8) {
 			var initTime = weather[i].dt_txt;
@@ -283,11 +284,15 @@ function displayForecast() {
 			var descrip = weather[i].description;
 			var icon = weather[i].icon;
 			var temp = weather[i].temp;
-			detailedTable += "<tr><td><b>" + time + "</b></td><td>" + descrip + "  <img class='icons' src='http://openweathermap.org/img/w/" + icon + ".png'/></td><td>" + temp + "&#8451;</td><tr>";
+			
+            detailedTable += "<td>" + time + "</td>"
+            list += "<li>" + "<img class='icons' src='http://openweathermap.org/img/w/" + icon + ".png'/></li>";
 			i++
 		}
 		detailedTable += "</table>";
-		document.getElementById("weatherInfo").innerHTML = detailedTable;
+        list += "</ul>";
+        
+		document.getElementById("weatherInfo").innerHTML = detailedTable + list;
 	});
 };
 
