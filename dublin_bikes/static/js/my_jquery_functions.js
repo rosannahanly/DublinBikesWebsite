@@ -60,6 +60,7 @@ $(document).ready(function() {
 	$("select").change(function() {
 		displayRealTimeInfo();
 		displayForecast();
+        displayWarning();
 	});
 });
 
@@ -273,7 +274,6 @@ function displayRealTimeInfo() {
 function displayForecast() {
 	$.getJSON("forecast", null, function(data) {
 		var weather = data;
-		var heading = "<p id=heading><b>Forecast 24hrs<b></p>";
 		var detailedTable = "<table class='weatherTable'>";
         var list = "<ul>"
 		var i = 0;
@@ -288,14 +288,36 @@ function displayForecast() {
             detailedTable += "<td>" + time + "</td>"
             list += "<li>" + "<img class='icons' src='http://openweathermap.org/img/w/" + icon + ".png'/></li>";
 			i++
-		}
+        }
+                   
 		detailedTable += "</table>";
         list += "</ul>";
-        
+                
 		document.getElementById("weatherInfo").innerHTML = detailedTable + list;
 	});
 };
 
+//Display text to warn of Rain
+function displayWarning(){
+    console.log("Warning")
+    $.getJSON("forecast", null, function(data){
+        var weather = data;
+        var descrip;
+        var text = "";
+        var i = 0;
+        while (i < 8) {
+            descrip = weather[i].description;  
+                    if (descrip == "light rain"){
+        
+                        text += "There tends to be more bikes available at stations when raining!";
+                        break;
+            }         
+        i++;
+    }
+        document.getElementById("textForecast").innerHTML = text;
+        
+    });    
+};
 
 //Get directions from one station to another using dropdown list
 $(document).ready(function() {
