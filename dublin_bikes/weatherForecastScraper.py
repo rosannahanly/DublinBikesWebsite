@@ -45,8 +45,6 @@ def save_data_to_db(dataframe):
 def main():
     data = get_data()
     save_data_to_db(data)
-    time.sleep(3*60*60)
 
-
-while True:
+if __name__ == '__main__':
     main()
