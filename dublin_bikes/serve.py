@@ -10,7 +10,7 @@ import pickle
 import pandas as pd
 import numpy as np
 from sklearn.externals import joblib
-from pandas.core.datetools import day
+from pandas.core.datetools import day 
 from pickle import Unpickler
 
 
@@ -156,4 +156,4 @@ def get_model(result=None):
 if __name__ == '__main__':
     #clf = joblib.load('../dublin_bikes/Analysis/finalized_model.pkl')
     #model_columns = joblib.load('../dublin_bikes/Analysis/model_columns.pkl')
-    app.run(debug=True) 
+    app.run(host='0.0.0.0',debug=True) 

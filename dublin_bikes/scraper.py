@@ -27,7 +27,6 @@ def stations_list(city):
     '''
     #specify the url to send to the API, in which we specify the city name and the API key
     url = base + 'stations/?contract={0}&apiKey={1}'.format(city, key)
-    print(url)
     #send to url to the API to get the data we want
     data = query_API(url)
     return data

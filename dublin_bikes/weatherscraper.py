@@ -3,6 +3,7 @@ from six.moves.urllib.request import urlopen
 import json
 import pandas as pd
 from pandas.io.json import json_normalize
+import time
 
 def get_data():
     """Get weather data from openweathermap"""
@@ -24,11 +25,6 @@ def get_data():
     #df['last_update'] = timestamp_to_ISO(df['dt'])
     dataframe = pd.concat([df, df1], axis=1)
     return dataframe[['temp', 'temp_max', 'temp_min', 'wind_speed', 'description', 'icon', 'main']]
-'''
-def timestamp_to_ISO(timestamp):
-    moment = datetime.fromtimestamp(timestamp / 1000)
-    print(moment)
-    return moment'''
 
 def save_data_to_db(dataframe):
     #Assigning the engine variable values
@@ -40,10 +36,9 @@ def save_data_to_db(dataframe):
     dataframe.to_sql(name='WeatherData',con=conn, if_exists='replace', index=False)
     conn.close()
 
-
-def main():
+while True:
     data = get_data()
     save_data_to_db(data)
+    print('weather scraper done')
+    time.sleep(60*60)
 
-if __name__ == '__main__':
-    main()

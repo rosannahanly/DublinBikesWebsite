@@ -3,6 +3,7 @@ from six.moves.urllib.request import urlopen
 import json
 import pandas as pd
 from pandas.io.json import json_normalize
+import time
 
 def get_data():
     """Get weather data from openweathermap"""
@@ -41,9 +42,7 @@ def save_data_to_db(dataframe):
     conn.close()
 
 
-def main():
+while True:
     data = get_data()
     save_data_to_db(data)
-
-if __name__ == '__main__':
-    main()
+    time.sleep(60*60)
