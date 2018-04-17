@@ -3,7 +3,6 @@ from six.moves.urllib.request import urlopen
 import json
 import pandas as pd
 from pandas.io.json import json_normalize
-import time
 
 def get_data():
     """Get weather data from openweathermap"""

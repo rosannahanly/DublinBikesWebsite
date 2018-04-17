@@ -10,10 +10,9 @@ import pickle
 import pandas as pd
 import numpy as np
 from sklearn.externals import joblib
-'''
-my_model=pickle.load(open('finalized_model.sav','rb'))
-print(my_model.predict([[4, 0, 1, 1]]))
-'''
+from pandas.core.datetools import day
+from pickle import Unpickler
+
 
 #cached_data = pickle.load("finalised_model.sav")
 
@@ -61,7 +60,6 @@ def getStations():
     for row in rows:
         stations.append(dict(row))
     return jsonify(stations)
-
 
 @app.route('/stationDetails')
 def station_details():
@@ -117,25 +115,45 @@ def getJson():
     return jsonify(jsonlist)
 
 
-@app.route('/getModel', methods=['POST'])
-def get_model():
-    '''
-    if request.method == 'POST':
+@app.route('/getModel', methods=['GET', 'POST'])
+def get_model(result=None):
+    #Counting how many stations for the model parameter
+    conn = connect_to_database()
+    sql = "SELECT COUNT(*) FROM StationInfo;"
+    number = conn.execute(sql).fetchall()
+    #Creating an array of 0 with length equaling number of stations
+    stationParams = [0]*number[0][0]
+    #grabbing value in StationID
+    stationID = request.args['stationID']
+    #Setting this station value to 1 for model query
+    stationParams[int(stationID)-1] = 1
+    #Grabbing time, rain, and day from form
+    time = request.args['time']
+    rain = request.args['rain']
+    day = request.args['day']
+    #loading pkl file
+    model = joblib.load('../dublin_bikes/Analysis/finalized_model.pkl')
+    stationParams.insert(0,int(time))
+    stationParams.insert(1,int(day))
+    stationParams.insert(2,int(rain))
+    #This line is in here because 104 stations + day + time + weather gives 107 - model takes 108 parameters??
+    stationParams.append(0)
+    print(stationParams)
+    #predicting model
+    prediction = model.predict([stationParams])
+    result = str(int(round(prediction[0])))
+    print(result)
+    return result
+'''
         return render_template("index.html", label = '3')
-    '''
     json_ = request.json
     query_df = pd.DataFrame(json_)
     query = pd.get_dummies(query_df)
     
-    for col in model_columns:
-        if col not in query.columns:
-            query[col] = 0
-    
-    prediction = clf.predict(query)
     return jsonify({'prediction': list(prediction)})
 
-
+'''
 if __name__ == '__main__':
-    clf = joblib.load('../dublin_bikes/Analysis/finalized_model.pkl')
+    #clf = joblib.load('../dublin_bikes/Analysis/finalized_model.pkl')
     #model_columns = joblib.load('../dublin_bikes/Analysis/model_columns.pkl')
     app.run(debug=True) 

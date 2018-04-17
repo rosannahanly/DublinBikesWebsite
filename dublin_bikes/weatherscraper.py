@@ -45,6 +45,5 @@ def main():
     data = get_data()
     save_data_to_db(data)
 
-
 if __name__ == '__main__':
     main()
