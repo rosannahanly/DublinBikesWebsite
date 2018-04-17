@@ -36,7 +36,7 @@ def timestamp_to_ISO(timestamp):
     Function to convert to yyyy-mm-dd hh:mm:ss format
     '''
     moment = datetime.fromtimestamp(timestamp / 1000)
-    return moment
+    return moment.time().isoformat()
 
 def information(city):
     '''

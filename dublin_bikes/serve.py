@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, g
+from flask import Flask, render_template, jsonify, g, request
 import json
 import sqlite3
 from pandas.tests.computation.test_eval import engine
@@ -6,6 +6,16 @@ from sqlalchemy import create_engine
 from functools import lru_cache
 import functools
 import csv
+import pickle
+import pandas as pd
+import numpy as np
+from sklearn.externals import joblib
+'''
+my_model=pickle.load(open('finalized_model.sav','rb'))
+print(my_model.predict([[4, 0, 1, 1]]))
+'''
+
+#cached_data = pickle.load("finalised_model.sav")
 
 #Creating a flask app and giving path to static directory
 app = Flask(__name__, static_url_path='')
@@ -107,5 +117,25 @@ def getJson():
     return jsonify(jsonlist)
 
 
+@app.route('/getModel', methods=['POST'])
+def get_model():
+    '''
+    if request.method == 'POST':
+        return render_template("index.html", label = '3')
+    '''
+    json_ = request.json
+    query_df = pd.DataFrame(json_)
+    query = pd.get_dummies(query_df)
+    
+    for col in model_columns:
+        if col not in query.columns:
+            query[col] = 0
+    
+    prediction = clf.predict(query)
+    return jsonify({'prediction': list(prediction)})
+
+
 if __name__ == '__main__':
+    clf = joblib.load('../dublin_bikes/Analysis/finalized_model.pkl')
+    #model_columns = joblib.load('../dublin_bikes/Analysis/model_columns.pkl')
     app.run(debug=True) 
