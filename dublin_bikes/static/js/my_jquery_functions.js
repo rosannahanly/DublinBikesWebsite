@@ -263,7 +263,7 @@ function displayRealTimeInfo() {
 			}
 		})
 		RealTimeTable += "</table>"
-		document.getElementById("stationInfo").innerHTML = heading + RealTimeTable;
+		document.getElementById("infoBox").innerHTML = heading + RealTimeTable;
 		document.getElementById("map").innerHTML;
 		showChart();
 	});
@@ -437,7 +437,7 @@ function findNearbyStations(position) {
 				})(marker, stationList));
 			};
 			NearbyTable += "</table>"
-			document.getElementById("nearbyStations").innerHTML = NearbyTable;
+			document.getElementById("infoBox").innerHTML = NearbyTable;
 		})
 	})
 }
@@ -484,7 +484,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, 
 		},
 		travelMode: 'BICYCLING'
 	}, function(response, status) {
-		document.getElementById('direction-panel').innerHTML = "";
+		document.getElementById('infoBox').innerHTML = ""
 		directionsDisplay.setDirections(response);
 		directionsDisplay.setPanel(document.getElementById('direction-panel'));
 	});

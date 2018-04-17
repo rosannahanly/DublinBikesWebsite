@@ -1,5 +1,3 @@
-body { margin:5px; padding:5px; }
-    
 footer { 
     margin: 5px;
     padding: 5px;
@@ -21,7 +19,6 @@ header {
     background-color: #2A6DFC;
     padding: 10px;
     padding-left: 20px;
-    border-radius: 25px;
 }
 
 #weather {
@@ -32,16 +29,11 @@ header {
 
 .bg { 
     /* The image used */
-    background-image: url(images/JustEat-new-dublinbikes-commercial-partner-1.jpg);
-
-    /* Half height */
-    height: 450px; 
-
+    background-image: url(images/Just-Eat-Black_White.jpg);
     /* Center and scale the image nicely */
-    background-position: top;
     background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 25px;
+    background-size:cover;
+    height: auto;
 }
 
 .jumbotron {
@@ -51,20 +43,40 @@ header {
 
 .dropdown {
     align-content: left;
-    color: #4863A0;
+    color: #2A6DFC;
 }
 
 #infoBox {
     font-family: "HelveticaNeue-Thin";
     font-size: 18px;
-    margin-top: 3%;
+    margin: 5%;
+    width: 90%;
+    height: auto;
+}
+#userOptions{
+    width: 85%;
+    margin: 5%;
+    background-color: rgba(255,255,255,0.5);
+    overflow: auto;
+    padding: 5%;
+}
+#userEntertainament{
+    background-color: grey;
+    height: auto;
+    margin: auto;
 }
 
 th, marquee {
     font-family: "HelveticaNeue-Thin";
 }
+#StationIName, #findStationsNearby{
+    margin-top: 15%;
+}
+#directionDropdown{
+    margin-top: 5%;
+}
 
-#StationIName, #daySelect {
+#StationIName, #daySelect, #start, #end {
     background-color: #2A6DFC;
     height: 50px;
     text-align: center;
@@ -77,15 +89,16 @@ th, marquee {
 }
 
 table, th, td {
-    background-color: #F3F2F2;
     border: 1px solid #B3B3B3;
+    border-collapse: collapse;
 }
 
-.btn-primary:hover, #StationIName:hover {
+.btn:hover, #StationIName:hover {
     background-color: #4863A0;
 }
 
-.btn-primary {
+.btn {
+    color:white;
     background-color: #2A6DFC;
 }
 
