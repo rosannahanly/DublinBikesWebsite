@@ -298,7 +298,7 @@ function displayForecast() {
                 
 		document.getElementById("weatherInfo").innerHTML = detailedTable + list;
 	});
-};
+}
 
 //Display text to warn of Rain
 function displayWarning(){
@@ -310,7 +310,7 @@ function displayWarning(){
         var i = 0;
         while (i < 8) {
             descrip = weather[i].description;  
-                    if (descrip == "light rain"){
+                    if (descrip.indexOf("rain") || descrip.indexOf("drizzle")  ){
         
                         text += "There tends to be more bikes available at stations when raining!";
                         break;
@@ -320,7 +320,7 @@ function displayWarning(){
         document.getElementById("textForecast").innerHTML = text;
         
     });    
-};
+}
 
 //Get directions from one station to another using dropdown list
 $(document).ready(function() {
