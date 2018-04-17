@@ -3,10 +3,14 @@ footer {
     padding: 5px;
     }
 
-h4 {
+h2, h4 {
     font-family: "HelveticaNeue-Thin";
     font-size: 20px; 
     
+}
+
+h4 {
+    color: white;
 }
 
 h3 {
@@ -34,6 +38,7 @@ header {
     background-repeat: no-repeat;
     background-size:cover;
     height: auto;
+    background-attachment: fixed;
 }
 
 .jumbotron {
@@ -60,8 +65,8 @@ header {
     overflow: auto;
     padding: 5%;
 }
-#userEntertainament{
-    background-color: grey;
+#userEntertainment{
+    background-color: #C8C6C6;
     height: auto;
     margin: auto;
 }
@@ -86,6 +91,10 @@ th, marquee {
     cursor: pointer;
     border: none;
     width: 100%;
+}
+
+#stationInfo {
+    
 }
 
 table, th, td {
@@ -162,6 +171,12 @@ a:active {
 #elevationChartName{
     text-align: center;
     text-decoration-style: solid;
+    padding: 20px;
+    color: white;
+}
+
+elevation_chart {
+    color: #2A6DFC;
 }
 .weatherTable{
     width: 100%;
@@ -190,4 +205,17 @@ li {
 #findStationsNearby, #switchMapButton {
     height: 50px;
     width: 100%;
+}
+
+#chartedInfo {
+    height:300px;
+    padding: 10px;
+}
+
+.StationTable {
+    
+}
+
+#myChart {
+    float: left;
 }

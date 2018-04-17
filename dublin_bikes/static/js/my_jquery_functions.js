@@ -548,6 +548,7 @@ function showChart() {
 		var labels = stationList.map(function(e) {
 			return e[2];
 		})
+        
 		var ctx = document.getElementById('myChart').getContext('2d');
 		var chart = new Chart(ctx, {
 			// The type of chart we want to create
@@ -557,7 +558,7 @@ function showChart() {
 				labels: labels,
 				datasets: [{
 					label: "Bike Availability",
-					backgroundColor: 'rgba(42, 109, 252, 0.2)',
+					backgroundColor: 'rgb(42, 109, 252)',
 					borderColor: 'rgb(3, 70, 214)',
 					data: data
 				}]
