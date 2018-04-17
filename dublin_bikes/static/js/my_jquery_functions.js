@@ -94,6 +94,67 @@ function displayMarkers() {
 			var stationDetails = StationData;
 			$.each(stationDetails, function(station) {
 				var v_icon = '';
+				var y = DynamicDetails[station].available_bikes;
+				var x = DynamicDetails[station].available_bike_stands;
+				if (x > y + 5) {
+					v_icon = '..//static/images/marker_green.png';
+				} else if (y > x + 5) {
+					v_icon = '..//static/images/marker_red.png'
+				} else {
+					v_icon = '..//static/images/marker_orange.png';
+				}
+				var marker = new google.maps.Marker({
+					position: {
+						lat: parseFloat(stationDetails[station].Latitude),
+						lng: parseFloat(stationDetails[station].Longitude)
+					},
+					map: map,
+					title: stationDetails[station].StationIName,
+					station_number: stationDetails[station].Station_ID,
+					icon: v_icon
+				});
+				marker.metadata = {
+					type: "point",
+					title: stationDetails[station].StationIName
+				};
+				google.maps.event.addListener(marker, 'click', (function(marker, stationDetails) {
+					return function() {
+						var content = "<b>" + DynamicDetails[station].name + "</b>: " + DynamicDetails[station].last_update.slice(5, 22) + "<br>&emsp;&emsp;&emsp;<b>Bikes:</b> " + DynamicDetails[station].available_bike_stands + "&emsp; &emsp; &emsp;<b>Stands: </b>" + DynamicDetails[station].available_bikes;
+						infoWindow.setContent(content)
+						infoWindow.open(map, marker);
+					}
+				})(marker, stationDetails));
+				marker.addListener('click', function() {
+					map.setZoom(16);
+					map.setCenter(marker.getPosition());
+				});
+				marker.addListener('dblclick', function() {
+					map.setZoom(13);
+					map.setCenter({
+						lat: 53.3498053,
+						lng: -6.260309699999993
+					});
+				});
+			})
+		});
+	});
+}
+//Displays markers on the map focusing on available stands
+function changeMarkers() {
+		map = new google.maps.Map(document.getElementById('map'), {
+		center: {
+			lat: 53.3498053,
+			lng: -6.260309699999993
+		},
+		zoom: 13,
+	});
+	var infoWindow = new google.maps.InfoWindow()
+	$.getJSON("stations", function(StationData) {
+		$.getJSON("stationDetails", function(stationData) {
+			var DynamicDetails = stationData;
+			var stationDetails = StationData;
+			$.each(stationDetails, function(station) {
+				var v_icon = '';
 				var x = DynamicDetails[station].available_bikes;
 				var y = DynamicDetails[station].available_bike_stands;
 				if (x > y + 5) {
@@ -139,64 +200,6 @@ function displayMarkers() {
 		});
 	});
 }
-
-
-//Displays markers on the map focusing on available stands
-function changeMarkers() {
-	map = new google.maps.Map(document.getElementById('map'), {
-		center: {
-			lat: 53.3498053,
-			lng: -6.260309699999993
-		},
-		zoom: 13,
-	});
-	var infoWindow = new google.maps.InfoWindow()
-	$.getJSON("stations", function(StationData) {
-		$.getJSON("stationDetails", function(stationData) {
-			var DynamicDetails = stationData;
-			var stationDetails = StationData;
-			$.each(stationDetails, function(station) {
-				var v_icon = '';
-				var y = DynamicDetails[station].available_bikes;
-				var x = DynamicDetails[station].available_bike_stands;
-				if (x > y + 5) {
-					v_icon = '..//static/images/marker_green.png';
-				} else if (y > x + 5) {
-					v_icon = '..//static/images/marker_red.png'
-				} else {
-					v_icon = '..//static/images/marker_orange.png';
-				}
-				var marker = new google.maps.Marker({
-					position: {
-						lat: parseFloat(stationDetails[station].Latitude),
-						lng: parseFloat(stationDetails[station].Longitude)
-					},
-					map: map,
-					title: stationDetails[station].StationIName,
-					station_number: stationDetails[station].Station_ID,
-					icon: v_icon
-				});
-				marker.metadata = {
-					type: "point",
-					title: stationDetails[station].StationIName
-				};
-				google.maps.event.addListener(marker, 'click', (function(marker, DynamicDetails) {
-					return function() {
-						var content = "<b>" + DynamicDetails[station].name + "</b>: " + DynamicDetails[station].last_update.slice(5, 22) + "<br>&emsp; &emsp; &emsp;<b>Stands: </b>" + DynamicDetails[station].available_bikes + "&emsp;&emsp;&emsp;<b>Bikes:</b> " + DynamicDetails[station].available_bike_stands;
-						infoWindow.setContent(content)
-						infoWindow.open(map, marker);
-					}
-				})(marker, stationDetails));
-				marker.addListener('click', function() {
-					map.setZoom(15);
-					map.setCenter(marker.getPosition());
-				});
-			})
-		});
-	});
-}
-
-
 //Display Current weather
 function displayWeather() {
 	$.getJSON("weather", null, function(data) {

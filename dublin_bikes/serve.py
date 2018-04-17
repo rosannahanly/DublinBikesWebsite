@@ -10,13 +10,9 @@ import pickle
 import pandas as pd
 import numpy as np
 from sklearn.externals import joblib
-from pandas.core.datetools import day 
+from pandas.core.datetools import day
 from pickle import Unpickler
 
-
-#cached_data = pickle.load("finalised_model.sav")
-
-#Creating a flask app and giving path to static directory
 app = Flask(__name__, static_url_path='')
 #app.config.from_object('config')
 '''
@@ -144,6 +140,8 @@ def get_model(result=None):
     result = str(int(round(prediction[0])))
     print(result)
     return result
+
+
 '''
         return render_template("index.html", label = '3')
     json_ = request.json
@@ -156,4 +154,4 @@ def get_model(result=None):
 if __name__ == '__main__':
     #clf = joblib.load('../dublin_bikes/Analysis/finalized_model.pkl')
     #model_columns = joblib.load('../dublin_bikes/Analysis/model_columns.pkl')
-    app.run(host='0.0.0.0',debug=True) 
+    app.run(debug=True) 
