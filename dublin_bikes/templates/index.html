@@ -40,30 +40,19 @@
 		</div>
         
 		<div id='userOptions'>
+            <div class='row'>
+            <marquee><h2><b>WELCOME TO DUBLIN BIKES</b>&#x1F6B2;&#x1F6B2;&#x1F6B2;Did you know?? It is 20 times cheaper to maintain a bicycle than a car!&#x1F6B2;&#x1F6B2;&#x1F6B2; There have been 22,417,162 journeys made on Dublin Bikes since its launch in 2009&#x1F6B2;&#x1F6B2;&#x1F6B2; Your Dublin Bike journey is free for the first 30 minutes&#x1F6B2;&#x1F6B2;&#x1F6B2; An annual subscription to Dublin Bikes only costs €25. That means serious bang for your buck! And you're saving the environment too &#x1F6B2;&#x1F6B2;&#x1F6B2; There are 10 million bicycles in Beijing</h2></marquee>
+        </div>
 			<div class='row'>
                 
 				<div class='col-sm-6' id = 'stationInfo'>
-					<div class="dropdown">
+					<div class="dropdown" id="stationDropdown">
 						<select id="StationIName">
 							<option value="">
 								Select a Station
 							</option>
 						</select>
-                       <form action = "/getModel" method="get">
-    <input type="radio" name="stationID" value="1" checked> 
-                           BarrowSt
-    <input type="radio" name="day" value="1" checked> Monday<br>
-    <input type="radio" name="day" value="1" checked> Tuesday<br>
-   <input type="radio" name="day" value="1" checked> Wednesday<br>
-   <input type="radio" name="day" value="1" checked> Thursday<br>
-   <input type="radio" name="day" value="1" checked> Friday<br>
-   <input type="radio" name="day" value="0" checked> Saturday<br>
-   <input type="radio" name="day" value="0" checked> Sunday<br>
-<input type="radio" name="rain" value="0" checked> No Rain<br>
-<input type="radio" name="time" value="5" checked> 5<br>
-<input type="radio" name="rain" value="1" checked> Rain<br>
-    <input type="submit" value="Submit">
-</form>
+
 					</div>
 				</div><br>
                 
@@ -71,57 +60,82 @@
 					<button class="btn btn-block" id="findStationsNearby">Find stations near me</button><br>
 				</div>
             </div>
-            
-                <div class = row>
+            <div class='row'>
                 <div class='col-sm-6'>
                     <div id = "graph-container">
                         <canvas id="myChart"></canvas>
 						<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js">
-						</script></div>
-                    <br><br>
-                    
-						<div id='weatherInfo'></div>
-                    </div>
-                    <div class ='col-sm-6'>
+						</script></div></div>
+                <div class='col-sm-6'>
+                    <div class = 'row'>
                     <div id="infoBox"></div></div>
-            </div>
-            
-                <div class='row' id='chartedInfo'>
-				<div class='col-sm-6'>
-					<div id="directionDropdown" style="width:100%;height:200px;">
-						<h4>Plan your journey:</h4><br>
-						<h4>Start:</h4> <select id="start">
+                    <div class='row'>
+                        <br><hr>
+            <div id='weatherInfo'></div></div>
+                    </div>
+        </div>
+                <div class='row'>
+                    <div class='col-sm-12' id='journeyPlanner'>
+                    <h1>Plan your journey:</h1></div>
+            </div><div class='row'>
+                    <div class='col-sm-6'>
+					<div id="directionDropdown">
+						<h2>Get Directions:</h2><br>
+						<select id="start">
 							<option value="">
-								Select a Station
+								Select a Starting Station
 							</option>
-						</select><br>
-						<h4>End:</h4> <select id="end">
+						</select><hr>
+						 <select id="end">
 							<option value="">
-								Select a Station
+								Select a Destination Station
 							</option>
 						</select>
 					</div>
-				</div>
-                
-				
-					<div class='col-sm-6'>
+                    </div>
+                    <div class='col-sm-6'>
+                        <br>
+                        <h2>Get a prediction of available bikes:</h2><br>
+                        <div id="predictionDropdown">
+                            <form class="form-inline" method="POST" action ="/getModel">
+  <div class="form-group">
+    <div class="input-group">
+            <select name="predictionStation" id="predictionStation" class="selectpicker form-control">
+               <option value="">Select a Station</option>
+            </select>
+        <hr>
+            <select name="day" id="day" class="selectpicker form-control">
+               <option value="">Select a Day</option>
+            </select>
+        <hr>
+            <select name="time" id="time" class="selectpicker form-control">
+               <option value="">Select a Time</option>
+            </select>
+        <hr>
+        <button type="submit" class="btn btn-default">Predict Availability</button>
+    </div>
+  </div>
+</form>
+                            
+                        </div>   </div>   </div>               
+				<div class='row'>
+                    <div class='col-sm-6'>
+						<div id="direction-panel"></div>
+                        </div>
+                    <div class='col-sm-6'>
 						<div id="elevationChartName"></div>
 						<script>
 						      // Load the Visualization API and the columnchart package.
 						      google.charts.load('visualization', '1', {packages: ['columnchart']});
 						</script>
 						<div id="elevation_chart"></div>
-						
-						<div id="direction-panel"></div>
-					</div>
+                        </div>
+                    </div>
 				</div>
-			</div>
 		</div>
-	
     
     
     <!-- Row containing video and Twitter feed -->
-    
 	<div id="userEntertainment">
 		<div class="row">
 			<div class='col-sm-6'>
@@ -137,58 +151,62 @@
 					</script>
 				</div>
 			</div>
-		</div><!-- Row cotaining links to websites -->
+            </div>
+        <!-- Row cotaining links to websites -->
 		<div class="col-sm-12">
-			<div class="grid-container">
-				<div class="grid-item">
+            <hr>
+            <div class='row'>
+				<div class='col-sm-2'>
 					<a href="http://www.dublinbikes.ie/How-does-it-work/Using-the-Bikes"><img height="150" src="http://www.dublinbikes.ie/var/dublin/storage/images/dublin/how-does-it-work/using-the-bikes/hiring-a-just-eat-dublinbike/47656-3-eng-GB/Hiring-a-Just-Eat-dublinbike_visuel_listitem.png" width="100%"><br>
 					<br>
-					<h3>How does it work?</h3></a>
+					<h2>How does it work?</h2></a>
 				</div>
-				<div class="grid-item">
+				<div class='col-sm-2'>
 					<img height="150" src="..//static/images/Opening-Hours-JEDB_visuel_city.jpg" width="100%"><br>
 					<br>
-					<h3>Station Opening Times</h3>
+					<h2>Station Opening Times</h2>
 				</div>
-				<div class="grid-item">
+				<div class='col-sm-2'>
 					<a href="https://www.leapcard.ie/en/NavigationPages/LoginSelection.aspx"><img height="150" src="https://pbs.twimg.com/profile_images/818402831019495424/zyQQ6Ot__400x400.jpg" width="100%"><br>
 					<br>
-					<h3>Top up your Leap Card here!</h3></a>
+					<h2>Top up your Leap Card here!</h2></a>
 				</div>
-				<div class="grid-item">
+				<div class='col-sm-2'>
 					<a href="http://www.dublinbikes.ie/Subscription/Annual-Card2/Annual-Card-Holder"><img height="150" src="http://www.dublinbikes.ie/var/dublin/storage/images/dublin/subscription/annual-card2/annual-card-holder/48714-34-eng-IE/Annual-Card-Holder_visuel_article.png" width="100%"><br>
 					<br>
-					<h3>Subscribe for an Annual Card with Dublin Bikes for just €25 a year!</h3></a>
+					<h2>Subscribe for an Annual Card with Dublin Bikes for just €25 a year!</h2></a>
 				</div>
-				<div class="grid-item">
+				<div class='col-sm-2'>
 					<a href="http://www.rsa.ie/RSA/Road-Safety/Campaigns/Current-road-safety-campaigns/Cycle-Smart-Cycle-Safe/"><img height="150" src="..//static/images/405166839.jpg" width="100%"><br>
 					<br>
-					<h3>Check out the RSA for some tips on keeping safe on your bike in the city</h3></a>
+					<h2>Check out the RSA for some tips on keeping safe on your bike in the city</h2></a>
 				</div>
-				<div class="grid-item">
+				<div class='col-sm-2'>
 					<a href="http://www.dublinbikes.ie/Magazine/News"><img height="150" src="http://www.dublinbikes.ie/var/dublin/storage/images/dublin/magazine/news/service-update5/154878-1-eng-IE/Service-Update_visuel_listitem.jpg" width="100%"><br>
 					<br>
-					<h3>Dublin Bikes News</h3></a>
+					<h2>Dublin Bikes News</h2></a>
 				</div>
+            </div>
 			</div>
-		</div>
-	</div><!-- Modal -->
+        </div>
+        
+<!-- Modal -->
 	<div class="modal fade" id="myModal" role="dialog">
 		<div class="modal-dialog">
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header">
-					<h2 class="modal-title">I want to:</h2><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+					<h2 class="modal-title"><b>I want to:</b></h2><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-footer"><button class="btn btn-primary" data-dismiss="modal" id="bikes" type="button">Rent a bike</button> <img height="130" src="..//static/images/dublin-bikes2.png" width="47%"></div>
 				<div class="modal-footer"><button class="btn btn-primary" id="stands" type="button">Return a bike</button><img height="150" src="..//static/images/Stands_visuel_listitem.png" width="45%"></div>
 			</div>
 		</div>
-	</div><marquee></marquee>
-	<h3><marquee>WELCOME TO DUBLIN BIKES</marquee></h3>
-	<p><marquee>Did you know?? It is 20 times cheaper to maintain a bicycle than a car! *** There have been 22,417,162 journeys made on Dublin Bikes since its launch in 2009 *** Your Dublin Bike journey is free for the first 30 minutes *** An annual subscription to Dublin Bikes only costs €25. That means serious bang for your buck! And you're saving the environment too :) *** There are 10 million bicycles in Beijing</marquee></p><!-- Google API key -->
+	</div>
+	<!-- Google API key -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1EwRxWN3fLygyJu8XtDGt3aQAGIEZhTs&libraries=geometry" type="text/javascript">
 	</script> <!-- Footer -->
+    
 	<footer class='jumbotron'>
 		<div class="row">
 			<div class="col-sm-6">

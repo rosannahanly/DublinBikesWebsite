@@ -106,7 +106,8 @@ def getHistorical():
 
 
 @app.route('/json')
-def getJson():
+@functools.lru_cache(maxsize=128, typed=False)
+def getChartJson():
     csvfile = open('../dublin_bikes/Analysis/dfGroupedFinal.csv')
     jsonlist = []
     reader = csv.reader(csvfile)
@@ -117,27 +118,72 @@ def getJson():
 
 @app.route('/getModel', methods=['GET', 'POST'])
 def get_model(result=None):
+    #Grabbing time, rain, and day from form
+    time = int(request.form.get('time'))
+    if 0 < time < 4:
+        time = '03'
+    elif 3 < time < 7:
+        time = '06'
+    elif 6 < time < 10:
+        time = '09'
+    elif 9 < time < 13:
+        time = '12'
+    elif 12 < time < 16:
+        time = '15'
+    elif 15 < time < 19:
+        time = '18'
+    elif 18 < time < 22:
+        time = '21'
+    else:
+        time = '00'
+    day = request.form.get('day')
+    stationID = request.form.get('predictionStation')
+    print(str(time), str(day), str(stationID))
+    values = day.split(" ")
+    print(values[0], values[1])
     #Counting how many stations for the model parameter
     conn = connect_to_database()
     sql = "SELECT COUNT(*) FROM StationInfo;"
+    print(sql)
     number = conn.execute(sql).fetchall()
     #Creating an array of 0 with length equaling number of stations
     stationParams = [0]*number[0][0]
+    conn = connect_to_database()
+    date = str(values[1])
+    seq=(date, time)
+    print(date)
+    print(time)
+    x=" "
+    x = x.join(seq)
+    print(x)
+    newsql =  "SELECT * FROM WeatherPredictor WHERE dt_txt LIKE '%"
+    newsql += date
+    newsql+="%';"
+    weather = conn.execute(newsql).fetchall()
+    main = ""
+    for i in range(0, len(weather)):
+        if weather[i][0][8:13] == x:
+            main = weather[1]
+            break;
+    if main == 'Rain':
+        rainBin = 1
+    else:
+        rainBin = 0
     #grabbing value in StationID
-    stationID = request.args['stationID']
     #Setting this station value to 1 for model query
     stationParams[int(stationID)-1] = 1
-    #Grabbing time, rain, and day from form
-    time = request.args['time']
-    rain = request.args['rain']
-    day = request.args['day']
+    dayBin = [0,0]
+    if values[0] == 'Saturday' or values[0] =='Sunday':
+        dayBin[1] = 1
+    else:
+        dayBin[0] = 1
     #loading pkl file
     model = joblib.load('../dublin_bikes/Analysis/finalized_model.pkl')
     stationParams.insert(0,int(time))
-    stationParams.insert(1,int(day))
-    stationParams.insert(2,int(rain))
+    stationParams.insert(1,int(dayBin[0]))
+    stationParams.insert(2,int(dayBin[1]))
+    stationParams.insert(3,rainBin)
     #This line is in here because 104 stations + day + time + weather gives 107 - model takes 108 parameters??
-    stationParams.append(0)
     print(stationParams)
     #predicting model
     prediction = model.predict([stationParams])
