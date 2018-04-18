@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, g, request
+from flask import Flask, render_template, jsonify, g, request, flash
 import json
 import sqlite3
 from pandas.tests.computation.test_eval import engine
@@ -12,6 +12,7 @@ import numpy as np
 from sklearn.externals import joblib
 from pandas.core.datetools import day
 from pickle import Unpickler
+
 
 app = Flask(__name__, static_url_path='')
 #app.config.from_object('config')
@@ -111,11 +112,12 @@ def getChartJson():
         jsonlist.append(row)
     return jsonify(jsonlist)
 
+app.secret_key = 'some_secret'
 
 @app.route('/getModel', methods=['GET', 'POST'])
 def get_model(result=None):
     #Grabbing time, rain, and day from form
-    time = int(request.form.get('time'))
+    time = int(request.form['time'])
     if 0 < time < 4:
         time = '03'
     elif 3 < time < 7:
@@ -132,8 +134,8 @@ def get_model(result=None):
         time = '21'
     else:
         time = '00'
-    day = request.form.get('day')
-    stationID = request.form.get('predictionStation')
+    day = request.form['day']
+    stationID = request.form['predictionStation']
     values = day.split(" ")
     #Counting how many stations for the model parameter
     conn = connect_to_database()
@@ -178,7 +180,7 @@ def get_model(result=None):
     #predicting model
     prediction = model.predict([stationParams])
     result = str(int(round(prediction[0])))
-    return json.dumps(result)
+    return render_template(('index.html'), result = result)
 
 if __name__ == '__main__':
     #clf = joblib.load('../dublin_bikes/Analysis/finalized_model.pkl')
