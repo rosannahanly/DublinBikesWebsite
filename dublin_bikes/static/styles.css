@@ -1,12 +1,6 @@
-footer { 
-    margin: 5px;
-    padding: 5px;
-    }
-
 h2, h4 {
     font-family: "HelveticaNeue-Thin";
-    font-size: 20px; 
-    
+    font-size: 20px;    
 }
 
 h4 {
@@ -17,20 +11,17 @@ h3 {
     font-family: "HelveticaNeue-Thin";
     font-size: 15px;
 }
-
 header {
     color: white;
     background-color: #2A6DFC;
     padding: 10px;
     padding-left: 20px;
 }
-
 #weather {
     text-align: right;
     font-family: "HelveticaNeue-Thin";
     font-size: 20px;
 }
-
 .bg { 
     /* The image used */
     background-image: url(images/Just-Eat-Black_White.jpg);
@@ -40,23 +31,26 @@ header {
     height: auto;
     background-attachment: fixed;
 }
-
 .jumbotron {
     background-color: #2A6DFC;
     color: #ffffff;
 }
-
 .dropdown {
     align-content: left;
     color: #2A6DFC;
 }
-
 #infoBox {
-    font-family: "HelveticaNeue-Thin";
     font-size: 18px;
-    margin: 5%;
-    width: 90%;
+    width: 100%;
     height: auto;
+    list-style-type: none;
+    text-decoration: none;
+    text-align: center;
+}
+#infoBox li{
+    float: left;
+    border-right: 2px solid #bbb;
+    text-decoration: none;
 }
 #userOptions{
     width: 85%;
@@ -69,8 +63,8 @@ header {
     background-color: #C8C6C6;
     height: auto;
     margin: auto;
+    margin-top: 0;
 }
-
 th, marquee {
     font-family: "HelveticaNeue-Thin";
 }
@@ -81,7 +75,7 @@ th, marquee {
     margin-top: 5%;
 }
 
-#StationIName, #daySelect, #start, #end {
+#StationIName, #daySelect, #start, #end, #predictionStation, #day, #time {
     background-color: #2A6DFC;
     height: 50px;
     text-align: center;
@@ -90,11 +84,7 @@ th, marquee {
     font-size: 16px;
     cursor: pointer;
     border: none;
-    width: 100%;
-}
-
-#stationInfo {
-    
+    width: 90%;
 }
 
 table, th, td {
@@ -165,9 +155,6 @@ a:active {
   text-align: center;
 }
 
-#direction-panel{
-    overflow: scroll;
-}
 #elevationChartName{
     text-align: center;
     text-decoration-style: solid;
@@ -178,27 +165,16 @@ a:active {
 elevation_chart {
     color: #2A6DFC;
 }
-.weatherTable{
-    width: 100%;
-    overflow-x: scroll;
-}
-/*.weatherTable tr{
-    display: inline-block;
-    float: left;
-}
-.weatherTable th, td{
-    display: block;
-    text-align: center;
-}*/
 
 ul {
     width: 100%;
     list-style-type: none;
     margin: 0;
     padding: 0;
+    align-content: center;
 }
 li {
-    display: inline;
+    display: inline-block;
 }
 
 
@@ -206,16 +182,55 @@ li {
     height: 50px;
     width: 100%;
 }
-
-#chartedInfo {
-    height:300px;
-    padding: 10px;
-}
-
-.StationTable {
-    
-}
-
 #myChart {
     float: left;
+}
+
+#weatherInfo{
+    align-content: center;
+    width: 100%;
+    margin-top: 3%;
+    list-style-type: none;
+    text-decoration: none;
+    padding-left: 10%;
+}
+#weatherInfo li{
+    text-align: center;
+    float: left;
+    border-right: 2px solid #bbb;
+    text-decoration: none;
+}
+li:last-child{
+    border-right: none;
+}
+li:first-child{
+    margin-left: 10%;
+}
+
+.NearbyStationTable{
+      border-collapse: collapse;  
+    }
+.NearbyStationTable th{
+    background-color: #2A6DFC;
+    color: white;
+    text-decoration:none;
+}
+.NearbyStationTable tr, td{
+    background-color: rgba(255,255,255,0.5);;
+}
+#journeyPlanner{
+    text-align: center;
+}
+.modal-header{
+    background-color: blue;
+    color: white;
+}
+.close{
+    color: white;
+}
+.close:hover{
+    color: red;
+}
+#predictionDropdown{
+    overflow: hidden;
 }

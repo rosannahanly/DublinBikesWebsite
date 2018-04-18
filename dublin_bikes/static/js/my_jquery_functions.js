@@ -6,9 +6,17 @@ $(document).ready(function() {
 	populateFindStationDropdown('StationIName')
 	populateJourneyPlannerDropdown('start')
 	populateJourneyPlannerDropdown('end')
+    populateHourDropdown()
+    populateDayDropdown()
+    populatePredictionStationDropdown('predictionStation')
 	document.getElementById("weather").style.textTransform = "capitalize";
 });
 
+//Displays occupancy based on bikes available
+$(document).on("click", "#bikes", function() {
+	$('#myModal').modal('hide');
+	displayMarkers();
+});
 
 //Displays occupancy on stands available
 $(document).on("click", "#stands", function() {
@@ -16,12 +24,6 @@ $(document).on("click", "#stands", function() {
 	changeMarkers();
 });
 
-
-//Displays occupancy based on bikes available
-$(document).on("click", "#bikes", function() {
-	$('#myModal').modal('hide');
-	displayMarkers();
-});
 
 
 //Populates the dropdown list to Search stations using ID value
@@ -37,7 +39,50 @@ function populateFindStationDropdown(StationName) {
 		}
 	});
 };
+//Populates the station dropdown list for prediction model using ID value
+function populatePredictionStationDropdown(StationName) {
+	var html_code = '';
+	$.getJSON("stations", function(StationListName) {
+		var stationList = StationListName;
+		var option = document.getElementById('predictionStation');
+		var j = 0;
+		for (var i = 0; i < stationList.length; i++) {
+			j++;
+			option[j] = new Option(stationList[i].StationIName, stationList[i].Station_ID);
+		}
+	});
+};
 
+//Populates the day dropdown list for prediction model using weekday/weekend value
+function populateDayDropdown() {
+        var d = new Date();
+        var n = d.getDay();
+        var date = d.getDate();
+        var i = n;
+		var option = document.getElementById('day'),
+        days = ['Monday', 'Tuesday', 'Wednesday','Thursday','Friday','Saturday','Sunday']
+        var j = 1;
+        while (j <= 5){
+            option[j] = new Option(days[i-1]+" "+ date, days[i-1]+ " "+date++)
+            if (i > 6){
+                i -=6;
+            }
+            else{
+                i++
+            }
+            j++
+        }
+		}
+
+//Populates the hour dropdown list for prediction model using hour value
+function populateHourDropdown() {
+		var option = document.getElementById('time');
+		var j = 1;
+    for (i=0; i<25; i++){
+        option[j] = new Option(i, i)
+        j++
+    } 
+		}
 
 //Populate the dropdown list to Plan a Journey using coordinate value
 function populateJourneyPlannerDropdown(StationAddress) {
@@ -57,13 +102,12 @@ function populateJourneyPlannerDropdown(StationAddress) {
 
 //When Station in 'Select a Station' dropdown is selected the displayRealTimeInfo and displayforecast functions are called
 $(document).ready(function() {
-	$("select").change(function() {
+	$("#stationDropdown").change(function() {
 		displayRealTimeInfo();
 		displayForecast();
         displayWarning();
 	});
 });
-
 
 //Displays a simple map of dublin with no markers
 function displayMap() {
@@ -76,7 +120,6 @@ function displayMap() {
 	})
 };
 var map;
-
 
 //Displays markers on the map focusing on available bikes
 function displayMarkers() {
@@ -157,9 +200,9 @@ function changeMarkers() {
 				var v_icon = '';
 				var x = DynamicDetails[station].available_bikes;
 				var y = DynamicDetails[station].available_bike_stands;
-				if (x > y + 5) {
+				if (x > y + 10) {
 					v_icon = '..//static/images/marker_green.png';
-				} else if (y > x + 5) {
+				} else if (y > x + 10) {
 					v_icon = '..//static/images/marker_red.png'
 				} else {
 					v_icon = '..//static/images/marker_orange.png';
@@ -180,7 +223,7 @@ function changeMarkers() {
 				};
 				google.maps.event.addListener(marker, 'click', (function(marker, stationDetails) {
 					return function() {
-						var content = "<b>" + DynamicDetails[station].name + "</b>: " + DynamicDetails[station].last_update.slice(5, 22) + "<br>&emsp;&emsp;&emsp;<b>Bikes:</b> " + DynamicDetails[station].available_bike_stands + "&emsp; &emsp; &emsp;<b>Stands: </b>" + DynamicDetails[station].available_bikes;
+						var content = "<b>" + DynamicDetails[station].name + "</b>: " + DynamicDetails[station].last_update + "<br>&emsp;&emsp;&emsp;<b>Bikes:</b> " + DynamicDetails[station].available_bikes + "&emsp; &emsp; &emsp;<b>Stands: </b>" + DynamicDetails[station].available_bike_stands;
 						infoWindow.setContent(content)
 						infoWindow.open(map, marker);
 					}
@@ -200,6 +243,69 @@ function changeMarkers() {
 		});
 	});
 }
+
+//Displays markers on the map focusing on available stands
+function changeMarkers() {
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: {
+			lat: 53.3498053,
+			lng: -6.260309699999993
+		},
+		zoom: 13,
+	});
+	var infoWindow = new google.maps.InfoWindow()
+	$.getJSON("stations", function(StationData) {
+		$.getJSON("stationDetails", function(stationData) {
+			var DynamicDetails = stationData;
+			var stationDetails = StationData;
+			$.each(stationDetails, function(station) {
+				var v_icon = '';
+				var y = DynamicDetails[station].available_bikes;
+				var x = DynamicDetails[station].available_bike_stands;
+				if (x > y + 10) {
+					v_icon = '..//static/images/marker_green.png';
+				} else if (y > x + 10) {
+					v_icon = '..//static/images/marker_red.png'
+				} else {
+					v_icon = '..//static/images/marker_orange.png';
+				}
+				var marker = new google.maps.Marker({
+					position: {
+						lat: parseFloat(stationDetails[station].Latitude),
+						lng: parseFloat(stationDetails[station].Longitude)
+					},
+					map: map,
+					title: stationDetails[station].StationIName,
+					station_number: stationDetails[station].Station_ID,
+					icon: v_icon
+				});
+				marker.metadata = {
+					type: "point",
+					title: stationDetails[station].StationIName
+				};
+				google.maps.event.addListener(marker, 'click', (function(marker, stationDetails) {
+					return function() {
+						var content = "<b>" + DynamicDetails[station].name + "</b>: " + DynamicDetails[station].last_update + "<br>&emsp; &emsp; &emsp;<b>Stands: </b>" + DynamicDetails[station].available_bike_stands + "&emsp;&emsp;&emsp;<b>Bikes:</b> " + DynamicDetails[station].available_bikes;
+						infoWindow.setContent(content)
+						infoWindow.open(map, marker);
+					}
+				})(marker, stationDetails));
+				marker.addListener('click', function() {
+					map.setZoom(16);
+					map.setCenter(marker.getPosition());
+				});
+				marker.addListener('dblclick', function() {
+					map.setZoom(13);
+					map.setCenter({
+						lat: 53.3498053,
+						lng: -6.260309699999993
+					});
+				});
+			})
+		});
+	});
+}
+
 //Display Current weather
 function displayWeather() {
 	$.getJSON("weather", null, function(data) {
@@ -225,11 +331,14 @@ function displayRealTimeInfo() {
 	var dropdown = document.getElementById("StationIName");
 	var index = dropdown.selectedIndex;
 	var stationName = dropdown.options[index].text;
+    if (index != 0){
 	$.getJSON("stationDetails", null, function(data) {
 		var stationDetails = data;
 		var heading = "<p id = heading><b> Station Name: </b>" + stationName + "<br>";
-		var RealTimeTable = "<table class ='StationTable'>";
-		RealTimeTable += "<tr><th>Bikes Available</th><th>Stands Available</th><th>Last Update</th></tr>";
+        var list = "<ul>"
+		//var RealTimeTable = "<table class ='StationTable'>";
+		//RealTimeTable += "<tr><th>Bikes Available</th><th>Stands Available</th><th>Last Update</th></tr>";
+       
 		var latitude;
 		var longitude;
 		var icon;
@@ -241,11 +350,14 @@ function displayRealTimeInfo() {
 				var update = stationDetails[station].last_update;
 				latitude = parseFloat(stationDetails[station].latitude);
 				longitude = parseFloat(stationDetails[station].longitude);
-				RealTimeTable += "<tr><td>" + availableBikes + "</td><td>" + availableStands + "</td><td>" + update + "</td></tr>";
+				
+                list += "<b><li>Bikes Available <br>" + availableBikes+"</li><li> Stands Available <br>"+ availableStands+"</li><li>Last Update <br>"+ update+"</li></b>";
 				heading += id + "</p>";
-				if (availableBikes > availableStands + 5) {
+                
+                
+				if (availableBikes > availableStands + 10) {
 					icon = '..//static/images/marker_green.png';
-				} else if (availableStands > availableBikes + 5) {
+				} else if (availableStands > availableBikes + 10) {
 					icon = '..//static/images/marker_red.png'
 				} else {
 					icon = '..//static/images/marker_orange.png';
@@ -265,11 +377,17 @@ function displayRealTimeInfo() {
 				});
 			}
 		})
-		RealTimeTable += "</table>"
-		document.getElementById("infoBox").innerHTML = heading + RealTimeTable;
+        list +="</ul>"
+		//RealTimeTable += "</table>"
+		document.getElementById("infoBox").innerHTML = heading + list;
 		document.getElementById("map").innerHTML;
 		showChart();
 	});
+    }
+    else{
+        document.getElementById("infoBox").innerHTML = ""
+        document.getElementById('weatherInfo').innerHTML = "";
+    }
 }
 
 
@@ -277,7 +395,6 @@ function displayRealTimeInfo() {
 function displayForecast() {
 	$.getJSON("forecast", null, function(data) {
 		var weather = data;
-		var detailedTable = "<table class='weatherTable'>";
         var list = "<ul>"
 		var i = 0;
 		while (i < 8) {
@@ -288,15 +405,13 @@ function displayForecast() {
 			var icon = weather[i].icon;
 			var temp = weather[i].temp;
 			
-            detailedTable += "<td>" + time + "</td>"
-            list += "<li>" + "<img class='icons' src='http://openweathermap.org/img/w/" + icon + ".png'/></li>";
+            list += "<b><li>"+ time + "<br></b><img class='icons' src='http://openweathermap.org/img/w/" + icon + ".png'/></li>";
 			i++
         }
                    
-		detailedTable += "</table>";
         list += "</ul>";
                 
-		document.getElementById("weatherInfo").innerHTML = detailedTable + list;
+		document.getElementById("weatherInfo").innerHTML = list;
 	});
 }
 
@@ -320,6 +435,7 @@ function displayWarning(){
         document.getElementById("textForecast").innerHTML = text;
         
     });    
+
 }
 
 //Get directions from one station to another using dropdown list
@@ -334,10 +450,14 @@ $(document).ready(function() {
 			endLat = endList[0],
 			endLong = endList[1];
 		showDirectionsMap(startLat, startLong, endLat, endLong)
+        document.getElementById("weather").innerHTML = "";
 		document.getElementById('elevationChartName').innerHTML = "Elevation along this Route (m)"
+        var canvas = document.getElementById('myChart')
+    canvas.destroy;
+    var ctx = canvas.getContext('2d');
+    ctx.destroy;
 	});
 });
-
 
 //Find stations nearby
 $(document).on("click", "#findStationsNearby", function() {
@@ -380,7 +500,7 @@ function findNearbyStations(position) {
 					Name: name,
 					AvailableBike: availableBikes,
 					AvailableStand: availableStands,
-					LastUpdate: update.slice(5, 22),
+					LastUpdate: update,
 					Lat: lat,
 					Lng: lng
 				});
@@ -389,8 +509,9 @@ function findNearbyStations(position) {
 				return a['Dist'] - b['Dist']
 			});
 			stationList = list.slice(0, 5);
-			var NearbyTable = "<table class ='NearbyStationTable'><tr><th>Station</th><th>Bikes Available</th><th>Stands Available</th><th>Last Update</th></tr>";
-			map = new google.maps.Map(document.getElementById('map'), {
+            var NearbyTable = "<table class ='NearbyStationTable'><tr><th>Station</th><th>Bikes Available</th><th>Stands Available</th><th>Last Update</th></tr>";
+			
+            map = new google.maps.Map(document.getElementById('map'), {
 				center: {
 					lat: position.coords.latitude,
 					lng: position.coords.longitude
@@ -439,12 +560,12 @@ function findNearbyStations(position) {
 					}
 				})(marker, stationList));
 			};
-			NearbyTable += "</table>"
+            NearbyTable += "</table>"
+            document.getElementById('weatherInfo').innerHTML = ""
 			document.getElementById("infoBox").innerHTML = NearbyTable;
 		})
 	})
 }
-
 
 //Show directions from start to finish
 function showDirectionsMap(startLat, startLong, endLat, endLong) {
@@ -487,12 +608,11 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, 
 		},
 		travelMode: 'BICYCLING'
 	}, function(response, status) {
-		document.getElementById('infoBox').innerHTML = ""
+		document.getElementById('direction-panel').innerHTML = ""
 		directionsDisplay.setDirections(response);
 		directionsDisplay.setPanel(document.getElementById('direction-panel'));
 	});
 }
-
 
 //Show elevation of the path selected by user. 
 function showElevation(origin, destination) {
@@ -529,7 +649,6 @@ function plotElevation(elevations, status) {
 	});
 }
 
-
 //Pull station info from JSON file to display in chart
 function showChart() {
 	var d = new Date();
@@ -539,6 +658,10 @@ function showChart() {
 	var index = dropdown.selectedIndex;
 	var stationName = dropdown.options[index].text;
 	var stationList = [];
+    var canvas = document.getElementById('myChart')
+    canvas.destroy;
+    var ctx = canvas.getContext('2d');
+    ctx.destroy;
 	$.getJSON("json", function(data) {
 		for (i = 0; i < data.length; i++) {
 			if (stationName == data[i][0] && dayList[n] == data[i][1]) {
@@ -551,10 +674,9 @@ function showChart() {
 		var labels = stationList.map(function(e) {
 			return e[2];
 		})
-        
-		var ctx = document.getElementById('myChart').getContext('2d');
-		var chart = new Chart(ctx, {
-			// The type of chart we want to create
+		//var ctx = document.getElementById('myChart').getContext('2d');
+        var chartConfig = {
+            // The type of chart we want to create
 			type: 'bar',
 			// The data for our dataset
 			data: {
@@ -566,17 +688,24 @@ function showChart() {
 					data: data
 				}]
 			},
-			// Configuration options go here
+                              // Configuration options go here
 			options : {
+                responsive: true,
                 scales: {
+                    xAxes: [{ scaleLabel: {
+                        display: true, 
+                        labelString: 'Hours in day'
+                    }}],
                 yAxes: [{
                   scaleLabel: {
                     display: true,
                     labelString: 'Average Available Bikes'
                   }
-                }]
+                }],
               }
             }
+}
+        var chart = new Chart(ctx, chartConfig);
+        chart = new Chart(ctx,chartConfig)
 		});
-	});
-};
+	};
