@@ -1,249 +1,252 @@
 h2, h4 {
-    font-family: "HelveticaNeue-Thin";
-    font-size: 20px;    
+	font-family: "HelveticaNeue-Thin";
+	font-size: 20px;
 }
 
 h4 {
-    color: white;
+	color: white;
 }
 
 h3 {
-    font-family: "HelveticaNeue-Thin";
-    font-size: 15px;
+	font-family: "HelveticaNeue-Thin";
+	font-size: 15px;
 }
+
 header {
-    color: white;
-    background-color: #2A6DFC;
-    padding: 10px;
-    padding-left: 20px;
+	color: white;
+	background-color: #2A6DFC;
+	padding: 10px;
+	padding-left: 20px;
 }
+
 #weather {
-    text-align: right;
-    font-family: "HelveticaNeue-Thin";
-    font-size: 20px;
+	text-align: right;
+	font-family: "HelveticaNeue-Thin";
+	font-size: 20px;
 }
-.bg { 
-    /* The image used */
-    background-image: url(images/Just-Eat-Black_White.jpg);
-    /* Center and scale the image nicely */
-    background-repeat: no-repeat;
-    background-size:cover;
-    height: auto;
-    background-attachment: fixed;
+
+.bg {
+	/* The image used */
+	background-image: url(images/Just-Eat-Black_White.jpg);
+	/* Center and scale the image nicely */
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: auto;
+	background-attachment: fixed;
 }
+
 .jumbotron {
-    background-color: #2A6DFC;
-    color: #ffffff;
+	background-color: #2A6DFC;
+	color: #ffffff;
 }
+
 .dropdown {
-    align-content: left;
-    color: #2A6DFC;
+	align-content: left;
+	color: #2A6DFC;
 }
+
 #infoBox {
-    font-size: 18px;
-    width: 100%;
-    height: auto;
-    list-style-type: none;
-    text-decoration: none;
-    text-align: center;
+	font-size: 18px;
+	width: 100%;
+	height: auto;
+	list-style-type: none;
+	text-decoration: none;
+	text-align: center;
 }
-#infoBox li{
-    float: left;
-    border-right: 2px solid #bbb;
-    text-decoration: none;
+
+#infoBox li {
+	float: left;
+	border-right: 2px solid #bbb;
+	text-decoration: none;
 }
-#userOptions{
-    width: 85%;
-    margin: 5%;
-    background-color: rgba(255,255,255,0.5);
-    overflow: auto;
-    padding: 5%;
+
+#userOptions {
+	width: 85%;
+	margin: 5%;
+	background-color: rgba(255, 255, 255, 0.5);
+	overflow: auto;
+	padding: 5%;
 }
-#userEntertainment{
-    background-color: #C8C6C6;
-    height: auto;
-    margin: auto;
-    margin-top: 0;
+
+#userEntertainment {
+	background-color: #C8C6C6;
+	height: auto;
+	margin: auto;
+	margin-top: 0;
 }
+
 th, marquee {
-    font-family: "HelveticaNeue-Thin";
+	font-family: "HelveticaNeue-Thin";
 }
-#StationIName, #findStationsNearby{
-    margin-top: 15%;
+
+#StationIName, #findStationsNearby {
+	margin-top: 15%;
 }
-#directionDropdown{
-    margin-top: 5%;
+
+#directionDropdown {
+	margin-top: 5%;
 }
 
 #StationIName, #daySelect, #start, #end, #predictionStation, #day, #time {
-    background-color: #2A6DFC;
-    height: 50px;
-    text-align: center;
-    color: white;
-    padding: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    width: 90%;
+	background-color: #2A6DFC;
+	height: 50px;
+	text-align: center;
+	color: white;
+	padding: 5px;
+	font-size: 16px;
+	cursor: pointer;
+	border: none;
+	width: 90%;
 }
 
 table, th, td {
-    border: 1px solid #B3B3B3;
-    border-collapse: collapse;
+	border: 1px solid #B3B3B3;
+	border-collapse: collapse;
 }
 
 .btn:hover, #StationIName:hover {
-    background-color: #4863A0;
+	background-color: #4863A0;
 }
 
 .btn {
-    color:white;
-    background-color: #2A6DFC;
+	color: white;
+	background-color: #2A6DFC;
 }
 
 #map {
-    border: 1px solid #848482;
+	border: 1px solid #848482;
 }
 
 a:link, a:visited {
-    color: #151B54;
+	color: #151B54;
 }
-    
+
 a:hover {
-    color: #3BB9FF;
-    text-decoration: none;
+	color: #3BB9FF;
+	text-decoration: none;
 }
 
 a:active {
-    color: #151B54;
-}
-
-.bikesimg {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    z-index: -1;
-}
-
-.heading-logo {
-        z-index: -1;
-}
-
-.box1 {
-    border: 3px solid #848482;
-    margin-left: 5px;
-    padding: 10px;
-}
-
-.box2 {
-    width
-}
-
-.banner {
-    margin: auto;
+	color: #151B54;
 }
 
 .grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 200px);
-  padding: 5px;
-    grid-gap: 5px;
-}
-.grid-item {
-  background-color: #F3F2F2;
-  padding: 0;
-  text-align: center;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, 200px);
+	padding: 5px;
+	grid-gap: 5px;
 }
 
-#elevationChartName{
-    text-align: center;
-    text-decoration-style: solid;
-    padding: 20px;
-    color: white;
+.grid-item {
+	background-color: #F3F2F2;
+	padding: 0;
+	text-align: center;
+}
+
+#elevationChartName {
+	text-align: center;
+	text-decoration-style: solid;
+	padding: 20px;
+	color: white;
 }
 
 elevation_chart {
-    color: #2A6DFC;
+	color: #2A6DFC;
 }
 
 ul {
-    width: 100%;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    align-content: center;
-}
-li {
-    display: inline-block;
+	width: 100%;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	align-content: center;
 }
 
+li {
+	display: inline-block;
+}
 
 #findStationsNearby, #switchMapButton {
-    height: 50px;
-    width: 100%;
+	height: 50px;
+	width: 100%;
 }
+
 #myChart {
-    float: left;
+	float: left;
 }
 
-#weatherInfo{
-    align-content: center;
-    width: 100%;
-    margin-top: 3%;
-    list-style-type: none;
-    text-decoration: none;
-    padding-left: 10%;
-}
-#weatherInfo li{
-    text-align: center;
-    float: left;
-    border-right: 2px solid #bbb;
-    text-decoration: none;
-}
-li:last-child{
-    border-right: none;
-}
-li:first-child{
-    margin-left: 10%;
+#weatherInfo {
+	align-content: center;
+	width: 100%;
+	margin-top: 3%;
+	list-style-type: none;
+	text-decoration: none;
+	padding-left: 10%;
 }
 
-.NearbyStationTable{
-      border-collapse: collapse;  
-    }
-.NearbyStationTable th{
-    background-color: #2A6DFC;
-    color: white;
-    text-decoration:none;
+#weatherInfo li {
+	text-align: center;
+	float: left;
+	border-right: 2px solid #bbb;
+	text-decoration: none;
 }
-.NearbyStationTable tr, td{
-    background-color: rgba(255,255,255,0.5);;
+
+li:last-child {
+	border-right: none;
 }
-#journeyPlanner{
-    text-align: center;
+
+li:first-child {
+	margin-left: 10%;
 }
-.modal-header{
-    background-color: blue;
-    color: white;
+
+.NearbyStationTable {
+	border-collapse: collapse;
 }
-.close{
-    color: white;
+
+.NearbyStationTable th {
+	background-color: #2A6DFC;
+	color: white;
+	text-decoration: none;
 }
-.close:hover{
-    color: red;
+
+.NearbyStationTable tr, td {
+	background-color: rgba(255, 255, 255, 0.5);
+	;
 }
-#predictionDropdown{
-    overflow: hidden;
+
+#journeyPlanner {
+	text-align: center;
 }
-#legend{
-    text-align: center;
-    padding: 1%;
-    background-color: skyblue;
+
+.modal-header {
+	background-color: blue;
+	color: white;
 }
-body{
-    background-color: #C8C6C6;
+
+.close {
+	color: white;
 }
-#textForecast{
-    text-align: center;
-    text-transform: capitalize;
-    color:red;
+
+.close:hover {
+	color: red;
+}
+
+#predictionDropdown {
+	overflow: hidden;
+}
+
+#legend {
+	text-align: center;
+	padding: 1%;
+	background-color: #F1F4F5;
+}
+
+body {
+	background-color: #C8C6C6;
+}
+
+#textForecast {
+	text-align: center;
+	text-transform: capitalize;
+	color: red;
 }
