@@ -141,7 +141,6 @@ function showBikeLegend(){
         var i = 0;
         for (key in baseIcons) {
             var type = baseIcons[key];
-            console.log(baseIcons[i])
             var name = type.name;
             var icon = type.icon;
             keys += '<img src="' + icon + '"> ' + name;
@@ -170,7 +169,6 @@ function showStandLegend(){
         var i = 0;
         for (key in baseIcons) {
             var type = baseIcons[key];
-            console.log(baseIcons[i])
             var name = type.name;
             var icon = type.icon;
             keys += '<img src="' + icon + '"> ' + name;
@@ -801,3 +799,25 @@ document.getElementById('graph-container').innerHTML = '<canvas id="myChart" cla
 		});
 	});
 };
+
+$(function() {
+    $('submit').click(function() {
+        var day = $('#day').val();
+        var time = $('#time').val();
+        var station = $('#predictionStation').val();
+        $.ajax({
+            url: '/getModel',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                 $('#form').html("<div id='message'></div>");
+                 $('#message').html("<h2>Contact Form Submitted!</h2>")
+                .hide()
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+        
+        })
+    });

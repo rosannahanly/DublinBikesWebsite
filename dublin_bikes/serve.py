@@ -134,24 +134,18 @@ def get_model(result=None):
         time = '00'
     day = request.form.get('day')
     stationID = request.form.get('predictionStation')
-    print(str(time), str(day), str(stationID))
     values = day.split(" ")
-    print(values[0], values[1])
     #Counting how many stations for the model parameter
     conn = connect_to_database()
     sql = "SELECT COUNT(*) FROM StationInfo;"
-    print(sql)
     number = conn.execute(sql).fetchall()
     #Creating an array of 0 with length equaling number of stations
     stationParams = [0]*number[0][0]
     conn = connect_to_database()
     date = str(values[1])
     seq=(date, time)
-    print(date)
-    print(time)
     x=" "
     x = x.join(seq)
-    print(x)
     newsql =  "SELECT * FROM WeatherPredictor WHERE dt_txt LIKE '%"
     newsql += date
     newsql+="%';"
@@ -184,8 +178,7 @@ def get_model(result=None):
     #predicting model
     prediction = model.predict([stationParams])
     result = str(int(round(prediction[0])))
-    print(result)
-    return result
+    return json.dumps(result)
 
 if __name__ == '__main__':
     #clf = joblib.load('../dublin_bikes/Analysis/finalized_model.pkl')
