@@ -234,3 +234,16 @@ li:first-child{
 #predictionDropdown{
     overflow: hidden;
 }
+#legend{
+    text-align: center;
+    padding: 1%;
+    background-color: skyblue;
+}
+body{
+    background-color: #C8C6C6;
+}
+#textForecast{
+    text-align: center;
+    text-transform: capitalize;
+    color:red;
+}

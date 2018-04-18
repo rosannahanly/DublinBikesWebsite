@@ -16,15 +16,15 @@ $(document).ready(function() {
 $(document).on("click", "#bikes", function() {
 	$('#myModal').modal('hide');
 	displayMarkers();
+    showBikeLegend();
 });
 
 //Displays occupancy on stands available
 $(document).on("click", "#stands", function() {
 	$('#myModal').modal('hide');
 	changeMarkers();
+    showStandLegend();
 });
-
-
 
 //Populates the dropdown list to Search stations using ID value
 function populateFindStationDropdown(StationName) {
@@ -39,6 +39,7 @@ function populateFindStationDropdown(StationName) {
 		}
 	});
 };
+
 //Populates the station dropdown list for prediction model using ID value
 function populatePredictionStationDropdown(StationName) {
 	var html_code = '';
@@ -99,13 +100,13 @@ function populateJourneyPlannerDropdown(StationAddress) {
 	});
 };
 
-
 //When Station in 'Select a Station' dropdown is selected the displayRealTimeInfo and displayforecast functions are called
 $(document).ready(function() {
 	$("#stationDropdown").change(function() {
 		displayRealTimeInfo();
 		displayForecast();
         displayWarning();
+        showBikeLegend();
 	});
 });
 
@@ -116,10 +117,100 @@ function displayMap() {
 			lat: 53.3498053,
 			lng: -6.260309699999993
 		},
-		zoom: 13,
-	})
+		zoom: 13})                   
 };
 var map;
+
+//Displays a stand legend to assist user in navigating map
+function showBikeLegend(){
+            var baseIcons = {
+          bikes: {
+            name: 'More Bikes',
+            icon: '..//static/images/marker_green.png'
+          },
+          stands: {
+            name: 'More Stands',
+            icon: '..//static/images/marker_red.png'
+          },
+          equal: {
+            name: 'Similar Amount of Bikes to Stands',
+            icon: '..//static/images/marker_orange.png'
+          }                        
+	}
+        var keys = "<b>Map Legend: </b>";
+        var i = 0;
+        for (key in baseIcons) {
+            var type = baseIcons[key];
+            console.log(baseIcons[i])
+            var name = type.name;
+            var icon = type.icon;
+            keys += '<img src="' + icon + '"> ' + name;
+            i++}
+         document.getElementById('legend').innerHTML = keys
+    
+        }
+
+//Displays a stand legend to assist user in navigating map
+function showStandLegend(){
+            var baseIcons = {
+          bikes: {
+            name: 'More Stands',
+            icon: '..//static/images/marker_green.png'
+          },
+          stands: {
+            name: 'More Bikes',
+            icon: '..//static/images/marker_red.png'
+          },
+          equal: {
+            name: 'Similar Amount of Bikes to Stands',
+            icon: '..//static/images/marker_orange.png'
+          }                        
+	}
+        var keys = "<b>Map Legend: </b>";
+        var i = 0;
+        for (key in baseIcons) {
+            var type = baseIcons[key];
+            console.log(baseIcons[i])
+            var name = type.name;
+            var icon = type.icon;
+            keys += '<img src="' + icon + '"> ' + name;
+            i++}
+         document.getElementById('legend').innerHTML = keys
+    
+        }
+
+//Displays a legend to assist user in navigating the nearby stations map
+function showLocationLegend(){
+            var baseIcons = {
+          bikes: {
+            name: 'More Stands',
+            icon: '..//static/images/marker_green.png'
+          },
+          stands: {
+            name: 'More Bikes',
+            icon: '..//static/images/marker_red.png'
+          },
+          equal: {
+            name: 'Similar Amount of Bikes to Stands',
+            icon: '..//static/images/marker_orange.png'
+          },
+        current:{
+                name: 'Current Location',
+                icon:'..//static/images/marker_blue.png'
+            }
+	}
+        var keys = "<b>Map Legend: </b>";
+        var i = 0;
+        for (key in baseIcons) {
+            var type = baseIcons[key];
+            console.log(baseIcons[i])
+            var name = type.name;
+            var icon = type.icon;
+            keys += '<img src="' + icon + '"> ' + name;
+            i++}
+         document.getElementById('legend').innerHTML = keys
+    
+        }
 
 //Displays markers on the map focusing on available bikes
 function displayMarkers() {
@@ -182,6 +273,7 @@ function displayMarkers() {
 		});
 	});
 }
+
 //Displays markers on the map focusing on available stands
 function changeMarkers() {
 		map = new google.maps.Map(document.getElementById('map'), {
@@ -318,7 +410,6 @@ function displayWeather() {
 	});
 };
 
-
 //Display station markers and real time information for occupancy
 function displayRealTimeInfo() {
 	map = new google.maps.Map(document.getElementById('map'), {
@@ -390,7 +481,6 @@ function displayRealTimeInfo() {
     }
 }
 
-
 //Display weather Forecast
 function displayForecast() {
 	$.getJSON("forecast", null, function(data) {
@@ -427,7 +517,7 @@ function displayWarning(){
             descrip = weather[i].description;  
                     if (descrip.indexOf("rain") || descrip.indexOf("drizzle")  ){
         
-                        text += "There tends to be more bikes available at stations when raining!";
+                        text += "<b>There tends to be more bikes available at stations when raining!</b>";
                         break;
             }         
         i++;
@@ -461,10 +551,14 @@ $(document).ready(function() {
 
 //Find stations nearby
 $(document).on("click", "#findStationsNearby", function() {
+    document.getElementById('textForecast').innerHTML="";
 	var StationDiv = document.getElementById("nearbyStations");
+    $("canvas#myChart").remove();
+$("div.myChart").append('<canvas id="chartreport" class="animated fadeIn" height="150"></canvas>');
 	var Userlat;
 	var UserLng;
 	getLocation();
+    showLocationLegend();
 	//Getting geolocation of user
 	function getLocation() {
 		if (navigator.geolocation) {
@@ -475,6 +569,7 @@ $(document).on("click", "#findStationsNearby", function() {
 	}
 });
 
+//Function that takes user position as parameter to find nearby stations
 function findNearbyStations(position) {
 	var list = [];
 	var stationList = [];
@@ -596,6 +691,7 @@ function showDirectionsMap(startLat, startLong, endLat, endLong) {
 	};
 }
 
+//Function that calculates distances between two points
 function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, destination) {
 	directionsService.route({
 		origin: {
@@ -630,6 +726,7 @@ function showElevation(origin, destination) {
 	}, plotElevation);
 }
 
+//Function to plot the elevation chart
 function plotElevation(elevations, status) {
 	var chartDiv = document.getElementById('elevation_chart');
 	if (status !== 'OK') {
@@ -651,6 +748,8 @@ function plotElevation(elevations, status) {
 
 //Pull station info from JSON file to display in chart
 function showChart() {
+    $("canvas#myChart").remove();
+document.getElementById('graph-container').innerHTML = '<canvas id="myChart" class="animated fadeIn" height="150"></canvas>';
 	var d = new Date();
 	var n = d.getDay();
 	var dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -658,10 +757,6 @@ function showChart() {
 	var index = dropdown.selectedIndex;
 	var stationName = dropdown.options[index].text;
 	var stationList = [];
-    var canvas = document.getElementById('myChart')
-    canvas.destroy;
-    var ctx = canvas.getContext('2d');
-    ctx.destroy;
 	$.getJSON("json", function(data) {
 		for (i = 0; i < data.length; i++) {
 			if (stationName == data[i][0] && dayList[n] == data[i][1]) {
@@ -674,23 +769,22 @@ function showChart() {
 		var labels = stationList.map(function(e) {
 			return e[2];
 		})
-		//var ctx = document.getElementById('myChart').getContext('2d');
-        var chartConfig = {
-            // The type of chart we want to create
+        var ctx = document.getElementById('myChart').getContext('2d');
+		var chart = new Chart(ctx, {
+			// The type of chart we want to create
 			type: 'bar',
 			// The data for our dataset
 			data: {
 				labels: labels,
 				datasets: [{
 					label: "Bike Availability",
-					backgroundColor: 'rgb(42, 109, 252)',
+					backgroundColor: 'rgba(42, 109, 252, 0.9)',
 					borderColor: 'rgb(3, 70, 214)',
 					data: data
 				}]
 			},
-                              // Configuration options go here
+			// Configuration options go here
 			options : {
-                responsive: true,
                 scales: {
                     xAxes: [{ scaleLabel: {
                         display: true, 
@@ -704,8 +798,6 @@ function showChart() {
                 }],
               }
             }
-}
-        var chart = new Chart(ctx, chartConfig);
-        chart = new Chart(ctx,chartConfig)
 		});
-	};
+	});
+};
