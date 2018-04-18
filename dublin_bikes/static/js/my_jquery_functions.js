@@ -251,7 +251,7 @@ function displayMarkers() {
 				};
 				google.maps.event.addListener(marker, 'click', (function(marker, stationDetails) {
 					return function() {
-						var content = "<b>" + DynamicDetails[station].name + "</b>: " + DynamicDetails[station].last_update.slice(5, 22) + "<br>&emsp;&emsp;&emsp;<b>Bikes:</b> " + DynamicDetails[station].available_bike_stands + "&emsp; &emsp; &emsp;<b>Stands: </b>" + DynamicDetails[station].available_bikes;
+						var content = "" + DynamicDetails[station].name + ": " + DynamicDetails[station].last_update.slice(5, 22) + "<br>&emsp;&emsp;&emsp;Bikes: " + DynamicDetails[station].available_bike_stands + "&emsp; &emsp; &emsp;Stands: " + DynamicDetails[station].available_bikes;
 						infoWindow.setContent(content)
 						infoWindow.open(map, marker);
 					}
@@ -313,7 +313,7 @@ function changeMarkers() {
 				};
 				google.maps.event.addListener(marker, 'click', (function(marker, stationDetails) {
 					return function() {
-						var content = "<b>" + DynamicDetails[station].name + "</b>: " + DynamicDetails[station].last_update + "<br>&emsp;&emsp;&emsp;<b>Bikes:</b> " + DynamicDetails[station].available_bikes + "&emsp; &emsp; &emsp;<b>Stands: </b>" + DynamicDetails[station].available_bike_stands;
+						var content = "" + DynamicDetails[station].name + ": " + DynamicDetails[station].last_update + "<br>&emsp;&emsp;&emsp;Bikes: " + DynamicDetails[station].available_bikes + "&emsp; &emsp; &emsp;Stands: " + DynamicDetails[station].available_bike_stands;
 						infoWindow.setContent(content)
 						infoWindow.open(map, marker);
 					}
@@ -375,7 +375,7 @@ function changeMarkers() {
 				};
 				google.maps.event.addListener(marker, 'click', (function(marker, stationDetails) {
 					return function() {
-						var content = "<b>" + DynamicDetails[station].name + "</b>: " + DynamicDetails[station].last_update + "<br>&emsp; &emsp; &emsp;<b>Stands: </b>" + DynamicDetails[station].available_bike_stands + "&emsp;&emsp;&emsp;<b>Bikes:</b> " + DynamicDetails[station].available_bikes;
+						var content = "" + DynamicDetails[station].name + ": " + DynamicDetails[station].last_update + "<br>&emsp; &emsp; &emsp;Stands: " + DynamicDetails[station].available_bike_stands + "&emsp;&emsp;&emsp;Bikes: " + DynamicDetails[station].available_bikes;
 						infoWindow.setContent(content)
 						infoWindow.open(map, marker);
 					}
@@ -423,7 +423,7 @@ function displayRealTimeInfo() {
     if (index != 0){
 	$.getJSON("stationDetails", null, function(data) {
 		var stationDetails = data;
-		var heading = "<p id = heading><b> Station Name: </b>" + stationName + "<br>";
+		var heading = "<p id = heading> <b>Station Name: </b>" + stationName + "<br>";
         var list = "<ul>"
 		//var RealTimeTable = "<table class ='StationTable'>";
 		//RealTimeTable += "<tr><th>Bikes Available</th><th>Stands Available</th><th>Last Update</th></tr>";
@@ -440,7 +440,7 @@ function displayRealTimeInfo() {
 				latitude = parseFloat(stationDetails[station].latitude);
 				longitude = parseFloat(stationDetails[station].longitude);
 				
-                list += "<b><li>Bikes Available <br>" + availableBikes+"</li><li> Stands Available <br>"+ availableStands+"</li><li>Last Update <br>"+ update+"</li></b>";
+                list += "<b><li>Bikes Available</b> <br>" + availableBikes+"</li><li> <b>Stands Available</b> <br>"+ availableStands+"</li><li><b>Last Update</b> <br>"+ update+"</li>";
 				heading += id + "</p>";
                 
                 
@@ -515,7 +515,7 @@ function displayWarning(){
             descrip = weather[i].description;  
                     if (descrip.indexOf("rain") || descrip.indexOf("drizzle")  ){
         
-                        text += "<b>There tends to be more bikes available at stations when raining!</b>";
+                        text += "<b>There tends to be more bikes available at stations when it's raining!</b>";
                         break;
             }         
         i++;
@@ -645,7 +645,7 @@ function findNearbyStations(position) {
 					return function() {
 						for (i = 0; i < 5; i++) {
 							if (stationList[i]['Name'] == marker.metadata.title) {
-								var content = "<b>" + stationList[i]['Name'] + "</b>: " + stationList[i]['LastUpdate'] + "<br><b>Stands: </b>" + stationList[i]['AvailableBike'] + "<br><b>Bikes:</b> " + stationList[i]['AvailableStand'] + "<br><b>Distance: </b>" + stationList[i]['Dist'].toFixed(2) + "km";
+								var content = "" + stationList[i]['Name'] + ": " + stationList[i]['LastUpdate'] + "<br>Stands: " + stationList[i]['AvailableBike'] + "<br>Bikes: " + stationList[i]['AvailableStand'] + "<br>Distance: " + stationList[i]['Dist'].toFixed(2) + "km";
 								infoWindow.setContent(content)
 								infoWindow.open(map, marker);
 							}

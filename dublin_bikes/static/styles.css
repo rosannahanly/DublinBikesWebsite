@@ -52,18 +52,19 @@ header {
 	list-style-type: none;
 	text-decoration: none;
 	text-align: center;
+    font-family: "HelveticaNeue-Thin";
 }
 
 #infoBox li {
-	float: left;
 	border-right: 2px solid #bbb;
 	text-decoration: none;
+    font-family: "HelveticaNeue-Thin";
 }
 
 #userOptions {
 	width: 85%;
 	margin: 5%;
-	background-color: rgba(255, 255, 255, 0.5);
+	background-color: rgba(255, 255, 255, 0.7);
 	overflow: auto;
 	padding: 5%;
 }
@@ -97,6 +98,19 @@ th, marquee {
 	cursor: pointer;
 	border: none;
 	width: 90%;
+}
+
+#submit_btn {
+    background-color: #2A6DFC;
+	height: 30px;
+	text-align: center;
+	color: white;
+	padding: 5px;
+	font-size: 14px;
+	cursor: pointer;
+	border: none;
+	width: 50%;
+    border-radius: 10px;
 }
 
 table, th, td {
@@ -164,6 +178,7 @@ ul {
 
 li {
 	display: inline-block;
+    font-family: "HelveticaNeue-Thin";
 }
 
 #findStationsNearby, #switchMapButton {
@@ -182,6 +197,7 @@ li {
 	list-style-type: none;
 	text-decoration: none;
 	padding-left: 10%;
+    
 }
 
 #weatherInfo li {
@@ -189,6 +205,7 @@ li {
 	float: left;
 	border-right: 2px solid #bbb;
 	text-decoration: none;
+    font-family: "HelveticaNeue-Thin";
 }
 
 li:last-child {
@@ -215,11 +232,11 @@ li:first-child {
 }
 
 #journeyPlanner {
-	text-align: center;
+	text-align: left;
 }
 
 .modal-header {
-	background-color: blue;
+	background-color: #2A6DFC;
 	color: white;
 }
 
@@ -249,4 +266,18 @@ body {
 	text-align: center;
 	text-transform: capitalize;
 	color: red;
+}
+
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 96%;               
+  background-color:#C8C6C6;
+  height: 1px;
+}
+
+heading {
+    font-family: "HelveticaNeue-Thin";
+    text-align: left;
 }
