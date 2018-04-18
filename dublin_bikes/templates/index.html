@@ -105,10 +105,10 @@
                         <br>
                         <h2>Get a prediction of available bikes:</h2><br>
                         <div id="predictionDropdown">
-                           <!-- <form class="form-inline" method="POST" action ="/getModel">-->
+                           <form class="form-inline" method="POST" action ="/getModel">
   <!--<div class="form-group">-->
-      <form id="form">
-   <!--<div class="input-group">-->
+      <!--<form name="form" action = ''>-->
+   <div class="input-group">
             <select name="predictionStation" id="predictionStation" class="selectpicker form-control">
                <option value="">Select a Station</option>
             </select>
@@ -121,9 +121,9 @@
                <option value="">Select a Time</option>
             </select>
         <hr>
-        <button type="submit" class="btn btn-default" value="Send">Predict Availability</button>
-   <!-- </div>
-  </div>-->
+        <button type="submit" name="submit" class="btn-default" value="Send" id = 'submit_btn'>Predict Availability</button>
+  </div>
+
 </form>
          
                         </div>   </div>   </div>               

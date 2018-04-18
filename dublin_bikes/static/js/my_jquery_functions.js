@@ -801,7 +801,7 @@ document.getElementById('graph-container').innerHTML = '<canvas id="myChart" cla
 };
 
 $(function() {
-    $('submit').click(function() {
+    $('.button').click(function() {
         var day = $('#day').val();
         var time = $('#time').val();
         var station = $('#predictionStation').val();
