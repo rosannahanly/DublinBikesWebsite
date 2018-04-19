@@ -226,13 +226,16 @@ function displayMarkers() {
 			var stationDetails = StationData;
 			$.each(stationDetails, function(station) {
 				var v_icon = '';
-				var y = DynamicDetails[station].available_bikes;
-				var x = DynamicDetails[station].available_bike_stands;
-				if (x > y + 10) {
+                var total = DynamicDetails[station].bike_stands;
+				var bikes = DynamicDetails[station].available_bikes;
+				var stands = DynamicDetails[station].available_bike_stands;
+                var max = total*0.7;
+                var min = total*0.3
+				if (bikes > max) {
 					v_icon = '..//static/images/marker_green.png';
-				} else if (y > x + 10) {
+				} else if (bikes < min) {
 					v_icon = '..//static/images/marker_red.png'
-				} else {
+				} else{
 					v_icon = '..//static/images/marker_orange.png';
 				}
 				var marker = new google.maps.Marker({
@@ -251,7 +254,7 @@ function displayMarkers() {
 				};
 				google.maps.event.addListener(marker, 'click', (function(marker, stationDetails) {
 					return function() {
-						var content = "" + DynamicDetails[station].name + ": " + DynamicDetails[station].last_update+ "<br>&emsp;&emsp;&emsp;Bikes: " + DynamicDetails[station].available_bike_stands + "&emsp; &emsp; &emsp;Stands: " + DynamicDetails[station].available_bikes;
+						var content = "" + DynamicDetails[station].name + ": " + DynamicDetails[station].last_update+ "<br>&emsp;&emsp;&emsp;Bikes: " + DynamicDetails[station].available_bikes + "&emsp; &emsp; &emsp;Stands: " + DynamicDetails[station].available_bike_stands;
 						infoWindow.setContent(content)
 						infoWindow.open(map, marker);
 					}
@@ -288,73 +291,14 @@ function changeMarkers() {
 			var stationDetails = StationData;
 			$.each(stationDetails, function(station) {
 				var v_icon = '';
-				var x = DynamicDetails[station].available_bikes;
-				var y = DynamicDetails[station].available_bike_stands;
-				if (x > y + 10) {
+			    var total = DynamicDetails[station].bike_stands;
+				var bikes = DynamicDetails[station].available_bikes;
+				var stands = DynamicDetails[station].available_bike_stands;
+                var max = total*0.7;
+                var min = total*0.3;
+				if (stands > max) {
 					v_icon = '..//static/images/marker_green.png';
-				} else if (y > x + 10) {
-					v_icon = '..//static/images/marker_red.png'
-				} else {
-					v_icon = '..//static/images/marker_orange.png';
-				}
-				var marker = new google.maps.Marker({
-					position: {
-						lat: parseFloat(stationDetails[station].Latitude),
-						lng: parseFloat(stationDetails[station].Longitude)
-					},
-					map: map,
-					title: stationDetails[station].StationIName,
-					station_number: stationDetails[station].Station_ID,
-					icon: v_icon
-				});
-				marker.metadata = {
-					type: "point",
-					title: stationDetails[station].StationIName
-				};
-				google.maps.event.addListener(marker, 'click', (function(marker, stationDetails) {
-					return function() {
-						var content = "" + DynamicDetails[station].name + ": " + DynamicDetails[station].last_update + "<br>&emsp;&emsp;&emsp;Bikes: " + DynamicDetails[station].available_bikes + "&emsp; &emsp; &emsp;Stands: " + DynamicDetails[station].available_bike_stands;
-						infoWindow.setContent(content)
-						infoWindow.open(map, marker);
-					}
-				})(marker, stationDetails));
-				marker.addListener('click', function() {
-					map.setZoom(16);
-					map.setCenter(marker.getPosition());
-				});
-				marker.addListener('dblclick', function() {
-					map.setZoom(13);
-					map.setCenter({
-						lat: 53.3498053,
-						lng: -6.260309699999993
-					});
-				});
-			})
-		});
-	});
-}
-
-//Displays markers on the map focusing on available stands
-function changeMarkers() {
-	map = new google.maps.Map(document.getElementById('map'), {
-		center: {
-			lat: 53.3498053,
-			lng: -6.260309699999993
-		},
-		zoom: 13,
-	});
-	var infoWindow = new google.maps.InfoWindow()
-	$.getJSON("stations", function(StationData) {
-		$.getJSON("stationDetails", function(stationData) {
-			var DynamicDetails = stationData;
-			var stationDetails = StationData;
-			$.each(stationDetails, function(station) {
-				var v_icon = '';
-				var y = DynamicDetails[station].available_bikes;
-				var x = DynamicDetails[station].available_bike_stands;
-				if (x > y + 10) {
-					v_icon = '..//static/images/marker_green.png';
-				} else if (y > x + 10) {
+				} else if (stands < min) {
 					v_icon = '..//static/images/marker_red.png'
 				} else {
 					v_icon = '..//static/images/marker_orange.png';

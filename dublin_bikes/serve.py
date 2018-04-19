@@ -118,23 +118,18 @@ app.secret_key = 'some_secret'
 def get_model():
     #Grabbing time, rain, and day from form
     data = str(request.get_data())
-    print(data)
     start = data.find('day=')+4
     end = data.find('+', start)
     day = data[start:end]
-    print(day)
     start = data.find('+')+1
     end = data.find("&time", start)
     date = str(data[start:end])
-    print(date)
     start = data.find('time=')+5
     end = data.find('&station', start)
     time = int(data[start:end])
-    print(time)
     start = data.find('station=')+8
     end = data.find("'", start)
     stationID = data[start:end]
-    print(stationID)
     if 0 < time < 4:
         time = '03'
     elif 3 < time < 7:
@@ -190,11 +185,9 @@ def get_model():
     stationParams.insert(2,int(dayBin[1]))
     stationParams.insert(3,rainBin)
     #This line is in here because 104 stations + day + time + weather gives 107 - model takes 108 parameters??
-    print(stationParams)
     #predicting model
     prediction = model.predict([stationParams])
     result = str(int(round(prediction[0])))
-    print(result)
     jsonlist = []
     jsonlist.append({"weather":main})
     jsonlist.append({"station":stationID})
@@ -202,7 +195,6 @@ def get_model():
     jsonlist.append({"time":time})
     jsonlist.append({"day":day})
     jsonlist.append({"result":result})
-    print(jsonlist)
     if day and time and stationID:
         return jsonify(jsonlist)
     return jsonify({'error':'Some data missing - please try agian!'})
@@ -210,4 +202,4 @@ def get_model():
 if __name__ == '__main__':
     #clf = joblib.load('../dublin_bikes/Analysis/finalized_model.pkl')
     #model_columns = joblib.load('../dublin_bikes/Analysis/model_columns.pkl')
-    app.run(debug=True) 
+    app.run(host='0.0.0.0',debug=True) 
