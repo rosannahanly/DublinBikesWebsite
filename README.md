@@ -8,7 +8,7 @@ Clone the repository using
 
     git clone https://github.com/rosannahanly/Group8Project.git
 
-Navigate into Group8Project/dublin_bikes and
+Navigate into Group8Project/dublin_bikes
     
     pip install -r requirements.txt
     
