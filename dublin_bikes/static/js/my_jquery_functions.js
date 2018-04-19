@@ -228,9 +228,9 @@ function displayMarkers() {
 				var v_icon = '';
 				var y = DynamicDetails[station].available_bikes;
 				var x = DynamicDetails[station].available_bike_stands;
-				if (x > y + 5) {
+				if (x > y + 10) {
 					v_icon = '..//static/images/marker_green.png';
-				} else if (y > x + 5) {
+				} else if (y > x + 10) {
 					v_icon = '..//static/images/marker_red.png'
 				} else {
 					v_icon = '..//static/images/marker_orange.png';
@@ -251,7 +251,7 @@ function displayMarkers() {
 				};
 				google.maps.event.addListener(marker, 'click', (function(marker, stationDetails) {
 					return function() {
-						var content = "" + DynamicDetails[station].name + ": " + DynamicDetails[station].last_update.slice(5, 22) + "<br>&emsp;&emsp;&emsp;Bikes: " + DynamicDetails[station].available_bike_stands + "&emsp; &emsp; &emsp;Stands: " + DynamicDetails[station].available_bikes;
+						var content = "" + DynamicDetails[station].name + ": " + DynamicDetails[station].last_update+ "<br>&emsp;&emsp;&emsp;Bikes: " + DynamicDetails[station].available_bike_stands + "&emsp; &emsp; &emsp;Stands: " + DynamicDetails[station].available_bikes;
 						infoWindow.setContent(content)
 						infoWindow.open(map, marker);
 					}
@@ -538,8 +538,10 @@ $(document).ready(function() {
 			endLat = endList[0],
 			endLong = endList[1];
 		showDirectionsMap(startLat, startLong, endLat, endLong)
-        document.getElementById("weather").innerHTML = "";
-		document.getElementById('elevationChartName').innerHTML = "Elevation along this Route (m)"
+         document.getElementById("weather").innerHTML = "";
+		document.getElementById('elevationChartName').style.display = "block";
+        document.getElementById('success').innerHTML = "";
+        document.getElementById('error').innerHTML = "";
         var canvas = document.getElementById('myChart')
     canvas.destroy;
     var ctx = canvas.getContext('2d');
@@ -800,24 +802,30 @@ document.getElementById('graph-container').innerHTML = '<canvas id="myChart" cla
 	});
 };
 
-$(function() {
-    $('.button').click(function() {
-        var day = $('#day').val();
-        var time = $('#time').val();
-        var station = $('#predictionStation').val();
+$(document).ready(function() {
+    $('#submit_btn').click(function(event) {
         $.ajax({
-            url: '/getModel',
-            data: $('form').serialize(),
-            type: 'POST',
-            success: function(response) {
-                 $('#form').html("<div id='message'></div>");
-                 $('#message').html("<h2>Contact Form Submitted!</h2>")
-                .hide()
+            data:{
+                day : $('#day').val(),
+                time : $('#time').val(),
+                station : $('#predictionStation').val()
             },
-            error: function(error) {
-                console.log(error);
-            }
+            type : 'POST',
+            url : '/getModel'
+        }).done(function(result) {
+            if (result.error){
+                console.log("error")
+                document.getElementById('success').innerHTML = "";
+                document.getElementById('error').innerHTML = result.error;}
+            else{
+                console.log(result)
+               document.getElementById('elevation_chart').innerHTML = "";
+                document.getElementById('elevationChartName').style.display="none";
+                document.getElementById('direction-panel').innerHTML = "";
+                document.getElementById('error').innerHTML = "";
+                document.getElementById('success').innerHTML = "<b>Weather forecast:</b> "+result[0].weather+"<br><br><b>Predicted Bikes available: </b>"+result[5].result;
+            }});
+
+        event.preventDefault();
         });
-        
-        })
-    });
+        });

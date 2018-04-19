@@ -134,8 +134,7 @@
 								<button class="btn-default" id='submit_btn' name="submit" type="submit" value="Send">Predict Availability</button>
 							</div>
 						</form>
-                        <h2> Number of bikes available is {{result}}</h2>
-					</div>
+						</div>
 				</div>
 			</div>
 			<div class='row'>
@@ -143,10 +142,12 @@
 					<div id="direction-panel"></div>
 				</div>
 				<div class='col-sm-6'>
-					<div id="elevationChartName"></div>
-					<script>
-					                         // Load the Visualization API and the columnchart package.
-					                         google.charts.load('visualization', '1', {packages: ['columnchart']});
+                    <br>
+                     <div id='success'></div>
+                        <div id='error'></div>
+					<div id="elevationChartName">"Elevation along this Route (m)"</div>
+					<script>// Load the Visualization API and the columnchart package.
+				google.charts.load('visualization', '1', {packages: ['columnchart']});
 					</script>
 					<div id="elevation_chart"></div>
 				</div>

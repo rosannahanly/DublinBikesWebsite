@@ -114,10 +114,27 @@ def getChartJson():
 
 app.secret_key = 'some_secret'
 
-@app.route('/getModel', methods=['GET', 'POST'])
-def get_model(result=None):
+@app.route('/getModel', methods=['POST'])
+def get_model():
     #Grabbing time, rain, and day from form
-    time = int(request.form['time'])
+    data = str(request.get_data())
+    print(data)
+    start = data.find('day=')+4
+    end = data.find('+', start)
+    day = data[start:end]
+    print(day)
+    start = data.find('+')+1
+    end = data.find("&time", start)
+    date = str(data[start:end])
+    print(date)
+    start = data.find('time=')+5
+    end = data.find('&station', start)
+    time = int(data[start:end])
+    print(time)
+    start = data.find('station=')+8
+    end = data.find("'", start)
+    stationID = data[start:end]
+    print(stationID)
     if 0 < time < 4:
         time = '03'
     elif 3 < time < 7:
@@ -134,9 +151,7 @@ def get_model(result=None):
         time = '21'
     else:
         time = '00'
-    day = request.form['day']
-    stationID = request.form['predictionStation']
-    values = day.split(" ")
+    
     #Counting how many stations for the model parameter
     conn = connect_to_database()
     sql = "SELECT COUNT(*) FROM StationInfo;"
@@ -144,7 +159,6 @@ def get_model(result=None):
     #Creating an array of 0 with length equaling number of stations
     stationParams = [0]*number[0][0]
     conn = connect_to_database()
-    date = str(values[1])
     seq=(date, time)
     x=" "
     x = x.join(seq)
@@ -155,7 +169,7 @@ def get_model(result=None):
     main = ""
     for i in range(0, len(weather)):
         if weather[i][0][8:13] == x:
-            main = weather[1]
+            main = weather[i][1]
             break;
     if main == 'Rain':
         rainBin = 1
@@ -165,7 +179,7 @@ def get_model(result=None):
     #Setting this station value to 1 for model query
     stationParams[int(stationID)-1] = 1
     dayBin = [0,0]
-    if values[0] == 'Saturday' or values[0] =='Sunday':
+    if day == 'Saturday' or day =='Sunday':
         dayBin[1] = 1
     else:
         dayBin[0] = 1
@@ -180,7 +194,18 @@ def get_model(result=None):
     #predicting model
     prediction = model.predict([stationParams])
     result = str(int(round(prediction[0])))
-    return render_template(('index.html'), result = result)
+    print(result)
+    jsonlist = []
+    jsonlist.append({"weather":main})
+    jsonlist.append({"station":stationID})
+    jsonlist.append({"date":date})
+    jsonlist.append({"time":time})
+    jsonlist.append({"day":day})
+    jsonlist.append({"result":result})
+    print(jsonlist)
+    if day and time and stationID:
+        return jsonify(jsonlist)
+    return jsonify({'error':'Some data missing - please try agian!'})
 
 if __name__ == '__main__':
     #clf = joblib.load('../dublin_bikes/Analysis/finalized_model.pkl')
