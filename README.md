@@ -16,7 +16,7 @@ Then
     
     python serve.py
     
-Open your browser and naviagte to [http://127.0.0.1:5000/] or [localhost:5000]
+Open your browser and navigate to [http://127.0.0.1:5000/] or [localhost:5000]
 
 
 ## Prerequisites
