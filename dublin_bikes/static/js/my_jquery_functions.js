@@ -484,6 +484,7 @@ function displayForecast() {
 	$.getJSON("forecast", null, function(data) {
 		var weather = data;
         var list = "<ul>"
+        var text = ""
 		var i = 0;
 		while (i < 8) {
 			var initTime = weather[i].dt_txt;
@@ -492,7 +493,6 @@ function displayForecast() {
 			var descrip = weather[i].description;
 			var icon = weather[i].icon;
 			var temp = weather[i].temp;
-			
             list += "<b><li>"+ time + "<br></b><img class='icons' src='http://openweathermap.org/img/w/" + icon + ".png'/></li>";
 			i++
         }
