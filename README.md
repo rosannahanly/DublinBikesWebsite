@@ -1,14 +1,22 @@
 # Dublin Bikes
 
-Dublin Bikes description
+This is a project to display bike availability for Dublin Bikes, a city bikes scheme, across the city of Dublin. It will display current availability of bikes and bike stands on a map and will also display predicted bike availability for a chosen station. The website shows the current weather as well as weather forecast for the next 24 hours and will also show the predicted availability of bikes depending on whether or not it is raining.
 
-## Quick Start
+## Installing
 
-Run the application:
+Clone the repository using 
 
-    make run
+    git clone https://github.com/rosannahanly/Group8Project.git
 
-And open it in the browser at [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+Navigate into Group8Project/dublin_bikes
+    
+    pip install -r requirements.txt
+    
+Then
+    
+    python serve.py
+    
+Open your browser and navigate to [http://127.0.0.1:5000/] or [localhost:5000]
 
 
 ## Prerequisites
