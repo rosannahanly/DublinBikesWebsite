@@ -1,4 +1,5 @@
 arrow==0.12.1
+attrs==17.4.0
 awscli==1.14.32
 binaryornot==0.4.4
 botocore==1.8.36
@@ -18,18 +19,22 @@ itsdangerous==0.24
 Jinja2==2.10
 jinja2-time==0.2.0
 jmespath==0.9.3
--e git+https://github.com/sophieheseltine/LED3.git@302369032217f402c05b14403c8eac21838f8164#egg=LED3
 lxml==4.1.1
 MarkupSafe==1.0
+more-itertools==4.1.0
 numpy==1.13.1
 pandas==0.22.0
 pandas-datareader==0.6.0
+pluggy==0.6.0
 poyo==0.4.1
+py==1.5.3
 pyasn1==0.4.2
 PyMySQL==0.8.0
 pypi-publisher==0.0.4
+pytest==3.5.0
 python-dateutil==2.6.1
 pytz==2018.3
+PyYAML==3.12
 requests==2.18.4
 requests-file==1.4.3
 requests-ftp==0.3.1
@@ -39,6 +44,7 @@ scikit-learn==0.19.0
 scipy==0.19.1
 six==1.11.0
 smmap==0.9.0
+SQLAlchemy==1.2.6
 systeminfo==0.1
 urllib3==1.22
 Werkzeug==0.14.1
